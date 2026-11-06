@@ -40,16 +40,17 @@ class AppRepository(private val context: Context) {
                     .addCategory(category)
                     .setComponent(cn)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                val label = niceLabel(ri.loadLabel(pm).toString(), ai.packageName)
                 val banner = loadBanner(ai.packageName, ri.activityInfo.banner, ai.applicationInfo.banner)
                 val icon = ri.loadIcon(pm)
                 byPackage[ai.packageName] = AppEntry(
                     key = key,
                     packageName = ai.packageName,
-                    label = niceLabel(ri.loadLabel(pm).toString(), ai.packageName),
+                    label = label,
                     banner = banner,
                     icon = icon,
                     launchIntent = launch,
-                    hidden = key in hidden,
+                    hidden = key in hidden || (key !in prefs.unhidden && label in DEFAULT_HIDDEN_LABELS),
                     color = colorCache.getOrPut(key) { Colors.dominant(banner ?: icon) },
                 )
             }
@@ -66,7 +67,7 @@ class AppRepository(private val context: Context) {
 
     /** Some sideloaded apps have no label and show their package name. Tidy those up. */
     private fun niceLabel(label: String, pkg: String): String {
-        if (label != pkg && !Regex("^[a-z0-9_]+(\\.[a-z0-9_]+)+$").matches(label)) return label
+        if (label != pkg && !Regex("^[a-z0-9_]+(\\.[a-z0-9_]+)+$", RegexOption.IGNORE_CASE).matches(label)) return label
         KNOWN_LABELS[pkg]?.let { return it }
         val part = pkg.split('.').filter { it !in setOf("com", "tv", "android", "amazon", "app", "firetv", "ftv") }
             .maxByOrNull { it.length } ?: return label
@@ -92,6 +93,9 @@ class AppRepository(private val context: Context) {
         val EXCLUDED_PACKAGES = setOf(
             "com.amazon.tv.launcher",
         )
+
+        /** Amazon system pieces that show up as "apps" but aren't useful tiles. Unhide via ☰ → Unhide. */
+        val DEFAULT_HIDDEN_LABELS = setOf("Fire TV Profile UI")
 
         private val KNOWN_LABELS = mapOf(
             "com.apple.airplay.amazon" to "AirPlay",

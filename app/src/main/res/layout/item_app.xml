@@ -5,15 +5,14 @@
     android:clipChildren="false"
     android:padding="@dimen/tile_pad">
 
-    <FrameLayout
+    <com.attunetv.launcher.RoundedCard
         android:id="@+id/card"
         android:layout_width="@dimen/card_w"
         android:layout_height="@dimen/card_h"
         android:elevation="3dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:foreground="@drawable/tile_ring"
-        android:outlineProvider="background">
+        >
 
         <ImageView
             android:id="@+id/banner"
@@ -48,5 +47,5 @@
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>
-    </FrameLayout>
+    </com.attunetv.launcher.RoundedCard>
 </FrameLayout>

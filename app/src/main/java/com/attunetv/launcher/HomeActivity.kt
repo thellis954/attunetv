@@ -419,7 +419,8 @@ class HomeActivity : TvActivity() {
                 getString(if (app.hidden) R.string.action_unhide else R.string.action_hide),
                 icon(if (app.hidden) R.drawable.ic_show else R.drawable.ic_hide),
             ) {
-                prefs.hidden = if (app.hidden) prefs.hidden - app.key else prefs.hidden + app.key
+                if (app.hidden) { prefs.hidden = prefs.hidden - app.key; prefs.unhidden = prefs.unhidden + app.key }
+                else { prefs.hidden = prefs.hidden + app.key; prefs.unhidden = prefs.unhidden - app.key }
                 reload()
             }
         }

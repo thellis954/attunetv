@@ -117,21 +117,18 @@ class HomeSnapshotTest {
         return v
     }
 
-    /** Fakes the focused state of the first tile in a list (focus can't be driven in layoutlib). */
-    private fun fakeFocus(rv: RecyclerView, index: Int) {
-        rv.measure(View.MeasureSpec.makeMeasureSpec(1920, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(1080, View.MeasureSpec.AT_MOST))
-        rv.layoutManager!!.let { lm ->
-            rv.layout(0, 0, rv.measuredWidth, rv.measuredHeight)
-            lm.findViewByPosition(index)?.findViewById<View>(R.id.card)?.apply {
-                scaleX = 1.08f; scaleY = 1.08f; translationZ = 22 * resources.displayMetrics.density
-                foreground = GlassRing.focused(resources)
-            }
-        }
-    }
-
     @Test fun home_photo() {
         val v = home()
-        v.post { fakeFocus(v.findViewById(R.id.favorites), 0) }
+        val d = v.resources.displayMetrics.density
+        v.viewTreeObserver.addOnPreDrawListener(object : android.view.ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                v.viewTreeObserver.removeOnPreDrawListener(this)
+                val first = v.findViewById<RecyclerView>(R.id.favorites).getChildAt(0) ?: return true
+                first.scaleX = 1.08f; first.scaleY = 1.08f; first.translationZ = 22 * d
+                first.findViewById<RoundedCard>(R.id.card).forceRing = true
+                return true
+            }
+        })
         paparazzi.snapshot(v)
     }
 
@@ -150,8 +147,26 @@ class HomeSnapshotTest {
         v.findViewById<TextView>(R.id.apps_label).text = "ALL APPS · 15"
         v.findViewById<RecyclerView>(R.id.grid).apply {
             layoutManager = GridLayoutManager(context, 5)
-            adapter = AppAdapter({}, {}, {}).also { it.submit(favs + others) }
+            val wide = run {
+                val b = Bitmap.createBitmap(400, 180, Bitmap.Config.ARGB_8888)
+                val c = Canvas(b); c.drawColor(0xFFE6177A.toInt())
+                val p = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; textSize = 70f; typeface = Typeface.DEFAULT_BOLD; textAlign = Paint.Align.CENTER }
+                c.drawText("miniTV", 200f, 115f, p); BitmapDrawable(paparazzi.resources, b)
+            }
+            adapter = AppAdapter({}, {}, {}).also {
+                it.submit(listOf(app("miniTV", wide)) + favs.drop(1) + others)
+            }
         }
+        // Simulate focus on the first tile: ring visible + lifted.
+        v.viewTreeObserver.addOnPreDrawListener(object : android.view.ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                v.viewTreeObserver.removeOnPreDrawListener(this)
+                val first = v.findViewById<RecyclerView>(R.id.grid).getChildAt(0) ?: return true
+                first.scaleX = 1.08f; first.scaleY = 1.08f; first.translationZ = 22 * d
+                first.findViewById<RoundedCard>(R.id.card).forceRing = true
+                return true
+            }
+        })
         paparazzi.snapshot(v)
     }
 

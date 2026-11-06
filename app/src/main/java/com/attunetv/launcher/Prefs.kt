@@ -14,6 +14,11 @@ class Prefs(context: Context) {
         get() = readList(KEY_HIDDEN).toSet()
         set(v) = writeList(KEY_HIDDEN, v.toList())
 
+    /** Apps the user explicitly unhid (overrides default-hidden system pieces). */
+    var unhidden: Set<String>
+        get() = readList("unhidden").toSet()
+        set(v) = writeList("unhidden", v.toList())
+
     /** User-defined order for the "All apps" grid. Apps not listed sort alphabetically after. */
     var appOrder: List<String>
         get() = readList(KEY_ORDER)

@@ -133,7 +133,6 @@
         <androidx.recyclerview.widget.RecyclerView android:id="@+id/grid" android:layout_width="match_parent"
             android:layout_height="match_parent" android:layout_marginTop="100dp" android:clipChildren="false"
             android:clipToPadding="false" android:paddingStart="36dp" android:paddingEnd="36dp"
-            android:paddingBottom="40dp" android:paddingTop="8dp" android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="vertical" />
+            android:paddingBottom="40dp" android:paddingTop="8dp" />
     </FrameLayout>
 </FrameLayout>
