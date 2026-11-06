@@ -4,18 +4,34 @@ A clean, ad-free home screen for Fire TV. It works like other community launcher
 projects: your apps sit in a simple grid, with no sponsored rows, autoplaying
 trailers, or "recommended for you."
 
-Built for and tested against **Fire OS 8.1.6.4** on an Insignia NS65-UQFL26 (Fire TV
+Built for **Fire OS 8.1.6.4** on an Insignia NS65-UQFL26 (Fire TV
 Edition, Android 11 base). It should work on any Fire OS 6–8 device.
 
 ## What you get
 
-- **Favorites row** with big tiles. On first run it fills in from your installed streaming apps.
-- **All apps grid**. It uses each app's TV banner when the app has one, and icon + name otherwise.
-- **☰ Menu (or long-press OK) on any tile** to Pin, Unpin, Move, Hide, or open App info.
+**Home screen**
+- **Glass dock of favorites** with large tiles. On first run it fills in from the streaming apps you have installed.
+- **Recently used** row, updated automatically.
+- **All apps** grid. It uses each app's TV banner when the app has one, and icon + name otherwise.
+- **Dynamic backdrop**: the background picks up the selected app's artwork, blurred, and cross-fades as you move.
+- **☰ Menu (or long-press OK) on any tile**: Pin, Unpin, Move, Hide, Remove from Recent, App info.
 - **Move mode**: use the arrows to reposition a tile, then press OK.
-- Clock and date, five calm dark backgrounds, and a "show hidden apps" toggle.
-- **Home button redirect**: pressing Home takes you to AttuneTV instead of Amazon's screen.
-- Settings shortcuts: Fire TV Settings, Accessibility, and "Open Amazon home" (a 20-second pass so you can reach Amazon-only screens).
+
+**Widgets**
+- **Weather** (Open-Meteo, no account or API key): current temperature, conditions, today's high/low, rain chance.
+  Location can be a ZIP code, "City, State", or auto-detected from your connection.
+- **Calendar "Up next"**: reads any iCal feed (Google, iCloud, Outlook) and supports repeating events.
+- **Ambient mode**: after a period of no activity (default 10 min) or from the Ambient button, you get a full-screen
+  clock with weather, a 5-day forecast, and your agenda. It drifts slowly to avoid burn-in, and any button exits.
+
+**Quick actions**
+- **Inputs**: switch to HDMI or antenna inputs, or jump to Amazon's Live TV.
+- **Set up from your phone**: Settings shows a QR code. Scan it on the same Wi-Fi to edit location, calendars,
+  favorites, hidden apps, theme, and more from your phone, with no typing on the remote.
+  The page is protected by a random PIN and only works while that screen is open on the TV.
+
+**System**
+- Home button redirect (see below), opens on boot, 12/24-hour clock, five dark themes.
 
 ## Why there's an accessibility service
 
@@ -40,9 +56,10 @@ expected with this approach.
 
 ### 2. Enable ADB on the TV
 
-**Settings → My Fire TV → About**. Click the device name 7 times to unlock Developer Options.
-Then go to **Settings → My Fire TV → Developer Options** and turn on **ADB debugging** and
-**Apps from Unknown Sources**. Find the TV's IP under **About → Network**.
+**Settings → Device & Software → About** ("My Fire TV" on sticks). Highlight the device name and press
+OK 7 times to unlock Developer Options. Then go to **Device & Software → Developer Options** and turn on
+**ADB Debugging**. Find the TV's IP under **About → Network**. The first `adb connect` asks you to approve the
+computer on the TV.
 
 ### 3. Install and turn on the Home button service
 
@@ -94,11 +111,34 @@ app/src/main/java/com/attunetv/launcher/
   HomeButtonService.kt  Home-button redirect (accessibility service)
   AppRepository.kt      app discovery (leanback first, then phone launchers)
   AppAdapter.kt         tile rendering and focus animation
+  Backdrop.kt           blurred, cross-fading app-art background
+  Widgets.kt            weather and calendar state, caching, refresh
+  Weather.kt            Open-Meteo + ZIP/city/IP location lookup
+  Ics.kt                iCal parser with recurrence expansion
+  AmbientActivity.kt    full-screen clock / weather / agenda
+  PhoneSetupActivity.kt QR code screen, plus SetupServer.kt (LAN web page)
+  Inputs.kt             HDMI / tuner inputs
+  BootReceiver.kt       open on boot
   Prefs.kt / Themes.kt  persistence and backgrounds
 ```
 
+## Calendar setup
+
+Open **Settings → Set up from your phone** and paste one or more iCal links:
+
+- **Google:** calendar.google.com → ⚙ Settings → choose the calendar → *Integrate calendar* →
+  **Secret address in iCal format**.
+- **iCloud:** Calendar → ⓘ next to the calendar → *Public Calendar* → copy the link.
+- **Outlook:** Settings → Calendar → Shared calendars → *Publish a calendar* → ICS link.
+
+Treat these links like passwords. They're stored only on the TV.
+
+## Tests
+
+`./gradlew testDebugUnitTest` covers the iCal parser: time zones, all-day events, line folding, weekly/monthly
+repeat rules, EXDATE, moved instances, COUNT/UNTIL, and cancellations.
+
 ## Ideas for next
 
-Weather and calendar widget, input switcher (HDMI tiles), "continue watching" via
-deep links, screensaver photos, per-profile layouts, ADB-free setup via a companion
-web page on your phone.
+TMDB "trending" row, "continue watching" deep links, photo screensaver (Google Photos album),
+per-profile layouts, folders.
