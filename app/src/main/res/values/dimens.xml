@@ -1,5 +1,9 @@
 <resources>
-    <dimen name="card_w">200dp</dimen>
-    <dimen name="card_h">112dp</dimen>
-    <dimen name="gutter">48dp</dimen>
+    <!-- Fire TV renders 1080p at xhdpi, i.e. a ~960x540dp canvas. Size for that. -->
+    <dimen name="card_w">150dp</dimen>
+    <dimen name="card_h">84dp</dimen>
+    <dimen name="dock_card_w">176dp</dimen>
+    <dimen name="dock_card_h">99dp</dimen>
+    <dimen name="tile_pad">8dp</dimen>
+    <dimen name="gutter">32dp</dimen>
 </resources>

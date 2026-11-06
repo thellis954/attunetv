@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="96dp"
-    android:paddingEnd="96dp"
-    android:paddingTop="48dp">
+    android:paddingStart="120dp"
+    android:paddingEnd="120dp"
+    android:paddingTop="24dp">
 
     <LinearLayout
         android:id="@+id/settings_list"

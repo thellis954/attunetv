@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 /** Renders app tiles. Uses the app's TV banner when present, otherwise icon + name. */
 class AppAdapter(
+    private val large: Boolean,
     private val onClick: (AppEntry) -> Unit,
     private val onMenu: (AppEntry, Int) -> Unit,
     private val onFocus: (AppEntry?) -> Unit,
@@ -41,8 +42,16 @@ class AppAdapter(
 
     override fun getItemCount() = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
-        Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false)
+        if (large) {
+            val r = parent.resources
+            val w = r.getDimensionPixelSize(R.dimen.dock_card_w)
+            v.findViewById<View>(R.id.card).layoutParams.apply { width = w; height = r.getDimensionPixelSize(R.dimen.dock_card_h) }
+            v.findViewById<View>(R.id.caption).layoutParams.width = w
+        }
+        return Holder(v)
+    }
 
     override fun onBindViewHolder(holder: Holder, position: Int) = holder.bind(items[position])
 

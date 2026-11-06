@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/tile_pad">
 
     <FrameLayout
         android:id="@+id/card"
@@ -31,21 +31,21 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:importantForAccessibility="no" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@color/text"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </FrameLayout>
 
@@ -53,11 +53,11 @@
         android:id="@+id/caption"
         android:layout_width="@dimen/card_w"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:alpha="0"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/text"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 </LinearLayout>

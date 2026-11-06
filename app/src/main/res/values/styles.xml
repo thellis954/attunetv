@@ -7,9 +7,23 @@
     </style>
     <style name="SectionLabel">
         <item name="android:textColor">@color/text_dim</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.1</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="Pill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:background">@drawable/pill_bg</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/pill_text</item>
+        <item name="android:textSize">13sp</item>
     </style>
 </resources>
