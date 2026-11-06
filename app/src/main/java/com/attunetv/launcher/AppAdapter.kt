@@ -46,6 +46,9 @@ class AppAdapter(
 
     override fun getItemCount() = items.size
 
+    private fun fresh(d: android.graphics.drawable.Drawable) =
+        d.constantState?.newDrawable()?.mutate() ?: d
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false))
 
@@ -64,14 +67,16 @@ class AppAdapter(
         fun bind(app: AppEntry) {
             val r = card.resources.displayMetrics.density * 14
             if (app.banner != null) {
-                banner.setImageDrawable(app.banner)
+                // Each ImageView needs its own Drawable instance: a shared one has a single set of
+                // bounds, so two views showing the same app fight and one draws blank/tiny.
+                banner.setImageDrawable(fresh(app.banner))
                 banner.visibility = View.VISIBLE
                 fallback.visibility = View.GONE
                 card.background = GradientDrawable().apply { cornerRadius = r; setColor(0xFF15181F.toInt()) }
             } else {
                 banner.visibility = View.GONE
                 fallback.visibility = View.VISIBLE
-                icon.setImageDrawable(app.icon)
+                icon.setImageDrawable(fresh(app.icon))
                 name.text = app.label
                 card.background = GradientDrawable(
                     GradientDrawable.Orientation.TL_BR,

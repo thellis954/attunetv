@@ -12,7 +12,7 @@ import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 
 /** Shows a QR code + URL; while open, a phone on the same Wi-Fi can configure AttuneTV. */
-class PhoneSetupActivity : Activity() {
+class PhoneSetupActivity : TvActivity() {
 
     private var server: SetupServer? = null
 

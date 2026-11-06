@@ -19,7 +19,7 @@ import kotlin.random.Random
  * Photo screensaver: recent daily photos with a slow drift-and-zoom, a large thin
  * clock, weather, forecast and agenda. Any button returns. Opens after idling on Home.
  */
-class AmbientActivity : Activity() {
+class AmbientActivity : TvActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val io = Executors.newSingleThreadExecutor()

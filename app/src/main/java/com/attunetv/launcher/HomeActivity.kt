@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 
-class HomeActivity : Activity() {
+class HomeActivity : TvActivity() {
 
     private lateinit var prefs: Prefs
     private lateinit var repo: AppRepository

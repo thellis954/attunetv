@@ -45,7 +45,7 @@ class AppRepository(private val context: Context) {
                 byPackage[ai.packageName] = AppEntry(
                     key = key,
                     packageName = ai.packageName,
-                    label = ri.loadLabel(pm).toString(),
+                    label = niceLabel(ri.loadLabel(pm).toString(), ai.packageName),
                     banner = banner,
                     icon = icon,
                     launchIntent = launch,
@@ -62,6 +62,15 @@ class AppRepository(private val context: Context) {
         return byPackage.values.sortedWith(
             compareBy<AppEntry> { order[it.key] ?: Int.MAX_VALUE }.thenBy { it.label.lowercase() }
         )
+    }
+
+    /** Some sideloaded apps have no label and show their package name. Tidy those up. */
+    private fun niceLabel(label: String, pkg: String): String {
+        if (label != pkg && !Regex("^[a-z0-9_]+(\\.[a-z0-9_]+)+$").matches(label)) return label
+        KNOWN_LABELS[pkg]?.let { return it }
+        val part = pkg.split('.').filter { it !in setOf("com", "tv", "android", "amazon", "app", "firetv", "ftv") }
+            .maxByOrNull { it.length } ?: return label
+        return part.replaceFirstChar { it.uppercase() }
     }
 
     private fun loadBanner(pkg: String, activityBanner: Int, appBanner: Int): Drawable? {
@@ -82,6 +91,10 @@ class AppRepository(private val context: Context) {
         /** Amazon system shells we never want as tiles. */
         val EXCLUDED_PACKAGES = setOf(
             "com.amazon.tv.launcher",
+        )
+
+        private val KNOWN_LABELS = mapOf(
+            "com.apple.airplay.amazon" to "AirPlay",
         )
 
         /** First-run favorites, picked from whatever is installed. */

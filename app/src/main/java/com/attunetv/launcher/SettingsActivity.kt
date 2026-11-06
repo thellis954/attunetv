@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 
-class SettingsActivity : Activity() {
+class SettingsActivity : TvActivity() {
 
     private lateinit var prefs: Prefs
     private lateinit var list: LinearLayout
