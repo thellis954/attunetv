@@ -19,7 +19,7 @@ class PhoneSetupActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_setup)
-        window.decorView.background = Themes.background(Prefs(this).themeIndex)
+        Backgrounds.applyDimmed(this, Prefs(this))
     }
 
     override fun onStart() {

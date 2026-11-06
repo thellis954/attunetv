@@ -71,9 +71,18 @@ class Prefs(context: Context) {
         get() = sp.getBoolean(KEY_BOOT, true)
         set(v) = sp.edit().putBoolean(KEY_BOOT, v).apply()
 
-    var dynamicBackdrop: Boolean
-        get() = sp.getBoolean(KEY_BACKDROP, true)
-        set(v) = sp.edit().putBoolean(KEY_BACKDROP, v).apply()
+    /** 0 = daily photo, 1 = app-color glow, 2 = plain theme gradient. */
+    var backgroundMode: Int
+        get() = sp.getInt(KEY_BG_MODE, BG_PHOTO)
+        set(v) = sp.edit().putInt(KEY_BG_MODE, v).apply()
+
+    /** Shown in the greeting ("Good evening, Tom"). Blank = no name. */
+    var userName: String
+        get() = sp.getString(KEY_NAME, "")!!
+        set(v) = sp.edit().putString(KEY_NAME, v.trim()).apply()
+
+    fun lastLaunched(key: String): Long = sp.getLong("launched_$key", 0L)
+    fun markLaunched(key: String) = sp.edit().putLong("launched_$key", System.currentTimeMillis()).apply()
 
     fun cache(key: String): String? = sp.getString("cache_$key", null)
     fun putCache(key: String, value: String) = sp.edit().putString("cache_$key", value).apply()
@@ -105,6 +114,10 @@ class Prefs(context: Context) {
         private const val KEY_CLOCK24 = "clock24"
         private const val KEY_AMBIENT = "ambient_minutes"
         private const val KEY_BOOT = "open_on_boot"
-        private const val KEY_BACKDROP = "dynamic_backdrop"
+        private const val KEY_BG_MODE = "background_mode"
+        private const val KEY_NAME = "user_name"
+        const val BG_PHOTO = 0
+        const val BG_GLOW = 1
+        const val BG_THEME = 2
     }
 }

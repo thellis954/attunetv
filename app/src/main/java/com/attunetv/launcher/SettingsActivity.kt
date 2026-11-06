@@ -26,7 +26,7 @@ class SettingsActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        window.decorView.background = Themes.background(prefs.themeIndex)
+        applyWindowBackground()
         Widgets.addListener(onWidgets)
         render()
     }
@@ -67,12 +67,15 @@ class SettingsActivity : Activity() {
         Widgets.calendarError?.let { status(it) }
 
         header(getString(R.string.hdr_look))
-        row(getString(R.string.set_theme, Themes.all[prefs.themeIndex.mod(Themes.all.size)].name)) {
+        if (prefs.backgroundMode != Prefs.BG_PHOTO) row(getString(R.string.set_theme, Themes.all[prefs.themeIndex.mod(Themes.all.size)].name)) {
             prefs.themeIndex = (prefs.themeIndex + 1).mod(Themes.all.size)
-            window.decorView.background = Themes.background(prefs.themeIndex)
+            applyWindowBackground()
             render()
         }
-        row(getString(R.string.set_backdrop, onOff(prefs.dynamicBackdrop))) { prefs.dynamicBackdrop = !prefs.dynamicBackdrop; render() }
+        row(getString(R.string.set_background, bgLabel(prefs.backgroundMode))) {
+            prefs.backgroundMode = (prefs.backgroundMode + 1) % 3
+            applyWindowBackground(); render()
+        }
         row(getString(R.string.set_clock24, onOff(prefs.clock24))) { prefs.clock24 = !prefs.clock24; render() }
         row(getString(R.string.set_ambient, ambientLabel(prefs.ambientMinutes))) {
             val opts = listOf(0, 5, 10, 15, 30)
@@ -110,6 +113,10 @@ class SettingsActivity : Activity() {
 
         (list.getChildAt(focusedIndex)?.takeIf { it is Button } ?: list.getChildAt(1))?.requestFocus()
     }
+
+    private fun bgLabel(m: Int) = getString(when (m) { Prefs.BG_PHOTO -> R.string.bg_photo; Prefs.BG_GLOW -> R.string.bg_glow; else -> R.string.bg_theme })
+
+    private fun applyWindowBackground() = Backgrounds.applyDimmed(this, prefs)
 
     private fun ambientLabel(m: Int) = if (m == 0) getString(R.string.never) else getString(R.string.minutes, m)
 
@@ -153,6 +160,9 @@ class SettingsActivity : Activity() {
     private fun row(text: String, onClick: () -> Unit) {
         val b = layoutInflater.inflate(R.layout.item_setting, list, false) as Button
         b.text = text
+        val glass = GlassDrawable(b, 14 * resources.displayMetrics.density)
+        b.background = glass
+        b.setOnFocusChangeListener { _, f -> glass.focused = f }
         b.setOnClickListener { onClick() }
         list.addView(b)
     }

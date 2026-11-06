@@ -96,7 +96,8 @@ class SetupServer(private val context: Context, private val onSaved: () -> Unit)
         prefs.clock24 = f.containsKey("clock24")
         prefs.ambientMinutes = f["ambient"]?.toIntOrNull() ?: prefs.ambientMinutes
         prefs.themeIndex = f["theme"]?.toIntOrNull() ?: prefs.themeIndex
-        prefs.dynamicBackdrop = f.containsKey("backdrop")
+        prefs.backgroundMode = f["background"]?.toIntOrNull()?.coerceIn(0, 2) ?: prefs.backgroundMode
+        prefs.userName = f["name"].orEmpty().take(24)
         prefs.openOnBoot = f.containsKey("boot")
 
         // Favorites: keep existing order for ones still checked, append newly checked.
@@ -155,8 +156,13 @@ $wxStatus
 $calStatus
 
 <h2>Look &amp; feel</h2>
-<label>Background <select name='theme'>$themeOpts</select></label>
-<label class='row'><input type='checkbox' name='backdrop' ${chk(p.dynamicBackdrop)}> Tint background with the selected app's art</label>
+<label>Theme color <small>(used when not on Daily photo)</small> <select name='theme'>$themeOpts</select></label>
+<label>Your name <small>(for the greeting; optional)</small>
+<input name='name' value='${esc(p.userName)}' placeholder='e.g. Tom'></label>
+<label>Background <select name='background'>
+<option value='0' ${if (p.backgroundMode == 0) "selected" else ""}>Daily photo</option>
+<option value='1' ${if (p.backgroundMode == 1) "selected" else ""}>App color glow</option>
+<option value='2' ${if (p.backgroundMode == 2) "selected" else ""}>Theme color</option></select></label>
 <label class='row'><input type='checkbox' name='clock24' ${chk(p.clock24)}> 24-hour clock</label>
 <label>Ambient mode after <select name='ambient'>$ambientOpts</select></label>
 <label class='row'><input type='checkbox' name='boot' ${chk(p.openOnBoot)}> Open AttuneTV when the TV starts</label>

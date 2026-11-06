@@ -10,8 +10,10 @@ import java.util.concurrent.Executors
  * refreshed in the background (weather every 30 min, calendar every 15 min).
  */
 object Widgets {
-    var weather: WeatherData? = null; private set
-    var events: List<CalEvent> = emptyList(); private set
+    var weather: WeatherData? = null
+        internal set
+    var events: List<CalEvent> = emptyList()
+        internal set
     var weatherError: String? = null; private set
     var calendarError: String? = null; private set
 

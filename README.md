@@ -7,22 +7,33 @@ trailers, or "recommended for you."
 Built for **Fire OS 8.1.6.4** on an Insignia NS65-UQFL26 (Fire TV
 Edition, Android 11 base). It should work on any Fire OS 6–8 device.
 
+![Home](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_home_photo.png)
+![All apps](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_all_apps.png)
+
+*Rendered from the real layouts at Fire TV's 1080p canvas with Paparazzi (`./gradlew recordPaparazziDebug`).
+App art is placeholder; on the TV each app's own banner appears.*
+
 ## What you get
 
 **Home screen**
-- **Glass dock of favorites** with large tiles. On first run it fills in from the streaming apps you have installed.
-- **Recently used** row, updated automatically.
-- **All apps** grid. It uses each app's TV banner when the app has one, and icon + name otherwise.
-- **Dynamic backdrop**: the background picks up the selected app's artwork, blurred, and cross-fades as you move.
-- **☰ Menu (or long-press OK) on any tile**: Pin, Unpin, Move, Hide, Remove from Recent, App info.
-- **Move mode**: use the arrows to reposition a tile, then press OK.
+- **Daily photo background** (Bing image of the day, no key), with **real frosted glass** that works on
+  Fire OS 8 / Android 11. The wallpaper is pre-blurred once on the CPU, and each glass surface draws the
+  slice behind it. Other options: an app-color glow that follows focus, or a plain theme color.
+- **Big, quiet type**: a greeting with your name, a thin clock, the date, and glass chips for weather and your next event.
+- **Glass dock** of favorites as 16:9 tiles. The focused tile lifts with a springy zoom, a white ring and a glow
+  in the app's own color. The selected app's name and when you last opened it show above the dock.
+- **All apps** sits below the dock. Press **Down** and it slides up over a blurred background; press **Up** or Back to return.
+- Apps without a TV banner get a tile tinted with their icon's color.
+- **☰ Menu (or long-press OK) on any tile**: Pin, Unpin, Move, Hide, App info. Move mode: arrows, then OK.
+- Round glass buttons: **Inputs** (HDMI/antenna), **Ambient**, **Settings**.
 
 **Widgets**
 - **Weather** (Open-Meteo, no account or API key): current temperature, conditions, today's high/low, rain chance.
   Location can be a ZIP code, "City, State", or auto-detected from your connection.
 - **Calendar "Up next"**: reads any iCal feed (Google, iCloud, Outlook) and supports repeating events.
-- **Ambient mode**: after a period of no activity (default 10 min) or from the Ambient button, you get a full-screen
-  clock with weather, a 5-day forecast, and your agenda. It drifts slowly to avoid burn-in, and any button exits.
+- **Ambient mode (photo screensaver)**: after a period of no activity (default 10 min) or from the moon button, the
+  last 8 daily photos play with a slow zoom and pan, under a large clock with weather, forecast and your agenda.
+  → skips to the next photo; any other button exits.
 
 **Quick actions**
 - **Inputs**: switch to HDMI or antenna inputs, or jump to Amazon's Live TV.
@@ -111,7 +122,9 @@ app/src/main/java/com/attunetv/launcher/
   HomeButtonService.kt  Home-button redirect (accessibility service)
   AppRepository.kt      app discovery (leanback first, then phone launchers)
   AppAdapter.kt         tile rendering and focus animation
-  Backdrop.kt           blurred, cross-fading app-art background
+  Wallpaper.kt          daily photo + CPU box blur
+  GlassDrawable.kt      frosted glass for Android 11 (no RenderEffect)
+  Colors.kt             dominant artwork color for tiles and glow
   Widgets.kt            weather and calendar state, caching, refresh
   Weather.kt            Open-Meteo + ZIP/city/IP location lookup
   Ics.kt                iCal parser with recurrence expansion

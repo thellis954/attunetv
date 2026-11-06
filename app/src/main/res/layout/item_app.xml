@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clipChildren="false"
-    android:orientation="vertical"
     android:padding="@dimen/tile_pad">
 
     <FrameLayout
         android:id="@+id/card"
         android:layout_width="@dimen/card_w"
         android:layout_height="@dimen/card_h"
-        android:background="@drawable/card_bg"
+        android:elevation="3dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:foreground="@drawable/tile_ring"
         android:outlineProvider="background">
 
         <ImageView
@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:importantForAccessibility="no"
-            android:padding="3dp"
             android:scaleType="centerCrop" />
 
         <LinearLayout
+            android:id="@+id/fallback"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -31,33 +31,22 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:importantForAccessibility="no" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="5dp"
                 android:ellipsize="end"
+                android:fontVariationSettings="'wght' 600"
                 android:maxLines="1"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:textColor="@color/text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/caption"
-        android:layout_width="@dimen/card_w"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:alpha="0"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="@color/text"
-        android:textSize="12sp" />
-</LinearLayout>
+</FrameLayout>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="72dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:lineSpacingExtra="2dp"
-    android:textColor="#B3F2F4F8"
+    android:layout_marginEnd="18dp"
+    android:fontVariationSettings="'wght' 500"
+    android:shadowColor="#80000000"
+    android:shadowRadius="10"
+    android:textColor="#CCFFFFFF"
     android:textSize="13sp" />

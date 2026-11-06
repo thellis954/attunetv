@@ -14,6 +14,7 @@ data class AppEntry(
     val icon: Drawable,
     val launchIntent: Intent,
     val hidden: Boolean,
+    val color: Int,             // dominant artwork color, for tile tint + focus glow
 )
 
 /** Discovers launchable apps, preferring TV (leanback) entry points. */
@@ -39,14 +40,17 @@ class AppRepository(private val context: Context) {
                     .addCategory(category)
                     .setComponent(cn)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                val banner = loadBanner(ai.packageName, ri.activityInfo.banner, ai.applicationInfo.banner)
+                val icon = ri.loadIcon(pm)
                 byPackage[ai.packageName] = AppEntry(
                     key = key,
                     packageName = ai.packageName,
                     label = ri.loadLabel(pm).toString(),
-                    banner = loadBanner(ai.packageName, ri.activityInfo.banner, ai.applicationInfo.banner),
-                    icon = ri.loadIcon(pm),
+                    banner = banner,
+                    icon = icon,
                     launchIntent = launch,
                     hidden = key in hidden,
+                    color = colorCache.getOrPut(key) { Colors.dominant(banner ?: icon) },
                 )
             }
         }
@@ -73,6 +77,8 @@ class AppRepository(private val context: Context) {
     }
 
     companion object {
+        private val colorCache = HashMap<String, Int>()
+
         /** Amazon system shells we never want as tiles. */
         val EXCLUDED_PACKAGES = setOf(
             "com.amazon.tv.launcher",
