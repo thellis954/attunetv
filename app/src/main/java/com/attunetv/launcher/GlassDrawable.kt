@@ -19,6 +19,8 @@ class GlassDrawable(
     private val host: View,
     private val radiusPx: Float,
     private val tintAlpha: Int = 0x24,
+    /** Base tint color (white = light glass; a dark color = smoked glass for menus). */
+    private val tintColor: Int = 0xFFFFFF,
 ) : Drawable() {
 
     var focused = false
@@ -52,7 +54,7 @@ class GlassDrawable(
                 bmpPaint)
             canvas.restore()
         }
-        fill.color = if (focused) 0xF2FFFFFF.toInt() else (tintAlpha shl 24) or 0xFFFFFF
+        fill.color = if (focused) 0xF2FFFFFF.toInt() else (tintAlpha shl 24) or (tintColor and 0xFFFFFF)
         canvas.drawRect(rect, fill)
         canvas.restore()
 

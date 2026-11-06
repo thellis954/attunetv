@@ -16,6 +16,12 @@ class SettingsActivity : Activity() {
 
     private lateinit var prefs: Prefs
     private lateinit var list: LinearLayout
+    private val menu by lazy { GlassMenu(this) }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (menu.isOpen) menu.dismiss() else @Suppress("DEPRECATION") super.onBackPressed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +45,7 @@ class SettingsActivity : Activity() {
     private val onWidgets: () -> Unit = { render() }
 
     private fun render() {
+        if (menu.isOpen) return
         val focusedIndex = list.indexOfChild(list.focusedChild).takeIf { it >= 0 } ?: 1
         list.removeAllViews()
         val serviceOn = HomeButtonService.isEnabled(this)
@@ -96,15 +103,14 @@ class SettingsActivity : Activity() {
         }
         row(getString(R.string.set_amazon_home)) { HomeActivity.openAmazonHome(this) }
         row(getString(R.string.set_reset)) {
-            AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-                .setMessage(R.string.reset_confirm)
-                .setPositiveButton(R.string.reset) { _, _ ->
+            menu.show(getString(R.string.set_reset), getString(R.string.reset_confirm), listOf(
+                GlassMenu.Item(getString(android.R.string.cancel)) {},
+                GlassMenu.Item(getString(R.string.reset)) {
                     getSharedPreferences("attunetv", MODE_PRIVATE).edit().clear().apply()
                     Toast.makeText(this, R.string.reset_done, Toast.LENGTH_SHORT).show()
                     render()
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+                },
+            ))
         }
 
         val ver = packageManager.getPackageInfo(packageName, 0).versionName

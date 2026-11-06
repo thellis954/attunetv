@@ -154,4 +154,47 @@ class HomeSnapshotTest {
         }
         paparazzi.snapshot(v)
     }
+
+    @Test fun app_menu() {
+        val v = home() as android.widget.FrameLayout
+        val d = v.resources.displayMetrics.density
+        val ctx = v.context
+        v.addView(View(ctx).apply { setBackgroundColor(0x66000000) })
+        val panel = android.widget.LinearLayout(ctx).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding((10 * d).toInt(), (18 * d).toInt(), (10 * d).toInt(), (10 * d).toInt())
+            minimumWidth = (320 * d).toInt()
+        }
+        panel.background = GlassDrawable(panel, 22 * d, tintAlpha = 0x99, tintColor = 0x12161E)
+        panel.addView(TextView(ctx).apply {
+            text = "Netflix"; textSize = 20f; setTextColor(Color.WHITE); fontVariationSettings = "'wght' 620"
+            setPadding((14 * d).toInt(), 0, 0, 0)
+        })
+        panel.addView(TextView(ctx).apply {
+            text = "In your dock"; textSize = 12f; setTextColor(0xB3FFFFFF.toInt())
+            setPadding((14 * d).toInt(), (2 * d).toInt(), 0, (10 * d).toInt())
+        })
+        listOf("Open" to R.drawable.ic_open, "Remove from Favorites" to R.drawable.ic_unpin,
+            "Move" to R.drawable.ic_move, "App info" to R.drawable.ic_info).forEachIndexed { i, (label, ic) ->
+            val row = android.widget.Button(ctx).apply {
+                text = label; isAllCaps = false; textSize = 15f; fontVariationSettings = "'wght' 560"
+                gravity = android.view.Gravity.CENTER_VERTICAL or android.view.Gravity.START
+                stateListAnimator = null; minHeight = 0; minimumHeight = 0
+                setPadding((14 * d).toInt(), 0, (14 * d).toInt(), 0)
+                val focused = i == 0
+                setTextColor(if (focused) 0xFF0B1020.toInt() else Color.WHITE)
+                background = if (focused) android.graphics.drawable.GradientDrawable().apply {
+                    cornerRadius = 12 * d; setColor(0xF2FFFFFF.toInt()) } else null
+                compoundDrawablePadding = (12 * d).toInt()
+                ctx.getDrawable(ic)!!.mutate().let { dr ->
+                    val sz = (18 * d).toInt(); dr.setBounds(0, 0, sz, sz)
+                    dr.setTint(if (focused) 0xFF0B1020.toInt() else Color.WHITE)
+                    setCompoundDrawablesRelative(dr, null, null, null)
+                }
+            }
+            panel.addView(row, android.widget.LinearLayout.LayoutParams(-1, (44 * d).toInt()).apply { topMargin = (2 * d).toInt() })
+        }
+        v.addView(panel, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.CENTER))
+        paparazzi.snapshot(v)
+    }
 }

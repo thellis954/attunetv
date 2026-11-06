@@ -3,7 +3,6 @@ package com.attunetv.launcher
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -49,6 +48,7 @@ class HomeActivity : Activity() {
     private lateinit var appsTitle: TextView
     private lateinit var banner: TextView
     private val glassViews = mutableListOf<View>()
+    private val menu by lazy { GlassMenu(this) }
 
     private val handler = Handler(Looper.getMainLooper())
     private var resumed = false
@@ -66,7 +66,7 @@ class HomeActivity : Activity() {
     private val widgetsChanged: () -> Unit = { renderWidgets() }
     private val wallpaperChanged: () -> Unit = { applyBackground() }
     private val goAmbient = Runnable {
-        if (resumed && moving == null) startActivity(Intent(this, AmbientActivity::class.java))
+        if (resumed && moving == null && !menu.isOpen) startActivity(Intent(this, AmbientActivity::class.java))
     }
     private val tick = object : Runnable {
         override fun run() {
@@ -187,6 +187,7 @@ class HomeActivity : Activity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         when {
+            menu.isOpen -> menu.dismiss()
             moving != null -> endMove()
             inApps -> exitApps()
             else -> focusDock(0)
@@ -196,6 +197,7 @@ class HomeActivity : Activity() {
     /** Home pressed while already home: return to the dock. */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        if (menu.isOpen) menu.dismiss(animate = false)
         if (moving != null) endMove()
         if (inApps) exitApps(animate = false)
         focusDock(0)
@@ -392,58 +394,59 @@ class HomeActivity : Activity() {
 
     private enum class Section { FAVORITES, ALL }
 
+    private fun icon(id: Int) = getDrawable(id)
+
     private fun showMenu(app: AppEntry, section: Section) {
         val isFav = app.key in prefs.favorites
-        val actions = mutableListOf<Pair<String, () -> Unit>>()
-        actions += getString(R.string.action_open) to { launch(app) }
-        if (isFav) {
-            actions += getString(R.string.action_unpin) to { prefs.favorites = prefs.favorites - app.key; reload() }
+        val items = mutableListOf<GlassMenu.Item>()
+        items += GlassMenu.Item(getString(R.string.action_open), icon(R.drawable.ic_open)) { launch(app) }
+        items += if (isFav) {
+            GlassMenu.Item(getString(R.string.action_unpin), icon(R.drawable.ic_unpin)) {
+                prefs.favorites = prefs.favorites - app.key; reload()
+            }
         } else {
-            actions += getString(R.string.action_pin) to {
+            GlassMenu.Item(getString(R.string.action_pin), icon(R.drawable.ic_pin)) {
                 prefs.favorites = prefs.favorites + app.key
                 prefs.hidden = prefs.hidden - app.key
                 reload()
             }
         }
-        actions += getString(R.string.action_move) to {
+        items += GlassMenu.Item(getString(R.string.action_move), icon(R.drawable.ic_move)) {
             startMove(if (section == Section.FAVORITES) favAdapter else allAdapter, app.key)
         }
         if (!isFav) {
-            actions += (if (app.hidden) getString(R.string.action_unhide) else getString(R.string.action_hide)) to {
+            items += GlassMenu.Item(
+                getString(if (app.hidden) R.string.action_unhide else R.string.action_hide),
+                icon(if (app.hidden) R.drawable.ic_show else R.drawable.ic_hide),
+            ) {
                 prefs.hidden = if (app.hidden) prefs.hidden - app.key else prefs.hidden + app.key
                 reload()
             }
         }
-        actions += getString(R.string.action_info) to {
+        items += GlassMenu.Item(getString(R.string.action_info), icon(R.drawable.ic_info)) {
             startActivity(
                 Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${app.packageName}"))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             )
         }
-        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-            .setTitle(app.label)
-            .setItems(actions.map { it.first }.toTypedArray()) { _, which -> actions[which].second() }
-            .show()
+        menu.show(app.label, if (isFav) getString(R.string.sub_favorite) else null, items)
     }
 
     private fun showInputs() {
-        val inputs = Inputs.list(this)
-        val labels = inputs.map { it.label } + getString(R.string.inputs_amazon)
-        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-            .setTitle(R.string.inputs)
-            .setItems(labels.toTypedArray()) { _, i ->
-                if (i < inputs.size) {
-                    try { startActivity(inputs[i].intent) }
-                    catch (_: Exception) { Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show() }
-                } else openAmazonHome(this)
+        val items = Inputs.list(this).map { input ->
+            GlassMenu.Item(input.label, icon(R.drawable.ic_hdmi)) {
+                try { startActivity(input.intent) }
+                catch (_: Exception) { Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show() }
             }
-            .show()
+        } + GlassMenu.Item(getString(R.string.inputs_amazon), icon(R.drawable.ic_live)) { openAmazonHome(this) }
+        menu.show(getString(R.string.inputs), null, items)
     }
 
     // ---- Keys: Down from the dock opens All apps; Up from the top row closes it ----
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (moving != null) return handleMoveKey(event)
+        if (menu.isOpen) return super.dispatchKeyEvent(event)
         if (event.action == KeyEvent.ACTION_DOWN) {
             val focus = currentFocus
             when (event.keyCode) {

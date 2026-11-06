@@ -9,6 +9,7 @@ Edition, Android 11 base). It should work on any Fire OS 6–8 device.
 
 ![Home](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_home_photo.png)
 ![All apps](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_all_apps.png)
+![App menu](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_app_menu.png)
 
 *Rendered from the real layouts at Fire TV's 1080p canvas with Paparazzi (`./gradlew recordPaparazziDebug`).
 App art is placeholder; on the TV each app's own banner appears.*
@@ -24,7 +25,8 @@ App art is placeholder; on the TV each app's own banner appears.*
   in the app's own color. The selected app's name and when you last opened it show above the dock.
 - **All apps** sits below the dock. Press **Down** and it slides up over a blurred background; press **Up** or Back to return.
 - Apps without a TV banner get a tile tinted with their icon's color.
-- **☰ Menu (or long-press OK) on any tile**: Pin, Unpin, Move, Hide, App info. Move mode: arrows, then OK.
+- **☰ Menu (or long-press OK) on any tile** opens a smoked-glass menu: Open, Pin/Unpin, Move, Hide, App info.
+  The Inputs list and Settings confirmations use the same glass menu. Move mode: arrows, then OK.
 - Round glass buttons: **Inputs** (HDMI/antenna), **Ambient**, **Settings**.
 
 **Widgets**
