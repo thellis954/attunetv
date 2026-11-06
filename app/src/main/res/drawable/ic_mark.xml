@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Simple "tuning" mark: three bars of different heights inside a rounded screen. -->
+    <path android:fillColor="#00000000" android:strokeColor="#F2F4F8" android:strokeWidth="5"
+        android:pathData="M22,30 h64 a8,8 0 0 1 8,8 v32 a8,8 0 0 1 -8,8 h-64 a8,8 0 0 1 -8,-8 v-32 a8,8 0 0 1 8,-8 z" />
+    <path android:fillColor="#7AA2FF" android:pathData="M38,60 h8 v10 h-8 z" />
+    <path android:fillColor="#7AA2FF" android:pathData="M50,46 h8 v24 h-8 z" />
+    <path android:fillColor="#7AA2FF" android:pathData="M62,54 h8 v16 h-8 z" />
+</vector>

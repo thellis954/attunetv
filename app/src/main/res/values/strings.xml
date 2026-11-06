@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">AttuneTV</string>
+    <string name="service_label">AttuneTV Home Button</string>
+    <string name="service_description">Detects when Fire TV\'s Home screen opens and shows AttuneTV instead. It only listens for screen changes from the Amazon launcher and reads no on-screen content.</string>
+    <string name="settings_title">AttuneTV Settings</string>
+    <string name="favorites">Favorites</string>
+    <string name="all_apps">Apps</string>
+    <string name="settings">Settings</string>
+    <string name="hint">☰ Menu on any app to pin, move, or hide it</string>
+    <string name="setup_banner">Home button not set up yet. Select to finish setup.</string>
+    <string name="cant_open">Couldn\'t open %1$s</string>
+    <string name="action_open">Open</string>
+    <string name="action_pin">Pin to Favorites</string>
+    <string name="action_unpin">Remove from Favorites</string>
+    <string name="action_move">Move</string>
+    <string name="action_hide">Hide</string>
+    <string name="action_unhide">Unhide</string>
+    <string name="action_info">App info</string>
+    <string name="move_hint">Use the arrows to move it, then press OK</string>
+    <string name="service_on">✓ Home button redirect service is ON</string>
+    <string name="service_off">Home button service is OFF. Turn on "AttuneTV Home Button" under Accessibility (or use the ADB command in the README).</string>
+    <string name="set_redirect">Redirect Home button to AttuneTV: %1$s</string>
+    <string name="set_accessibility">Open Accessibility settings</string>
+    <string name="set_show_hidden">Show hidden apps: %1$s</string>
+    <string name="set_theme">Background: %1$s</string>
+    <string name="set_firetv_settings">Fire TV Settings</string>
+    <string name="set_amazon_home">Open Amazon home (20 seconds)</string>
+    <string name="set_reset">Reset layout</string>
+    <string name="reset_confirm">Clear favorites, order, and hidden apps?</string>
+    <string name="reset">Reset</string>
+    <string name="reset_done">Layout reset</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="not_available">Not available on this device</string>
+    <string name="about">AttuneTV %1$s</string>
+    <string name="last_seen">Last Amazon screen seen: %1$s</string>
+</resources>

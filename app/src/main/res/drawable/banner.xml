@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient android:angle="315" android:startColor="#0B1020" android:centerColor="#1B2A5C" android:endColor="#3B2A7A" />
+            <size android:width="320dp" android:height="180dp" />
+        </shape>
+    </item>
+    <item android:gravity="center" android:width="120dp" android:height="120dp" android:drawable="@drawable/ic_mark" />
+</layer-list>
