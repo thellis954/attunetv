@@ -55,6 +55,10 @@ class SettingsActivity : TvActivity() {
         )
 
         row(getString(R.string.set_phone)) { startActivity(Intent(this, PhoneSetupActivity::class.java)) }
+        row("Viewing companion • ChatGPT setup") {
+            menu.show("Viewing companion", "Start the AttuneTV companion on your Mac, then open its local page to connect ChatGPT and pair your phone. Keep the Mac running while chatting. Chat appears only in verified streaming apps; titles may need to be entered on your phone. Hide the panel from your phone or press Home. It closes automatically after 90 seconds.",
+                listOf(GlassMenu.Item("Got it") {}))
+        }
 
         header(getString(R.string.hdr_widgets))
         row(getString(R.string.set_location, prefs.weatherLocation.ifBlank { getString(R.string.auto) })) { editLocation() }

@@ -5,5 +5,6 @@ local.properties
 *.iml
 .DS_Store
 captures/
+node_modules/
 *.keystore
 !debug.keystore

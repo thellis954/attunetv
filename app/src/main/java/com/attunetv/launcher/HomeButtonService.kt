@@ -15,11 +15,34 @@ import android.view.accessibility.AccessibilityEvent
  */
 class HomeButtonService : AccessibilityService() {
 
+    internal val companion by lazy { CompanionOverlay(this) }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        instance = this
+    }
+
+    /** Observe package names only while a panel is visible, to remove it on app switches.
+     * Never enable window-content retrieval, key filtering, or spoken feedback. */
+    internal fun watchCompanionWindows(watch: Boolean) {
+        serviceInfo?.let { info ->
+            info.packageNames = if (watch) null else AMAZON_HOME_PACKAGES.toTypedArray()
+            serviceInfo = info
+        }
+    }
+
+    override fun onDestroy() {
+        companion.hide()
+        instance = null
+        super.onDestroy()
+    }
+
     private var lastRedirect = 0L
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event?.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
         val pkg = event.packageName?.toString() ?: return
+        companion.onWindow(pkg)
         if (pkg !in AMAZON_HOME_PACKAGES) return
 
         val cls = event.className?.toString().orEmpty()
@@ -45,6 +68,7 @@ class HomeButtonService : AccessibilityService() {
     override fun onInterrupt() = Unit
 
     companion object {
+        @Volatile internal var instance: HomeButtonService? = null
         val AMAZON_HOME_PACKAGES = setOf("com.amazon.tv.launcher")
 
         /**

@@ -69,6 +69,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AttuneTV" />
 
+        <!-- ADB companion bridge: DUMP is a system/shell permission, unavailable to regular apps. -->
+        <receiver android:name=".CompanionReceiver" android:exported="true"
+            android:permission="android.permission.DUMP">
+            <intent-filter><action android:name="com.attunetv.launcher.COMPANION" /></intent-filter>
+        </receiver>
+
         <receiver
             android:name=".BootReceiver"
             android:exported="true">

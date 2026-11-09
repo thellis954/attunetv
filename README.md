@@ -41,6 +41,10 @@ App art is placeholder; on the TV each app's own banner appears.*
   → skips to the next photo; any other button exits.
 
 **Quick actions**
+- **Viewing companion (0.4.0 preview)**: a passive AI answer panel for verified streaming
+  apps, controlled from your phone. It uses ChatGPT account sign-in through a local Mac
+  companion. The Mac must remain running; movie/show context may need manual entry.
+  See [setup, support gates and limitations](companion/README.md).
 - **Inputs**: switch to HDMI or antenna inputs, or jump to Amazon's Live TV.
 - **Set up from your phone**: Settings shows a QR code. Scan it on the same Wi-Fi to edit location, calendars,
   favorites, hidden apps, theme, and more from your phone, with no typing on the remote.
@@ -55,12 +59,15 @@ Fire OS doesn't let you choose a default home app, and on Fire OS 8, disabling A
 launcher over ADB breaks Settings and profiles. Projects like Home on Fire and
 LauncherHijack work around this instead. AttuneTV does the same:
 
-`HomeButtonService` is an accessibility service that listens **only** for window changes
-from `com.amazon.tv.launcher`. It redirects only the two known Amazon Home activity
+`HomeButtonService` is an accessibility service that normally listens only for window changes
+from `com.amazon.tv.launcher`. While the viewing companion is visible it also observes
+package-name window changes to dismiss that panel when you leave the streaming app;
+it immediately returns to the Amazon-only event filter when the panel closes.
+It redirects only the two known Amazon Home activity
 classes (`HomeActivity` and `HomeActivity_vNext`), leaving search, settings, profile
 pickers and dialogs alone. When Amazon's home screen comes up, the service brings
 AttuneTV back on top. It can't read screen content (`canRetrieveWindowContent=false`),
-and it ignores every other app.
+and never reads streaming screen content or intercepts remote keys.
 
 You'll see Amazon's home screen for a split second before AttuneTV appears. That's
 expected with this approach.
