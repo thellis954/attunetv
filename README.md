@@ -28,6 +28,9 @@ App art is placeholder; on the TV each app's own banner appears.*
 - **☰ Menu (or long-press OK) on any tile** opens a smoked-glass menu: Open, Pin/Unpin, Move, Hide, App info.
   The Inputs list and Settings confirmations use the same glass menu. Move mode: arrows, then OK.
 - Round glass buttons: **Inputs** (HDMI/antenna), **Ambient**, **Settings**.
+- **Search** is labelled on Home; press Up from the dock to reach it. Filter installed
+  apps by name, or choose **Movies & TV shows** to open Fire TV's catalogue search.
+  Film/TV results and service availability come from Amazon; app results are local.
 
 **Widgets**
 - **Weather** (Open-Meteo, no account or API key): current temperature, conditions, today's high/low, rain chance.
@@ -53,7 +56,9 @@ launcher over ADB breaks Settings and profiles. Projects like Home on Fire and
 LauncherHijack work around this instead. AttuneTV does the same:
 
 `HomeButtonService` is an accessibility service that listens **only** for window changes
-from `com.amazon.tv.launcher`. When Amazon's home screen comes up, the service brings
+from `com.amazon.tv.launcher`. It redirects only the two known Amazon Home activity
+classes (`HomeActivity` and `HomeActivity_vNext`), leaving search, settings, profile
+pickers and dialogs alone. When Amazon's home screen comes up, the service brings
 AttuneTV back on top. It can't read screen content (`canRetrieveWindowContent=false`),
 and it ignores every other app.
 
@@ -107,9 +112,12 @@ Or flip **Settings → Redirect Home button** off inside AttuneTV.
 
 - **Amazon updates can turn the accessibility service off.** If Home starts going to
   Amazon again, run the `settings put` command again. AttuneTV shows a "not set up" banner when the service is off.
-- **The profile picker passes through.** Amazon screens whose class names contain
-  `Dialog`, `Toast`, or `Profile` are not redirected (see `PASSTHROUGH_CLASS_HINTS` in
-  `HomeButtonService.kt`). Settings shows the last Amazon screen class it saw, which makes it easy to add more.
+- **Search and other Amazon screens pass through.** See `HomeRedirectPolicy.kt` for
+  the Home activity allowlist. Settings shows the last Amazon screen class it saw.
+  A future Fire OS release may need another Home class added to this list.
+- **Movie/TV search uses a Fire TV navigation link** verified on this Insignia. It
+  needs Amazon's launcher installed. If a future Fire OS removes that link, use
+  the remote's Alexa search while the integration is updated.
 - **Live TV / antenna input** on Insignia TVs lives in Amazon's UI. Use
   "Open Amazon home", or pin your input app if one shows up in the grid.
 - **The release build is signed with the debug key** so the CI artifact installs on your
@@ -120,6 +128,7 @@ Or flip **Settings → Redirect Home button** off inside AttuneTV.
 ```
 app/src/main/java/com/attunetv/launcher/
   HomeActivity.kt       home screen: favorites row, app grid, menus, move mode
+  SearchActivity.kt     installed-app filtering and Fire TV movie/show search
   SettingsActivity.kt   toggles, theme, shortcuts, reset
   HomeButtonService.kt  Home-button redirect (accessibility service)
   AppRepository.kt      app discovery (leanback first, then phone launchers)

@@ -69,6 +69,10 @@
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_gravity="top|end" android:layout_marginTop="28dp" android:layout_marginEnd="@dimen/gutter"
             android:orientation="horizontal">
+            <Button android:id="@+id/btn_search" style="@style/Pill"
+                android:layout_width="124dp" android:layout_height="40dp"
+                android:text="@string/search" android:drawableStart="@drawable/ic_search"
+                android:drawableTint="@color/pill_text" android:drawablePadding="10dp" />
             <ImageButton android:id="@+id/btn_inputs" style="@style/RoundButton" android:contentDescription="@string/inputs"
                 android:src="@drawable/ic_input" />
             <ImageButton android:id="@+id/btn_ambient" style="@style/RoundButton" android:contentDescription="@string/ambient"

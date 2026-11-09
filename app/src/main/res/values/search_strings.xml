@@ -1,0 +1,12 @@
+<resources>
+    <string name="search">Search</string>
+    <string name="search_scope">Movies, TV shows &amp; apps</string>
+    <string name="search_description">Find an app on this TV, or explore movies and shows with Fire TV search.</string>
+    <string name="search_apps_hint">Search installed apps</string>
+    <string name="search_movies">Movies &amp; TV shows →</string>
+    <string name="search_catalogue_hint">Opens Fire TV search · availability varies by service</string>
+    <string name="search_apps_count">APPS ON THIS TV · %1$d</string>
+    <string name="search_empty">No matching apps. Try another name, or choose Movies &amp; TV shows.</string>
+    <string name="search_unavailable">Fire TV search is unavailable on this device. Use the remote’s Alexa button to search for a title.</string>
+    <string name="search_hint">Select an app to open · Back to Home</string>
+</resources>

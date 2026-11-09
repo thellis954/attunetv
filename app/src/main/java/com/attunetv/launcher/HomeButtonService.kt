@@ -24,6 +24,7 @@ class HomeButtonService : AccessibilityService() {
 
         val cls = event.className?.toString().orEmpty()
         lastSeenClass = cls
+        if (!HomeRedirectPolicy.isHome(pkg, cls)) return
 
         val now = SystemClock.elapsedRealtime()
         if (now < bypassUntil) return

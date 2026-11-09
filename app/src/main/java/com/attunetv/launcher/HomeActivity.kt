@@ -130,6 +130,12 @@ class HomeActivity : TvActivity() {
         findViewById<View>(R.id.btn_settings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
         findViewById<View>(R.id.btn_ambient).setOnClickListener { startActivity(Intent(this, AmbientActivity::class.java)) }
         findViewById<View>(R.id.btn_inputs).setOnClickListener { showInputs() }
+        findViewById<View>(R.id.btn_search).apply {
+            setOnClickListener { startActivity(Intent(this@HomeActivity, SearchActivity::class.java)) }
+            setOnFocusChangeListener { _, focused ->
+                if (focused) { focusTitle.setText(R.string.search); focusSub.setText(R.string.search_scope) }
+            }
+        }
         banner.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         registerReceiver(packageReceiver, IntentFilter().apply {
@@ -453,12 +459,19 @@ class HomeActivity : TvActivity() {
             when (event.keyCode) {
                 KeyEvent.KEYCODE_DPAD_DOWN -> if (!inApps) {
                     val inDock = focus != null && favRow.findContainingItemView(focus) != null
-                    val onTopRow = focus != null && focus.id in listOf(R.id.btn_inputs, R.id.btn_ambient, R.id.btn_settings)
+                    val onTopRow = focus != null && focus.id in listOf(R.id.btn_search, R.id.btn_inputs, R.id.btn_ambient, R.id.btn_settings)
                     if (inDock || (onTopRow && favAdapter.itemCount == 0)) { enterApps(); return true }
+                    if (onTopRow) { focusDock(lastDockIndex); return true }
                 }
                 KeyEvent.KEYCODE_DPAD_UP -> if (inApps) {
                     val pos = gridPositionOf(focus)
                     if (pos in 0 until gridLayout.spanCount) { exitApps(); return true }
+                } else if (focus != null && favRow.findContainingItemView(focus) != null) {
+                    findViewById<View>(R.id.btn_search).requestFocus()
+                    return true
+                }
+                KeyEvent.KEYCODE_SEARCH -> {
+                    startActivity(Intent(this, SearchActivity::class.java)); return true
                 }
             }
         }

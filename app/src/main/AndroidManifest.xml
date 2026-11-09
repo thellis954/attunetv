@@ -54,6 +54,9 @@
             android:label="@string/settings_title"
             android:screenOrientation="landscape" />
 
+        <activity android:name=".SearchActivity" android:exported="false"
+            android:screenOrientation="landscape" android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
+
         <activity
             android:name=".PhoneSetupActivity"
             android:exported="false"
