@@ -3,6 +3,7 @@
     android:accessibilityEventTypes="typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:canRetrieveWindowContent="false"
+    android:canRequestFilterKeyEvents="true"
     android:description="@string/service_description"
     android:notificationTimeout="0"
     android:packageNames="com.amazon.tv.launcher" />

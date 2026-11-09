@@ -1,5 +1,0 @@
-{
-  "enabledPackages": [],
-  "note": "Providers are enabled only after TV overlay verification. Playback title detection is independent and may require manual entry.",
-  "tested": {}
-}

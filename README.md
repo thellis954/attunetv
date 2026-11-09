@@ -41,10 +41,11 @@ App art is placeholder; on the TV each app's own banner appears.*
   → skips to the next photo; any other button exits.
 
 **Quick actions**
-- **Viewing companion (0.4.0 preview)**: a passive AI answer panel for verified streaming
-  apps, controlled from your phone. It uses ChatGPT account sign-in through a local Mac
-  companion. The Mac must remain running; movie/show context may need manual entry.
-  See [setup, support gates and limitations](companion/README.md).
+- **Ask with AttuneTV (0.4.1 native preview)**: ChatGPT account connection, requests,
+  conversation and an interactive overlay all run on the TV. There is no Mac, PC,
+  phone, hosted proxy or ongoing ADB requirement. Home's **Ask** button opens setup.
+  Streaming integrations remain gated until device verification; a native panel
+  preview is available in setup. See [standalone architecture and verification status](docs/standalone-chat.md).
 - **Inputs**: switch to HDMI or antenna inputs, or jump to Amazon's Live TV.
 - **Set up from your phone**: Settings shows a QR code. Scan it on the same Wi-Fi to edit location, calendars,
   favorites, hidden apps, theme, and more from your phone, with no typing on the remote.
@@ -59,15 +60,19 @@ Fire OS doesn't let you choose a default home app, and on Fire OS 8, disabling A
 launcher over ADB breaks Settings and profiles. Projects like Home on Fire and
 LauncherHijack work around this instead. AttuneTV does the same:
 
-`HomeButtonService` is an accessibility service that normally listens only for window changes
-from `com.amazon.tv.launcher`. While the viewing companion is visible it also observes
-package-name window changes to dismiss that panel when you leave the streaming app;
-it immediately returns to the Amazon-only event filter when the panel closes.
+`HomeButtonService` normally listens only for window changes from `com.amazon.tv.launcher`.
+When the user enables the chat shortcut for verified streaming integrations, it also
+observes package names and Menu-key duration to open the native panel. It does not
+swallow or replay the streaming app's Menu sequence. Back closes a focused chat panel.
+Package changes dismiss the panel when leaving the app. With chat disabled and no panel
+open, it returns to the original Amazon-only window event filter and disables key filtering.
 It redirects only the two known Amazon Home activity
 classes (`HomeActivity` and `HomeActivity_vNext`), leaving search, settings, profile
 pickers and dialogs alone. When Amazon's home screen comes up, the service brings
 AttuneTV back on top. It can't read screen content (`canRetrieveWindowContent=false`),
-and never reads streaming screen content or intercepts remote keys.
+and never reads streaming screen content. Optional Android notification-listener access
+allows the separate playback-context module to query MediaSession metadata; no notification
+content is read or sent to OpenAI. Chat works with manual titles when access is unavailable.
 
 You'll see Amazon's home screen for a split second before AttuneTV appears. That's
 expected with this approach.

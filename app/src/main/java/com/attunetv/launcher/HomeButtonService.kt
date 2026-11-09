@@ -1,12 +1,16 @@
 package com.attunetv.launcher
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.provider.Settings
 import android.view.accessibility.AccessibilityEvent
+import android.view.KeyEvent
+import android.os.Handler
+import android.os.Looper
 
 /**
  * Fire OS doesn't let you pick a default home app. This service watches for Amazon's
@@ -15,24 +19,47 @@ import android.view.accessibility.AccessibilityEvent
  */
 class HomeButtonService : AccessibilityService() {
 
-    internal val companion by lazy { CompanionOverlay(this) }
+    private val nativePanelDelegate = lazy { NativeChatPanel(this) }
+    internal val nativePanel by nativePanelDelegate
+    private var foregroundPackage: String? = null
+    private var menuDown = 0L
 
     override fun onServiceConnected() {
         super.onServiceConnected()
         instance = this
+        watchCompanionWindows(false)
     }
 
-    /** Observe package names only while a panel is visible, to remove it on app switches.
-     * Never enable window-content retrieval, key filtering, or spoken feedback. */
+    /** Native chat only observes app identity/hold-Menu when the user enables it.
+     * Screen-content retrieval and spoken feedback remain off. */
     internal fun watchCompanionWindows(watch: Boolean) {
         serviceInfo?.let { info ->
-            info.packageNames = if (watch) null else AMAZON_HOME_PACKAGES.toTypedArray()
+            val enabled = getSharedPreferences("native-chat",MODE_PRIVATE).getBoolean("enabled",false) && StreamingSupport.verifiedPackages.isNotEmpty()
+            val open = watch || (nativePanelDelegate.isInitialized() && nativePanel.isShowing)
+            info.packageNames = if (open || enabled) null else AMAZON_HOME_PACKAGES.toTypedArray()
+            info.flags = if(enabled) info.flags or AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
+                else info.flags and AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS.inv()
             serviceInfo = info
         }
     }
 
+    override fun onKeyEvent(event: KeyEvent): Boolean {
+        // Observe the complete sequence without swallowing or replaying the player's Menu key.
+        if(event.keyCode==KeyEvent.KEYCODE_MENU && StreamingSupport.supported(foregroundPackage)) {
+            if(event.action==KeyEvent.ACTION_DOWN && event.repeatCount==0) menuDown=event.eventTime
+            if(event.action==KeyEvent.ACTION_UP && menuDown>0) {
+                val held=event.eventTime-menuDown;menuDown=0
+                val pkg=foregroundPackage
+                if(held>=650 && pkg!=null) Handler(Looper.getMainLooper()).postDelayed({
+                    if(foregroundPackage==pkg)nativePanel.show(pkg)
+                },100)
+            }
+        }
+        return false
+    }
+
     override fun onDestroy() {
-        companion.hide()
+        if(nativePanelDelegate.isInitialized())nativePanel.hide()
         instance = null
         super.onDestroy()
     }
@@ -42,7 +69,11 @@ class HomeButtonService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event?.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
         val pkg = event.packageName?.toString() ?: return
-        companion.onWindow(pkg)
+        if(nativePanelDelegate.isInitialized())nativePanel.onWindow(pkg)
+        if(!(nativePanelDelegate.isInitialized() && nativePanel.isShowing)) {
+            if(foregroundPackage!=pkg)menuDown=0
+            foregroundPackage=pkg
+        }
         if (pkg !in AMAZON_HOME_PACKAGES) return
 
         val cls = event.className?.toString().orEmpty()

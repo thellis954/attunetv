@@ -12,8 +12,8 @@ android {
         applicationId = "com.attunetv.launcher"
         minSdk = 25          // Fire OS 6+
         targetSdk = 34
-        versionCode = 8
-        versionName = "0.4.0"
+        versionCode = 9
+        versionName = "0.4.1"
     }
 
     buildTypes {

@@ -11,6 +11,7 @@
 
     <!-- See every launchable app (Android 11+ package visibility). -->
     <queries>
+        <intent><action android:name="android.intent.action.VIEW" /><data android:scheme="https" /></intent>
         <intent>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
@@ -56,6 +57,8 @@
 
         <activity android:name=".SearchActivity" android:exported="false"
             android:screenOrientation="landscape" android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
+        <activity android:name=".ChatSettingsActivity" android:exported="false"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".PhoneSetupActivity"
@@ -68,12 +71,6 @@
             android:excludeFromRecents="true"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AttuneTV" />
-
-        <!-- ADB companion bridge: DUMP is a system/shell permission, unavailable to regular apps. -->
-        <receiver android:name=".CompanionReceiver" android:exported="true"
-            android:permission="android.permission.DUMP">
-            <intent-filter><action android:name="com.attunetv.launcher.COMPANION" /></intent-filter>
-        </receiver>
 
         <receiver
             android:name=".BootReceiver"
@@ -94,6 +91,10 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/home_button_service" />
+        </service>
+        <service android:name=".PlaybackMetadataService" android:label="AttuneTV playback metadata"
+            android:exported="true" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter><action android:name="android.service.notification.NotificationListenerService" /></intent-filter>
         </service>
     </application>
 </manifest>

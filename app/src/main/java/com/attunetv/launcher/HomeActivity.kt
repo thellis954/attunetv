@@ -136,6 +136,10 @@ class HomeActivity : TvActivity() {
                 if (focused) { focusTitle.setText(R.string.search); focusSub.setText(R.string.search_scope) }
             }
         }
+        findViewById<View>(R.id.btn_chat).apply {
+            setOnClickListener { startActivity(Intent(this@HomeActivity,ChatSettingsActivity::class.java)) }
+            setOnFocusChangeListener { _,focused -> if(focused) {focusTitle.text="Ask with AttuneTV";focusSub.text="ChatGPT on your TV"} }
+        }
         banner.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         registerReceiver(packageReceiver, IntentFilter().apply {
@@ -459,7 +463,7 @@ class HomeActivity : TvActivity() {
             when (event.keyCode) {
                 KeyEvent.KEYCODE_DPAD_DOWN -> if (!inApps) {
                     val inDock = focus != null && favRow.findContainingItemView(focus) != null
-                    val onTopRow = focus != null && focus.id in listOf(R.id.btn_search, R.id.btn_inputs, R.id.btn_ambient, R.id.btn_settings)
+                    val onTopRow = focus != null && focus.id in listOf(R.id.btn_search, R.id.btn_chat, R.id.btn_inputs, R.id.btn_ambient, R.id.btn_settings)
                     if (inDock || (onTopRow && favAdapter.itemCount == 0)) { enterApps(); return true }
                     if (onTopRow) { focusDock(lastDockIndex); return true }
                 }
