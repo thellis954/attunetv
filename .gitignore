@@ -8,4 +8,9 @@ local.properties
 captures/
 node_modules/
 *.keystore
-!debug.keystore
+*.jks
+*.p12
+*.pfx
+release-output/
+release-input/
+__pycache__/

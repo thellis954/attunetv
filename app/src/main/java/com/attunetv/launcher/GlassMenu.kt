@@ -2,6 +2,7 @@ package com.attunetv.launcher
 
 import android.app.Activity
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +61,7 @@ class GlassMenu(private val activity: Activity) {
             text = title
             textSize = 20f
             setTextColor(0xFFFFFFFF.toInt())
-            fontVariationSettings = "'wght' 620"
+            if (Build.VERSION.SDK_INT >= 26) fontVariationSettings = "'wght' 620"
             maxLines = 1
             setPadding((14 * d).toInt(), 0, (14 * d).toInt(), 0)
         })
@@ -68,7 +69,7 @@ class GlassMenu(private val activity: Activity) {
             text = subtitle
             textSize = 12f
             setTextColor(0xB3FFFFFF.toInt())
-            fontVariationSettings = "'wght' 500"
+            if (Build.VERSION.SDK_INT >= 26) fontVariationSettings = "'wght' 500"
             setPadding((14 * d).toInt(), (2 * d).toInt(), (14 * d).toInt(), 0)
         })
         panel.addView(View(activity), LinearLayout.LayoutParams(1, (10 * d).toInt()))
@@ -79,7 +80,7 @@ class GlassMenu(private val activity: Activity) {
                 text = item.label
                 isAllCaps = false
                 textSize = 15f
-                fontVariationSettings = "'wght' 560"
+                if (Build.VERSION.SDK_INT >= 26) fontVariationSettings = "'wght' 560"
                 gravity = Gravity.CENTER_VERTICAL or Gravity.START
                 stateListAnimator = null
                 minHeight = 0; minimumHeight = 0

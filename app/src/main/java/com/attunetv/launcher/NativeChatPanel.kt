@@ -31,7 +31,7 @@ class NativeChatPanel(private val service: HomeButtonService) {
     val isShowing get() = panel != null
     private fun dp(n:Int)=(n*context.resources.displayMetrics.density).toInt()
     private fun label(value:String,size:Float)=TextView(context).apply {text=value;textSize=size;setTextColor(Color.WHITE)}
-    private fun button(value:String,action:()->Unit)=Button(context).apply {
+    private fun button(value:String,action:()->Unit)=ChatUi.style(Button(context)).apply {
         text=value;isAllCaps=false;textSize=13f;setOnClickListener { touch();action() }
         setOnFocusChangeListener { _,focused -> if(focused)touch() }
     }

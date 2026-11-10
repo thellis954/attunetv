@@ -52,7 +52,7 @@ On Windows PowerShell, use `./gradlew.bat assembleRelease testDebugUnitTest`. Fo
 
 **Test report:** `app/build/reports/tests/testDebugUnitTest/index.html`
 
-Install with the [device guide](docs/install.md). CI currently builds the APK on pushes and pull requests; **the Build APK badge is not a unit-test result**. Run the tests locally before opening a PR.
+Local builds use your development key and carry a `-dev` version suffix. They are for development, not a replacement for the officially signed download. CI builds, tests and lints pushes and pull requests; its APK artifact is named `AttuneTV-development-apk`. Run checks locally before opening a PR. For normal installation and updates, use the [official APK](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk).
 
 ## Find your way around
 
@@ -103,6 +103,8 @@ Good places to contribute:
 
 ## Distribution notes
 
-The current `release` build uses the Android **debug signing configuration**. Local builds and fresh CI runners can produce different signing certificates. A stable release-signing process is needed before smooth public update distribution; never check a private keystore into Git.
+Official tagged releases are built with `-Pdistribution=true`, which produces an unsigned, non-debuggable APK. A separate release job signs it using the protected signing identity after tests and lint pass. No release secrets are supplied to Gradle or pull-request builds. Local/ordinary CI builds use a development key and `-dev` suffix.
+
+See [Publishing a release](docs/releasing.md) for the tag workflow, certificate pin, secret configuration, backup requirements and update-compatibility checks. Never commit a private keystore or password.
 
 This repository currently has **no declared license**. Do not assume MIT or another reuse license; ask the maintainer before redistribution or incorporating the code into another product.

@@ -10,5 +10,6 @@ object StreamingSupport {
     // Native panel focus/IME/Back and playback must be verified per app on a real TV.
     // Mac-prototype compatibility does not qualify an app for this release list.
     val verifiedPackages: Set<String> = emptySet()
-    fun supported(pkg: String?) = pkg != null && pkg in verifiedPackages && pkg in candidates
+    val activePackages: Set<String> get() = if(BuildConfig.STREAMING_VERIFICATION) candidates.keys else verifiedPackages
+    fun supported(pkg: String?) = pkg != null && pkg in activePackages && pkg in candidates
 }

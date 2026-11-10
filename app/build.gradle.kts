@@ -4,6 +4,12 @@ plugins {
     id("app.cash.paparazzi")
 }
 
+// Public releases are built unsigned, then signed in the protected release job.
+// Gradle and pull-request builds never receive the release private key.
+val distribution = providers.gradleProperty("distribution").orNull == "true"
+val verifying = providers.gradleProperty("streamingVerification").orNull == "true"
+require(!(distribution && verifying)) { "Verification builds cannot be distributed as releases." }
+
 android {
     namespace = "com.attunetv.launcher"
     compileSdk = 35
@@ -12,17 +18,19 @@ android {
         applicationId = "com.attunetv.launcher"
         minSdk = 25          // Fire OS 6+
         targetSdk = 34
-        versionCode = 9
-        versionName = "0.4.1"
+        versionCode = 10
+        versionName = "0.4.2"
+        buildConfigField("boolean", "STREAMING_VERIFICATION", verifying.toString())
+        if (verifying) versionNameSuffix = "-verify"
+        else if (!distribution) versionNameSuffix = "-dev"
     }
+    buildFeatures { buildConfig = true }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // Signed with the debug key so CI artifacts install without extra setup.
-            // Swap in a real signingConfig before distributing beyond your own TVs.
-            signingConfig = signingConfigs.getByName("debug")
+            if (!distribution) signingConfig = signingConfigs.getByName("debug")
         }
     }
 

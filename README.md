@@ -8,7 +8,7 @@ A cinematic, ad-free home screen for Fire TV.<br>Your favorite apps. A fresh vie
 
 [![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) ![Platform: Fire TV](https://img.shields.io/badge/Fire_TV-Android_7.1%2B-152d39?style=flat-square) ![Built with Kotlin](https://img.shields.io/badge/Built_with-Kotlin-7f52ff?style=flat-square) ![Status: Early preview](https://img.shields.io/badge/Status-Early_preview-cce9df?style=flat-square&labelColor=243f39)
 
-**[Get started](docs/install.md)** · **[Download a build](https://github.com/thellis954/attunetv/actions/workflows/build.yml?query=branch%3Aclaude%2Fblissful-hypatia-4dfwls+event%3Apush)** · **[Build & contribute](CONTRIBUTING.md)** · **[Report a bug](https://github.com/thellis954/attunetv/issues/new)**
+**[Get started](docs/install.md)** · **[Download APK](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk)** · **[Build & contribute](CONTRIBUTING.md)** · **[Report a bug](https://github.com/thellis954/attunetv/issues/new)**
 
 ![AttuneTV running on a Fire TV: a full-screen evening photograph, large clock, Search and Ask buttons, and a glass dock with Netflix, Disney+, HBO Max, Hulu and Apple TV.](docs/images/home-fire-tv.png)
 
@@ -44,7 +44,7 @@ AttuneTV replaces the Fire TV home experience with a fast, remote-friendly launc
 
 **You don't need to be a developer.** You need a compatible Fire TV, its remote and a Mac, Windows or Linux computer for the one-time installation. After setup, the launcher runs on the TV; the computer can be shut down.
 
-1. **Download the app.** Get the latest successful `AttuneTV-apk` build from GitHub Actions and unzip it. A free GitHub account is required for this download.
+1. **[Download AttuneTV.apk](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk).** No GitHub account, source-code download or build tools required. [Release notes & checksums](https://github.com/thellis954/attunetv/releases/latest).
 2. **Connect to your TV.** Put the computer and TV on the same Wi-Fi, enable ADB debugging and approve the connection with your remote.
 3. **Install and make it Home.** Follow the copy-and-paste steps, then personalize it with your phone.
 
@@ -52,7 +52,7 @@ AttuneTV replaces the Fire TV home experience with a fast, remote-friendly launc
 
 The guide includes **Mac, Windows and Linux instructions**, expected results, updates, troubleshooting and how to go back. No Android Studio or coding required to install a prebuilt APK.
 
-> **Early preview:** the launcher has been tested on an Insignia NS65-UQFL26 with Fire OS 8.1.6.4. Other Android-based Fire TVs are unverified. There is no one-click installer or app-store release yet. Builds currently use development signing keys, so updates from different build sources can require extra care. [Compatibility & update details](docs/install.md#before-you-start).
+> **Early preview:** the launcher has been tested on an Insignia NS65-UQFL26 with Fire OS 8.1.6.4. Other Android-based Fire TVs are unverified. The APK is sideloaded; there is no app-store or one-click installer yet. Official releases share a consistent signing key for updates. Earlier development builds may need special handling. [Compatibility & update details](docs/install.md#before-you-start).
 
 ## Meet Ask with AttuneTV
 

@@ -34,7 +34,7 @@ class HomeButtonService : AccessibilityService() {
      * Screen-content retrieval and spoken feedback remain off. */
     internal fun watchCompanionWindows(watch: Boolean) {
         serviceInfo?.let { info ->
-            val enabled = getSharedPreferences("native-chat",MODE_PRIVATE).getBoolean("enabled",false) && StreamingSupport.verifiedPackages.isNotEmpty()
+            val enabled = getSharedPreferences("native-chat",MODE_PRIVATE).getBoolean("enabled",false) && StreamingSupport.activePackages.isNotEmpty()
             val open = watch || (nativePanelDelegate.isInitialized() && nativePanel.isShowing)
             info.packageNames = if (open || enabled) null else AMAZON_HOME_PACKAGES.toTypedArray()
             info.flags = if(enabled) info.flags or AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS

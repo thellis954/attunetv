@@ -1,20 +1,20 @@
 <resources>
-    <style name="Theme.AttuneTV" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <style name="BaseAttuneTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@color/bg</item>
         <item name="android:windowShowWallpaper">false</item>
         <item name="android:colorAccent">@color/accent</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:fontFamily">@font/manrope</item>
-        <item name="android:defaultFocusHighlightEnabled">false</item>
     </style>
-    <style name="SectionLabel">
+    <style name="Theme.AttuneTV" parent="BaseAttuneTheme" />
+    <style name="BaseSectionLabel">
         <item name="android:textColor">@color/text_dim</item>
         <item name="android:textSize">10.5sp</item>
         <item name="android:letterSpacing">0.2</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:fontVariationSettings">\'wght\' 650</item>
     </style>
-    <style name="RoundButton">
+    <style name="SectionLabel" parent="BaseSectionLabel" />
+    <style name="BaseRoundButton">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_marginStart">10dp</item>
@@ -22,8 +22,8 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:focusable">true</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:defaultFocusHighlightEnabled">false</item>
     </style>
+    <style name="RoundButton" parent="BaseRoundButton" />
     <style name="Chip">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">28dp</item>

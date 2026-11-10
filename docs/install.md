@@ -9,22 +9,26 @@ You do not need to write code or install Android Studio. This guide uses a small
 Have these ready:
 
 - An **Android-based Fire TV**, its remote and a Mac, Windows or Linux computer on the **same home network**.
-- A free GitHub account to download the current preview build.
+- Internet access to download the APK and ADB. **No GitHub account is needed.**
 - A few minutes when nobody is watching the TV.
 
 **Tested device:** Insignia NS65-UQFL26, Fire OS 8.1.6.4. The app requires Android 7.1 or newer; that minimum is not a guarantee of launcher compatibility on every Fire OS version. Non-Android Fire TV devices cannot run this APK. Other models and firmware versions need testing.
 
-**Preview distribution:** downloads currently come from GitHub Actions, not an app store or a tagged release. They use development signing keys. Builds from different computers or fresh CI runs may have different keys, which can prevent an in-place update. Keep your previous APK and note which build you installed. Do not uninstall to fix an update error without first reading [Updating](#updating).
+**Official releases use a consistent signing identity.** Keep using the official release APK for future updates. If you installed an earlier development or CI build, its signing key may differ; read [Updating](#updating) before replacing it.
 
 ## 1. Download the app and ADB
 
-1. Sign in to GitHub and open [AttuneTV's Build APK workflow](https://github.com/thellis954/attunetv/actions/workflows/build.yml?query=branch%3Aclaude%2Fblissful-hypatia-4dfwls+event%3Apush).
-2. Open the **newest successful push run** on `claude/blissful-hypatia-4dfwls` (green check). Scroll to **Artifacts** and download **AttuneTV-apk**. [GitHub's artifact download guide](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
-3. Unzip the download. The app is named **`app-release.apk`**. Do not download the repository's “Source code ZIP” for this route.
-4. Download [Android SDK Platform-Tools for your computer](https://developer.android.com/tools/releases/platform-tools) from Google and unzip it. This is ADB; you do not need the full Android SDK.
-5. Move **`app-release.apk` into the extracted `platform-tools` folder**. Keep the folder open.
+1. **[Download AttuneTV.apk](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk)** to your computer. This is the installable app; no login, source-code ZIP or build step is needed.
+2. Optionally read the [release notes](https://github.com/thellis954/attunetv/releases/latest). The same page includes `SHA256SUMS.txt` and `release-info.json` so you can check the file, app version and source commit.
+3. Download [Android SDK Platform-Tools for your computer](https://developer.android.com/tools/releases/platform-tools) from Google and unzip it. This is ADB; you do not need the full Android SDK.
+4. Move **`AttuneTV.apk` into the extracted `platform-tools` folder**. Keep the folder open.
 
-An expired artifact cannot be downloaded. Use a newer successful run or [build from source](../CONTRIBUTING.md).
+<details>
+<summary><strong>Optional: check the APK download</strong></summary>
+
+Download `SHA256SUMS.txt` from the same release. On Mac, run `shasum -a 256 AttuneTV.apk`; on Linux, run `sha256sum AttuneTV.apk`; on Windows PowerShell, run `Get-FileHash .\AttuneTV.apk -Algorithm SHA256`. Compare the result with the checksum file. The release metadata also records the signing certificate and source commit.
+
+</details>
 
 ## 2. Prepare your TV
 
@@ -61,7 +65,7 @@ tv="192.168.1.50:5555"
 Your TV must show **`device`**, not `unauthorized` or `offline`. If it does, install:
 
 ```bash
-./adb -s "$tv" install -r app-release.apk
+./adb -s "$tv" install -r AttuneTV.apk
 ```
 
 Wait for **`Success`**, then open AttuneTV:
@@ -93,7 +97,7 @@ $tv = "192.168.1.50:5555"
 Your TV must show **`device`**, not `unauthorized` or `offline`. If it does, install:
 
 ```powershell
-.\adb.exe -s $tv install -r app-release.apk
+.\adb.exe -s $tv install -r AttuneTV.apk
 ```
 
 Wait for **`Success`**, then open AttuneTV:
@@ -172,7 +176,7 @@ Paste an iCal/ICS subscription link into phone setup, one per line. Use your cal
 
 ## Updating
 
-Download a newer APK, put it in `platform-tools`, reconnect using Step 3 and run the same **`install -r`** command. An update signed with the same key preserves app data. Open AttuneTV again and press Home.
+Download a newer APK, put it in `platform-tools`, reconnect using Step 3 and run the same **`install -r`** command. Official release updates share the pinned signing key and preserve app data. Open AttuneTV again and press Home.
 
 To confirm what is actually installed, use the same shell command as Step 4, then run:
 
@@ -181,7 +185,7 @@ dumpsys package com.attunetv.launcher | grep versionName
 exit
 ```
 
-If the error says **`INSTALL_FAILED_UPDATE_INCOMPATIBLE`**, the signing key may differ. Stop: uninstalling would erase AttuneTV preferences and its saved ChatGPT connection. Prefer a build signed with the same key. If you deliberately choose to start over, note your settings first, use the removal instructions below and install again. Do not uninstall Amazon apps to solve this.
+If the error says **`INSTALL_FAILED_UPDATE_INCOMPATIBLE`**, the signing key may differ. Stop: uninstalling would erase AttuneTV preferences and its saved ChatGPT connection. Official releases match the original maintainer-installed 0.4.1 signing identity, but not every early CI or locally built APK. Prefer a build signed with the same key. If you deliberately choose to start over, note your settings first, use the removal instructions below and install again. Do not uninstall Amazon apps to solve this.
 
 ## Go back or uninstall
 
@@ -227,7 +231,7 @@ Then uninstall from the **computer** terminal. This deletes AttuneTV's own data:
 
 | What you see | What to do |
 | --- | --- |
-| Artifact is missing or cannot be downloaded | Sign in to GitHub, select a successful **push** build on the correct branch and look under **Artifacts**. Older artifacts expire. |
+| Download link does not work | Open the [Releases page](https://github.com/thellis954/attunetv/releases), expand the newest release’s **Assets** and choose `AttuneTV.apk`. A GitHub account is not required. |
 | `adb` not found | Open your terminal in the extracted `platform-tools` folder. Use `./adb` on Mac/Linux or `.\adb.exe` on Windows. |
 | Cannot connect / connection refused | Recheck the TV's IP, ADB Debugging and shared network. Guest-network isolation or a VPN can prevent the connection. |
 | `unauthorized` | Approve the debugging prompt on the TV. Do not continue until `adb devices` shows `device`. |

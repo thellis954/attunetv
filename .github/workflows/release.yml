@@ -1,0 +1,110 @@
+name: Publish APK
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require a version tag on the project branch
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          git merge-base --is-ancestor HEAD origin/claude/blissful-hypatia-4dfwls
+          test -f "docs/releases/$RELEASE_TAG.md"
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+      - name: Build unsigned distribution, test and lint
+        run: ./gradlew clean assembleRelease testDebugUnitTest lintRelease -Pdistribution=true --no-daemon
+      - name: Collect verified build inputs
+        run: |
+          mkdir release-input
+          cp app/build/outputs/apk/release/app-release-unsigned.apk release-input/
+          cp -R app/build/test-results/testDebugUnitTest release-input/test-results
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unsigned-release-input
+          path: release-input/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload test and lint reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-test-reports
+          path: |
+            app/build/reports/tests/
+            app/build/reports/lint-results-release.html
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: unsigned-release-input
+          path: release-input
+      - name: Install signing and inspection tools
+        run: sdkmanager 'build-tools;35.0.0'
+      - name: Sign and verify the release identity
+        env:
+          APK_KEYSTORE_B64: ${{ secrets.APK_KEYSTORE_B64 }}
+          APK_KEYSTORE_PASSWORD: ${{ secrets.APK_KEYSTORE_PASSWORD }}
+          APK_KEY_PASSWORD: ${{ secrets.APK_KEYSTORE_PASSWORD }}
+          APK_KEY_ALIAS: attunetv
+          APK_KEYSTORE_PATH: ${{ runner.temp }}/attunetv-release.p12
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import base64, os
+          from pathlib import Path
+          data = base64.b64decode(os.environ['APK_KEYSTORE_B64'], validate=True)
+          if not data:
+              raise ValueError('Release keystore secret is missing')
+          path = Path(os.environ['APK_KEYSTORE_PATH'])
+          with path.open('xb') as file:
+              os.chmod(path, 0o600)
+              file.write(data)
+          PY
+          python3 scripts/package-release.py \
+            --apk release-input/app-release-unsigned.apk \
+            --test-results release-input/test-results \
+            --tag "$RELEASE_TAG" --commit "$(git rev-parse HEAD)" --sdk "$ANDROID_HOME"
+      - name: Publish a versioned download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python3 scripts/publish-release.py
+      - name: Remove temporary signing material
+        if: always()
+        run: rm -f "$RUNNER_TEMP/attunetv-release.p12"

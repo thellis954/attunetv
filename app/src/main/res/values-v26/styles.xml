@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.AttuneTV" parent="BaseAttuneTheme">
+        <item name="android:defaultFocusHighlightEnabled">false</item>
+    </style>
+    <style name="RoundButton" parent="BaseRoundButton">
+        <item name="android:defaultFocusHighlightEnabled">false</item>
+    </style>
+</resources>
