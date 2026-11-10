@@ -22,6 +22,11 @@ app.use(async (req, res, next) => {
         clientAddress: req => req.headers['x-vercel-forwarded-for'] || req.socket.remoteAddress });
     }
     try { await service.store.ready; } catch { const failed = service; service = undefined; await failed.close().catch(() => {}); throw new Error('Database setup unavailable'); }
+    const canonical = new URL(process.env.PUBLIC_ORIGIN);
+    if (req.headers.host !== canonical.host) {
+      if (req.method === 'GET' || req.method === 'HEAD') return res.redirect(308, canonical.origin + req.originalUrl);
+      return res.status(403).json({ error: 'Open AttuneTV at its original address before submitting.' });
+    }
     service.app(req, res, next);
   } catch { res.status(503).json({ error: 'The conversation service is temporarily unavailable. Please try again.' }); }
 });
