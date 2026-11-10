@@ -1,0 +1,36 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "express",
+  "buildCommand": "npm run build:vercel",
+  "functions": {
+    "server.mjs": {
+      "maxDuration": 120,
+      "includeFiles": "web/**"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(app.js|style.css|config.js|icon.png)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/maintenance",
+      "schedule": "17 6 * * *"
+    }
+  ]
+}

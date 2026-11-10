@@ -83,42 +83,58 @@ services. That targets Tizen 4’s Chromium 56 but does not replace on-device te
 
 The service must run on an always-available host because Samsung suspends the TV
 app when a streaming app opens. This is infrastructure operated for the app;
-viewers do not need a Mac or their own server. This repository does **not** yet
-provide a public hosted companion service.
+viewers do not need a Mac or their own server. The hosted preview deployment is tracked separately from physical Samsung installation.
 
-The root [`render.yaml`](../render.yaml) is a prepared **paid** managed-host option,
-not an activated deployment. It uses Starter compute plus a 1 GB persistent disk
-and Render’s HTTPS URL. Listed base cost checked November 9, 2026: approximately
-**$7.25/month**, before additional usage, taxes or plan changes. Review
-[Render pricing](https://render.com/pricing) and approve the expense before creating
-the service. Automatic deployments are off. `RENDER_EXTERNAL_URL` supplies the
-canonical origin unless `PUBLIC_ORIGIN` is explicitly set for a custom domain.
+The primary hosted target is **Vercel with Neon Postgres through Vercel Marketplace**.
+The serverless entry point is `server.mjs`; Vercel project root is `samsung`,
+Node 24, framework Express, build command `npm run build:vercel`.
 
-For a private pilot, deploy the included Docker Compose stack on a server you
-control with a domain pointing to it and TCP 80/443 available:
+1. Import this repository and select its active branch, with `samsung` as root.
+2. In Vercel Storage, create a Neon database in the same region as the function
+   (this pilot uses Washington, D.C. / `iad1`). Connect it to Production so
+   `DATABASE_URL` is injected automatically. Start with the Free plan if suitable.
+3. Add `ATTUNE_ENCRYPTION_KEY` as a **sensitive production environment variable**:
+   a cryptographically random 32-byte key encoded as 64 hexadecimal characters.
+   Keep it stable across deployments; losing it makes existing data unreadable.
+   Never place it in frontend config, logs or Git.
+4. Add `PUBLIC_ORIGIN` as the exact production HTTPS origin without a trailing
+   slash. It controls pairing links and origin checks. Add a random `CRON_SECRET`
+   for daily retention cleanup. Do not share production secrets with previews.
+5. Deploy, check `/health`, and verify QR pairing on `/tv` and `/phone` before
+   building the TV package with that same service origin.
 
-```sh
-ATTUNE_DOMAIN=your-owned-hostname.example docker compose up -d --build
-```
+Vercel and Neon are subject to their current plan limits. The private pilot uses
+Neon's Free plan; this is not a promise of unlimited free hosting. Provider API
+charges are separate. Review Vercel's plan suitability before a commercial launch.
+Preview deployments intentionally lack production encryption secrets and cannot
+read production conversations. Configure an isolated preview database and key if
+live preview testing is required.
 
-Replace the example with your actual domain. Caddy provides HTTPS. The Node
-service remains internal to Docker networking. Its encryption key and SQLite
-database live in the persistent `companion-data` volume. Protect and back up the
-entire volume; losing the encryption key makes saved data unreadable. Do not
-commit it or print its contents. Only **one service replica** may use this design.
-Do not deploy it as ephemeral Vercel/serverless filesystem storage.
+Production uses pooled Postgres connections, encrypted keys/transcripts,
+transactional pairing/limits/idempotency, and persisted cancellation/deadlines.
+Provider calls run with Vercel `waitUntil`, bounded to 90 seconds inside a
+120-second function. An interrupted invocation becomes a visible error after
+its deadline; it is never automatically billed again by a retry. Requests can
+land on separate instances. The private preview serializes short state changes
+with a database lock; provider calls run outside transactions. This design needs
+load testing before broad public rollout.
 
-Set `PUBLIC_ORIGIN` to the exact HTTPS origin when deploying without Compose.
-Never enable `ATTUNE_LOCAL_DEV` in a public environment. Caddy does not log request
-bodies. If you add hosting observability, redact Authorization/Cookie headers and
-bodies on every `/api` route. The service deliberately avoids logging credentials,
-prompts and provider error bodies.
+Local development and the optional Docker Compose stack retain SQLite. These
+require persistent storage and a single process; **do not use local SQLite or
+`/tmp` for Vercel persistence**. Production uses Postgres exclusively. Run the
+additional real-Postgres integration test with `TEST_DATABASE_URL` pointing to a
+disposable test database. CI supplies one automatically. The test verifies two
+independent instances, concurrent one-use pairing and retries, shared daily
+limits, cancellation, rollback, expiry and erase.
 
-This is a private pilot implementation: 1,000-room capacity, per-process rate
-limits, one phone per TV, fixed provider endpoints and 30-day session/retention
-bounds. Public launch needs deployment-level abuse controls, operational backups,
-privacy/support policy and real device/provider verification. API costs belong to
-each viewer’s connected key; hosting costs belong to the operator.
+Do not enable `ATTUNE_LOCAL_DEV` publicly. Redact Authorization/Cookie headers
+and request bodies on every `/api` route if adding observability. The service
+avoids logging credentials, prompts and provider error bodies. Back up the
+database and encryption key securely with a documented retention policy.
+
+The private pilot has a 1,000-room capacity, shared request limits, one phone per
+TV and 30-day session/retention bounds. Public launch still needs operational
+backups, abuse testing, privacy/support policy and real device/provider checks.
 
 ## Build and install on a Samsung TV
 

@@ -9,7 +9,7 @@ async function fixture(t, provider) {
   const service = createApp({ dbPath: ':memory:', encryptionKey: randomBytes(32), origin, allowLocal: true,
     provider: provider || { models: async () => [{ id: 'fixture-model', name: 'Test model' }], reply: async (a, c, m) => { calls.push({ a, c, m }); return 'Fixture answer for testing only.'; } } });
   const server = service.app.listen(0, '127.0.0.1'); await new Promise(r => server.once('listening', r));
-  t.after(async () => { server.closeAllConnections(); await new Promise(r => server.close(r)); service.close(); });
+  t.after(async () => { server.closeAllConnections(); await new Promise(r => server.close(r)); await service.close(); });
   async function req(path, body, credential, extra = {}) {
     const headers = { Origin: origin, ...extra };
     if (body !== undefined) headers['Content-Type'] = 'application/json';
@@ -91,7 +91,7 @@ test('stale context edits are rejected and a new show clears old history', async
 });
 test('daily limits are enforced on the server, including from TV', async t => {
   const { req, service, connected } = await fixture(t); const p = await connected();
-  const room = service.store.room(service.store.authenticate(p.tv).room); room.dailyLimit = 1; service.store.save(room);
+  const room = await service.store.room((await service.store.authenticate(p.tv)).room); room.dailyLimit = 1; await service.store.save(room);
   await req('/messages', { id: 'request_1234567890', question: 'First?', revision: room.revision }, p.tv);
   await new Promise(r => setTimeout(r, 20));
   assert.equal((await req('/messages', { id: 'request_2234567890', question: 'Second?', revision: room.revision }, p.phone)).status, 429);
