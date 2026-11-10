@@ -73,8 +73,13 @@ jobs:
         with:
           name: unsigned-release-input
           path: release-input
-      - name: Install signing and inspection tools
-        run: sdkmanager 'build-tools;35.0.0'
+      - name: Verify signing and inspection tools
+        run: |
+          if [ ! -x "$ANDROID_HOME/build-tools/35.0.0/apksigner" ]; then
+            "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'build-tools;35.0.0'
+          fi
+          test -x "$ANDROID_HOME/build-tools/35.0.0/apksigner"
+          test -x "$ANDROID_HOME/build-tools/35.0.0/aapt"
       - name: Sign and verify the release identity
         env:
           APK_KEYSTORE_B64: ${{ secrets.APK_KEYSTORE_B64 }}
