@@ -86,6 +86,14 @@ app when a streaming app opens. This is infrastructure operated for the app;
 viewers do not need a Mac or their own server. This repository does **not** yet
 provide a public hosted companion service.
 
+The root [`render.yaml`](../render.yaml) is a prepared **paid** managed-host option,
+not an activated deployment. It uses Starter compute plus a 1 GB persistent disk
+and Render’s HTTPS URL. Listed base cost checked November 9, 2026: approximately
+**$7.25/month**, before additional usage, taxes or plan changes. Review
+[Render pricing](https://render.com/pricing) and approve the expense before creating
+the service. Automatic deployments are off. `RENDER_EXTERNAL_URL` supplies the
+canonical origin unless `PUBLIC_ORIGIN` is explicitly set for a custom domain.
+
 For a private pilot, deploy the included Docker Compose stack on a server you
 control with a domain pointing to it and TCP 80/443 available:
 

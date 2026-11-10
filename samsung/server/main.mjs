@@ -7,7 +7,7 @@ const folder = resolve(process.env.DATA_DIR || './data');
 mkdirSync(folder, { recursive: true, mode: 0o700 }); chmodSync(folder, 0o700);
 const keyFile = resolve(folder, 'encryption.key');
 if (!existsSync(keyFile)) writeFileSync(keyFile, randomBytes(32), { mode: 0o600, flag: 'wx' });
-const origin = process.env.PUBLIC_ORIGIN || 'http://127.0.0.1:8787';
+const origin = process.env.PUBLIC_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://127.0.0.1:8787';
 const local = process.env.ATTUNE_LOCAL_DEV === '1';
 const service = createApp({ dbPath: resolve(folder, 'attune.sqlite'), encryptionKey: readFileSync(keyFile), origin, allowLocal: local });
 const server = service.app.listen(Number(process.env.PORT || 8787), local ? '127.0.0.1' : '0.0.0.0', () => console.log('AttuneTV companion listening. No provider credentials are logged.'));
