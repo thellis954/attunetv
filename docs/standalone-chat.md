@@ -47,7 +47,9 @@ Read-only checks on Tom's Fire OS 8.1.6.4 television found:
 - `android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS` has no resolving Activity. Manual context must therefore work without a permission setup screen.
 - Prime Video's active MediaSession exposes `PrimeVideo` rather than a usable title in the observed playback. The native module rejects that generic value.
 
-**Not yet verified on the TV:** loopback callback through Silk, actual account grant/model response, encrypted account persistence across reboot, remote keyboard/Back behavior, provider playback continuity, app-switch dismissal, and provider-specific metadata. The television remains on 0.3.4 until installation/testing is authorized while playback is in use.
+**Device checkpoint — November 9, 2026:** native build 0.4.1 is installed. Installed version, Home launch and the existing Home accessibility entry were verified. Silk opened OpenAI's sign-in page; the viewer was asked to complete sign-in and consent with the TV remote.
+
+**Not yet verified on the TV:** loopback callback through Silk, actual account grant/model response, encrypted account persistence across reboot, remote keyboard/Back behavior, provider playback continuity, app-switch dismissal, and provider-specific metadata. Installation and opening the login page do not establish that chat works end to end.
 
 `StreamingSupport.verifiedPackages` is deliberately empty. Candidates are Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+. Enable a provider only after testing native focus/keyboard, answer rendering, cancellation, Back/Home/app-switch dismissal, idle timeout and actual playback. The discarded Mac prototype's tests do not satisfy these native release gates.
 

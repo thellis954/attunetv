@@ -1,180 +1,145 @@
+<div align="center">
+
 # AttuneTV
 
-A clean, ad-free home screen for Fire TV. It works like other community launcher
-projects: your apps sit in a simple grid, with no sponsored rows, autoplaying
-trailers, or "recommended for you."
+### Your TV. Beautifully yours.
 
-Built for **Fire OS 8.1.6.4** on an Insignia NS65-UQFL26 (Fire TV
-Edition, Android 11 base). It should work on any Fire OS 6–8 device.
+A cinematic, ad-free home screen for Fire TV.<br>Your favorite apps. A fresh view every day. Everything within reach.
 
-![Home](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_home_photo.png)
-![All apps](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_all_apps.png)
-![App menu](app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_app_menu.png)
+[![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) ![Platform: Fire TV](https://img.shields.io/badge/Fire_TV-Android_7.1%2B-152d39?style=flat-square) ![Built with Kotlin](https://img.shields.io/badge/Built_with-Kotlin-7f52ff?style=flat-square) ![Status: Early preview](https://img.shields.io/badge/Status-Early_preview-cce9df?style=flat-square&labelColor=243f39)
 
-*Rendered from the real layouts at Fire TV's 1080p canvas with Paparazzi (`./gradlew recordPaparazziDebug`).
-App art is placeholder; on the TV each app's own banner appears.*
+**[Get started](docs/install.md)** · **[Download a build](https://github.com/thellis954/attunetv/actions/workflows/build.yml?query=branch%3Aclaude%2Fblissful-hypatia-4dfwls+event%3Apush)** · **[Build & contribute](CONTRIBUTING.md)** · **[Report a bug](https://github.com/thellis954/attunetv/issues/new)**
 
-## What you get
+![AttuneTV running on a Fire TV: a full-screen evening photograph, large clock, Search and Ask buttons, and a glass dock with Netflix, Disney+, HBO Max, Hulu and Apple TV.](docs/images/home-fire-tv.png)
 
-**Home screen**
-- **Daily photo background** (Bing image of the day, no key), with **real frosted glass** that works on
-  Fire OS 8 / Android 11. The wallpaper is pre-blurred once on the CPU, and each glass surface draws the
-  slice behind it. Other options: an app-color glow that follows focus, or a plain theme color.
-- **Big, quiet type**: a greeting with your name, a thin clock, the date, and glass chips for weather and your next event.
-- **Glass dock** of favorites as 16:9 tiles. The focused tile lifts with a springy zoom, a white ring and a glow
-  in the app's own color. The selected app's name and when you last opened it show above the dock.
-- **All apps** sits below the dock. Press **Down** and it slides up over a blurred background; press **Up** or Back to return.
-- Apps without a TV banner get a tile tinted with their icon's color.
-- **☰ Menu (or long-press OK) on any tile** opens a smoked-glass menu: Open, Pin/Unpin, Move, Hide, App info.
-  The Inputs list and Settings confirmations use the same glass menu. Move mode: arrows, then OK.
-- Round glass buttons: **Inputs** (HDMI/antenna), **Ambient**, **Settings**.
-- **Search** is labelled on Home; press Up from the dock to reach it. Filter installed
-  apps by name, or choose **Movies & TV shows** to open Fire TV's catalogue search.
-  Film/TV results and service availability come from Amazon; app results are local.
+<sub>Actual Fire TV screenshot, captured on an Insignia TV running AttuneTV 0.4.1. Streaming apps are installed separately.</sub>
 
-**Widgets**
-- **Weather** (Open-Meteo, no account or API key): current temperature, conditions, today's high/low, rain chance.
-  Location can be a ZIP code, "City, State", or auto-detected from your connection.
-- **Calendar "Up next"**: reads any iCal feed (Google, iCloud, Outlook) and supports repeating events.
-- **Ambient mode (photo screensaver)**: after a period of no activity (default 10 min) or from the moon button, the
-  last 8 daily photos play with a slow zoom and pan, under a large clock with weather, forecast and your agenda.
-  → skips to the next photo; any other button exits.
+</div>
 
-**Quick actions**
-- **Ask with AttuneTV (0.4.1 native preview)**: ChatGPT account connection, requests,
-  conversation and an interactive overlay all run on the TV. There is no Mac, PC,
-  phone, hosted proxy or ongoing ADB requirement. Home's **Ask** button opens setup.
-  Streaming integrations remain gated until device verification; a native panel
-  preview is available in setup. See [standalone architecture and verification status](docs/standalone-chat.md).
-- **Inputs**: switch to HDMI or antenna inputs, or jump to Amazon's Live TV.
-- **Set up from your phone**: Settings shows a QR code. Scan it on the same Wi-Fi to edit location, calendars,
-  favorites, hidden apps, theme, and more from your phone, with no typing on the remote.
-  The page is protected by a random PIN and only works while that screen is open on the TV.
+## Make room for what you love
 
-**System**
-- Home button redirect (see below), opens on boot, 12/24-hour clock, five dark themes.
+Turn on your TV and land somewhere that feels like home. A beautiful daily photograph. A quiet clock. The apps you chose, exactly where you put them.
 
-## Why there's an accessibility service
+AttuneTV replaces the Fire TV home experience with a fast, remote-friendly launcher. No sponsored rows or autoplaying trailers on your home screen. No rooting. Your streaming apps, subscriptions and Amazon settings stay in place.
 
-Fire OS doesn't let you choose a default home app, and on Fire OS 8, disabling Amazon's
-launcher over ADB breaks Settings and profiles. Projects like Home on Fire and
-LauncherHijack work around this instead. AttuneTV does the same:
+| A better way to… | What you get |
+| --- | --- |
+| **Settle in** | Daily photo backgrounds, frosted glass, a large clock and a personal greeting. Choose a photo, app-color glow or one of five dark themes. |
+| **Find something to watch** | A visible **Search** button for installed apps and a shortcut to Fire TV's movie and show search. |
+| **Keep your favorites close** | A dock of real app artwork. Pin, reorder and hide apps with the remote. Press **Down** for all apps. |
+| **Make it personal** | Weather, your next calendar event, 12/24-hour time and a photo ambient mode. |
+| **Skip the remote typing** | Scan a QR code to customize your home screen from your phone on the same Wi-Fi. |
+| **Explore what's next** | **Ask with AttuneTV**, a native ChatGPT companion in early preview. [See its current status ↓](#meet-ask-with-attunetv) |
 
-`HomeButtonService` normally listens only for window changes from `com.amazon.tv.launcher`.
-When the user enables the chat shortcut for verified streaming integrations, it also
-observes package names and Menu-key duration to open the native panel. It does not
-swallow or replay the streaming app's Menu sequence. Back closes a focused chat panel.
-Package changes dismiss the panel when leaving the app. With chat disabled and no panel
-open, it returns to the original Amazon-only window event filter and disables key filtering.
-It redirects only the two known Amazon Home activity
-classes (`HomeActivity` and `HomeActivity_vNext`), leaving search, settings, profile
-pickers and dialogs alone. When Amazon's home screen comes up, the service brings
-AttuneTV back on top. It can't read screen content (`canRetrieveWindowContent=false`),
-and never reads streaming screen content. Optional Android notification-listener access
-allows the separate playback-context module to query MediaSession metadata; no notification
-content is read or sent to OpenAI. Chat works with manual titles when access is unavailable.
+<table>
+<tr>
+<td width="50%"><img src="app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_all_apps.png" alt="All-apps grid over a blurred background"><br><strong>Your whole app library.</strong> One press down from the dock.</td>
+<td width="50%"><img src="app/src/test/snapshots/images/com.attunetv.launcher_HomeSnapshotTest_app_menu.png" alt="Dark glass app menu with Open, Pin, Move, Hide and App info"><br><strong>Your layout, your call.</strong> Organize from the couch.</td>
+</tr>
+</table>
 
-You'll see Amazon's home screen for a split second before AttuneTV appears. That's
-expected with this approach.
+<sub>These two images are layout test renders with placeholder app art. The large screenshot above is from a real TV.</sub>
 
-## Install
+## Get it on your TV
 
-### 1. Get the APK
+**You don't need to be a developer.** You need a compatible Fire TV, its remote and a Mac, Windows or Linux computer for the one-time installation. After setup, the launcher runs on the TV; the computer can be shut down.
 
-- **CI:** each push builds `AttuneTV-apk` under **Actions → Build APK → Artifacts**.
-- **Locally:** `./gradlew assembleRelease` → `app/build/outputs/apk/release/app-release.apk`
+1. **Download the app.** Get the latest successful `AttuneTV-apk` build from GitHub Actions and unzip it. A free GitHub account is required for this download.
+2. **Connect to your TV.** Put the computer and TV on the same Wi-Fi, enable ADB debugging and approve the connection with your remote.
+3. **Install and make it Home.** Follow the copy-and-paste steps, then personalize it with your phone.
 
-### 2. Enable ADB on the TV
+### [Start the step-by-step installation →](docs/install.md)
 
-**Settings → Device & Software → About** ("My Fire TV" on sticks). Highlight the device name and press
-OK 7 times to unlock Developer Options. Then go to **Device & Software → Developer Options** and turn on
-**ADB Debugging**. Find the TV's IP under **About → Network**. The first `adb connect` asks you to approve the
-computer on the TV.
+The guide includes **Mac, Windows and Linux instructions**, expected results, updates, troubleshooting and how to go back. No Android Studio or coding required to install a prebuilt APK.
 
-### 3. Install and turn on the Home button service
+> **Early preview:** the launcher has been tested on an Insignia NS65-UQFL26 with Fire OS 8.1.6.4. Other Android-based Fire TVs are unverified. There is no one-click installer or app-store release yet. Builds currently use development signing keys, so updates from different build sources can require extra care. [Compatibility & update details](docs/install.md#before-you-start).
+
+## Meet Ask with AttuneTV
+
+**The idea: a conversation beside what you're watching.** Ask about a character, untangle a plot point or explore the story behind a film, right on your TV.
+
+The native preview puts the chat panel, remote input and account connection on the television. Model requests go directly to OpenAI. There is no companion Mac, personal server or developer API key to set up. Chat is optional; the home screen works without a ChatGPT account.
+
+**Try the preview:** open **Ask → Continue with ChatGPT** and sign in through the browser on the **TV**. An eligible account and OpenAI consent are required; plan limits apply. The setup screen also offers a panel preview.
+
+**Where it stands today:** the native build is installed on the test TV and the OpenAI sign-in page opens in Silk. Successful account connection, a real model response and playback compatibility are still awaiting end-to-end verification. Streaming-app chat is therefore **hidden in the current normal build**.
+
+Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ are **integration targets, not a confirmed support list**. Each must pass playback, remote-input and dismissal checks before its overlay is enabled.
+
+The assistant does not watch or listen to your video. You can supply a title, episode or scene description; automatic playback information depends on what the app and device expose. Answers can be wrong or contain spoilers.
+
+[Read the native architecture and verification checklist →](docs/standalone-chat.md)
+
+## Learn the remote in a minute
+
+| On AttuneTV Home | Action |
+| --- | --- |
+| **Left / Right** | Browse favorites. |
+| **Down** | Open all apps. |
+| **Up** from the dock | Reach Search, Ask and the round shortcuts. |
+| **OK** | Open the focused app or action. |
+| **Menu ☰** or **hold OK** on an app | Open, pin/unpin, move, hide or view app info. |
+| **Back** | Close a menu or return from the app grid. |
+| **Home** | Return to AttuneTV when Home redirection is enabled. |
+
+The round shortcuts open **Inputs**, **Ambient mode** and **Settings**. In move mode, use the arrows to position an app and press OK to finish.
+
+## Built for people who like to build
+
+Native Kotlin. One Android app module. Real TV layouts you can render in tests. No backend to operate.
+
+The interesting work lives in small, focused pieces: remote navigation, CPU-blurred glass that works on Android 11, a narrowly scoped Home redirect, and native account-backed chat. Bring your device, your taste or your debugging skills.
 
 ```bash
-adb connect <TV_IP>:5555          # accept the prompt on the TV
-adb install -r app-release.apk
-
-# Turn on the Home-button service (Fire OS 8 hides most accessibility toggles in the UI)
-adb shell settings put secure enabled_accessibility_services \
-  com.attunetv.launcher/com.attunetv.launcher.HomeButtonService
-adb shell settings put secure accessibility_enabled 1
+git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
+cd attunetv
+# Configure JDK 17 and Android SDK 35 first; see the contributor guide.
+./gradlew assembleRelease testDebugUnitTest
 ```
 
-> If you already use another accessibility service, append to the existing list
-> instead of replacing it:
-> `adb shell settings get secure enabled_accessibility_services`, then set the value to
-> `existing:com.attunetv.launcher/com.attunetv.launcher.HomeButtonService`.
+**[Developer setup & contribution guide →](CONTRIBUTING.md)**
 
-Press Home and AttuneTV should come up. Without ADB, you can still open AttuneTV from
-**Your Apps**. It just won't take over the Home button.
+Useful contributions include device compatibility reports, remote-focus polish, accessibility improvements, better app artwork fallbacks and verified streaming integrations. For a new integration, real playback evidence matters as much as a passing build.
 
-### Undo
+## A few things worth knowing
 
-```bash
-adb shell settings put secure enabled_accessibility_services ""
-adb uninstall com.attunetv.launcher
-```
+<details>
+<summary><strong>Does this remove Amazon's launcher or change my subscriptions?</strong></summary>
 
-Or flip **Settings → Redirect Home button** off inside AttuneTV.
+No. An accessibility service notices Amazon's Home screen and brings AttuneTV forward. Amazon packages stay installed. You may briefly see Amazon Home during the handoff. Streaming apps keep their own accounts, subscriptions, ads and playback behavior.
 
-## Notes and known limits
+</details>
 
-- **Amazon updates can turn the accessibility service off.** If Home starts going to
-  Amazon again, run the `settings put` command again. AttuneTV shows a "not set up" banner when the service is off.
-- **Search and other Amazon screens pass through.** See `HomeRedirectPolicy.kt` for
-  the Home activity allowlist. Settings shows the last Amazon screen class it saw.
-  A future Fire OS release may need another Home class added to this list.
-- **Movie/TV search uses a Fire TV navigation link** verified on this Insignia. It
-  needs Amazon's launcher installed. If a future Fire OS removes that link, use
-  the remote's Alexa search while the integration is updated.
-- **Live TV / antenna input** on Insignia TVs lives in Amazon's UI. Use
-  "Open Amazon home", or pin your input app if one shows up in the grid.
-- **The release build is signed with the debug key** so the CI artifact installs on your
-  own TVs. Set up a real keystore before you share it more widely.
+<details>
+<summary><strong>Do I need an always-on computer, a phone or a ChatGPT account?</strong></summary>
 
-## Project layout
+A computer is used for installation and updates, not everyday launcher operation. A phone is optional for personalization. ChatGPT is optional for the chat preview, which is implemented on the TV and still undergoing end-to-end validation. Internet access is needed for online features such as fresh photos, weather and chat.
 
-```
-app/src/main/java/com/attunetv/launcher/
-  HomeActivity.kt       home screen: favorites row, app grid, menus, move mode
-  SearchActivity.kt     installed-app filtering and Fire TV movie/show search
-  SettingsActivity.kt   toggles, theme, shortcuts, reset
-  HomeButtonService.kt  Home-button redirect (accessibility service)
-  AppRepository.kt      app discovery (leanback first, then phone launchers)
-  AppAdapter.kt         tile rendering and focus animation
-  Wallpaper.kt          daily photo + CPU box blur
-  GlassDrawable.kt      frosted glass for Android 11 (no RenderEffect)
-  Colors.kt             dominant artwork color for tiles and glow
-  Widgets.kt            weather and calendar state, caching, refresh
-  Weather.kt            Open-Meteo + ZIP/city/IP location lookup
-  Ics.kt                iCal parser with recurrence expansion
-  AmbientActivity.kt    full-screen clock / weather / agenda
-  PhoneSetupActivity.kt QR code screen, plus SetupServer.kt (LAN web page)
-  Inputs.kt             HDMI / tuner inputs
-  BootReceiver.kt       open on boot
-  Prefs.kt / Themes.kt  persistence and backgrounds
-```
+</details>
 
-## Calendar setup
+<details>
+<summary><strong>How does search work?</strong></summary>
 
-Open **Settings → Set up from your phone** and paste one or more iCal links:
+Installed-app search is local. Movie and show search opens Amazon's Fire TV catalogue search, where results and streaming availability are supplied by Amazon. It is not an independent universal streaming catalogue. Amazon's launcher must remain installed.
 
-- **Google:** calendar.google.com → ⚙ Settings → choose the calendar → *Integrate calendar* →
-  **Secret address in iCal format**.
-- **iCloud:** Calendar → ⓘ next to the calendar → *Public Calendar* → copy the link.
-- **Outlook:** Settings → Calendar → Shared calendars → *Publish a calendar* → ICS link.
+</details>
 
-Treat these links like passwords. They're stored only on the TV.
+<details>
+<summary><strong>What information does the app access?</strong></summary>
 
-## Tests
+Home redirection does not read screen content. Optional chat uses your question and supplied context; it does not capture video, audio or subtitles. Chat credentials are encrypted on the TV. Phone setup is a temporary, PIN-protected local HTTP page; use it on trusted Wi-Fi. Weather, photos and calendar feeds contact their respective providers. [More about chat and playback metadata](docs/standalone-chat.md).
 
-`./gradlew testDebugUnitTest` covers the iCal parser: time zones, all-day events, line folding, weekly/monthly
-repeat rules, EXDATE, moved instances, COUNT/UNTIL, and cancellations.
+</details>
 
-## Ideas for next
+<details>
+<summary><strong>Can I go back to the original home screen?</strong></summary>
 
-TMDB "trending" row, "continue watching" deep links, photo screensaver (Google Photos album),
-per-profile layouts, folders.
+Yes. In AttuneTV Settings, turn **Redirect Home button** off. The installation guide also explains how to remove only AttuneTV's accessibility entry and uninstall the app while preserving other services.
+
+</details>
+
+---
+
+**Make your TV feel like yours.** [Get started](docs/install.md), [share a device report](https://github.com/thellis954/attunetv/issues/new), or star the repo to help others discover it.
+
+Built by [Tom Ellis](https://github.com/thellis954). AttuneTV is an independent project, not an official Amazon, OpenAI or streaming-service app. Product names and logos belong to their respective owners.
