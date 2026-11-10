@@ -6,14 +6,14 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * App tiles: the app's own TV banner when it has one; otherwise a tile tinted with the
- * icon's color. Focus = springy lift + white ring + glow in the app's color.
+ * icon's color. Focus = gentle lift + high-contrast white ring + neutral shadow.
  */
 class AppAdapter(
     private val onClick: (AppEntry) -> Unit,
@@ -72,7 +72,7 @@ class AppAdapter(
         private val fallback: View = view.findViewById(R.id.fallback)
         private val icon: ImageView = view.findViewById(R.id.icon)
         private val name: TextView = view.findViewById(R.id.name)
-        private val spring = OvershootInterpolator(2.2f)
+        private val ease = DecelerateInterpolator(2f)
 
 
         fun bind(app: AppEntry) {
@@ -103,8 +103,8 @@ class AppAdapter(
                 ).apply { cornerRadius = r }
             }
             if (Build.VERSION.SDK_INT >= 28) {
-                itemView.outlineSpotShadowColor = app.color
-                itemView.outlineAmbientShadowColor = app.color
+                itemView.outlineSpotShadowColor = 0xFF000000.toInt()
+                itemView.outlineAmbientShadowColor = 0xFF000000.toInt()
             }
             card.alpha = if (app.hidden) 0.4f else 1f
             card.isActivated = app.key == movingKey
@@ -118,15 +118,15 @@ class AppAdapter(
             }
             card.setOnFocusChangeListener { v, hasFocus ->
                 val d = v.resources.displayMetrics.density
-                val s = if (hasFocus) 1.08f else 1f
-                val z = if (hasFocus) 22 * d else 0f
+                val s = if (hasFocus) 1.045f else 1f
+                val z = if (hasFocus) 5 * d else 0f
                 // Scale the item container, not the card: on Fire OS a scaled view loses its own
                 // rounded clip (square corners on the focused tile). A scaled parent keeps it.
                 val target = itemView
                 target.animate().cancel()
                 target.animate().scaleX(s).scaleY(s).translationZ(z)
-                    .setInterpolator(if (hasFocus) spring else null)
-                    .setDuration(if (hasFocus) 260 else 160).start()
+                    .setInterpolator(ease)
+                    .setDuration(if (hasFocus) 180 else 140).start()
                 if (hasFocus) onFocus(app)
             }
         }

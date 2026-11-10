@@ -17,7 +17,7 @@ export function createApp({ dbPath, encryptionKey, origin, provider = new Provid
   const cookie = (res, credential) => res.cookie('attune_phone', credential, { httpOnly: true, secure: url.protocol === 'https:', sameSite: 'strict', maxAge: 30 * 86400000, path: '/' });
   const stop = roomId => { jobs.get(roomId)?.abort(); jobs.delete(roomId); };
   app.use((req, res, next) => {
-    res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'DENY', 'Permissions-Policy': 'camera=(), microphone=(), geolocation=()', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
+    res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'DENY', 'Permissions-Policy': 'camera=(), microphone=(self), geolocation=()', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
     if (url.protocol === 'https:') res.set('Strict-Transport-Security', 'max-age=31536000');
     // Packaged Tizen documents have an opaque origin. Only TV bearer credentials
     // work cross-origin. Phone cookies and API-key setup never do.

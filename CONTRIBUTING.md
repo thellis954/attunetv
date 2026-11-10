@@ -66,7 +66,7 @@ All Kotlin source is under [`app/src/main/java/com/attunetv/launcher/`](app/src/
 | Weather and calendar | `Widgets.kt`, `Weather.kt`, `Ics.kt` |
 | Preferences and phone setup | `SettingsActivity.kt`, `Prefs.kt`, `PhoneSetupActivity.kt`, `SetupServer.kt` |
 | Home-button behavior | `HomeButtonService.kt`, `HomeRedirectPolicy.kt` |
-| Native chat and account security | `NativeChat.kt`, `ChatVault.kt`, `ChatSecurity.kt`, `NativeChatPanel.kt` |
+| Native shared chat and session security | `NativeChat.kt`, `ChatVault.kt`, `ChatSecurity.kt`, `NativeChatPanel.kt` |
 | Playback context and provider gating | `PlaybackContext.kt`, `StreamingSupport.kt` |
 | Layout and unit tests | [`app/src/test/`](app/src/test/) |
 

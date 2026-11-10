@@ -23,6 +23,8 @@ object ChatUi {
         setTextColor(ColorStateList(arrayOf(intArrayOf(android.R.attr.state_focused),intArrayOf(android.R.attr.state_pressed),intArrayOf()),
             intArrayOf(Color.rgb(14,34,28),Color.rgb(14,34,28),Color.WHITE)))
         isFocusable=true;isFocusableInTouchMode=true;isAllCaps=false
+        if (android.os.Build.VERSION.SDK_INT >= 26) fontVariationSettings = "'wght' 550"
+        stateListAnimator = null
         setPadding((12*d).toInt(),0,(12*d).toInt(),0)
     }
 }

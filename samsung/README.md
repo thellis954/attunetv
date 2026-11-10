@@ -215,3 +215,12 @@ ATTUNE_VERIFY_ORIGIN=https://attunetv-samsung.vercel.app node scripts/verify-hos
 This creates and erases a temporary test pairing, checks the provider setup links
 and cross-screen manual context, and saves hosted-browser screenshots. It never
 submits an API key or makes a paid inference request.
+
+## Shared Fire TV connection (0.5.0 development)
+
+The native Fire TV client now uses this same service and phone guide. Each TV has
+its own isolated room. Phone dictation is available in browsers exposing speech
+recognition and always requires review before sending. The browser's speech
+service handles dictation; the companion does not listen to the TV. Context edits
+on another screen preserve a drafted question and require acknowledgment before
+sending it against the new show or episode.

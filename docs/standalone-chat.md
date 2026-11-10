@@ -1,58 +1,68 @@
-# Standalone TV chat — 0.4.1 native preview
+# TV and phone viewing companion
 
-**Product requirement:** install AttuneTV on the television, connect an eligible account, and use it without an always-on Mac, PC, phone, or personal server. The 0.4.0 Mac architecture did not meet that requirement and has been removed. Its historical source remains in Git commit c446bb7.
+Version 0.5.0 replaces the unverified Fire TV account-sign-in preview with the
+same guided API-key flow as Samsung. No always-on Mac or personal server is
+required. The launcher works independently; optional chat requires the hosted
+Vercel/Neon companion and an internet connection.
 
-## Architecture
+## Connect once
 
-```text
-TV remote → native AttuneTV chat window → HTTPS → OpenAI Responses API
-                         │
-                         ├─ encrypted account credentials on this TV
-                         ├─ optional Android MediaSession metadata
-                         └─ viewer-entered title / episode / scene fallback
-```
+Open Ask, select Pair phone, scan the QR and approve the matching number using
+the remote. On the phone, choose OpenAI, Claude, Grok or Kimi. Follow the billing,
+API-key and model-selection guide. An API key is distinct from a consumer chat
+subscription. AttuneTV is free; provider API usage and hosting can cost money.
 
-There is no inference server to host and no developer API key in the APK. Each user's authorized ChatGPT account supplies eligible plan usage. The model runs at OpenAI, not on the television. Initial sideloading and enabling the launcher's Home service still follow the existing setup procedure; these are separate from normal chat operation.
+Keys are entered only on the paired HTTPS phone page and stored encrypted on the
+service. The TV receives a room credential, never a provider key. Android stores
+that credential using authenticated encryption and a non-exportable Keystore key,
+excluded from backups. Old account-preview tokens are not reused or transmitted.
+Pairing links expire after five minutes. Replacing a phone erases the previous
+phone's key and conversation. Disconnect & erase revokes the room's sessions and
+deletes its saved key and conversation; it does not revoke the key at the provider.
 
-## Account connection
+## Context and conversation
 
-The published [local/open-source Sign in with ChatGPT flow](https://developers.openai.com/siwc/token-sharing-open-source/sign-in) requires an external browser and an HTTP callback on `127.0.0.1`. It does not mandate a desktop OS. The implementation places both endpoints on the TV:
+A title, episode, progress and streaming-service name are shared between screens.
+Optional authorized Android MediaSession metadata can prefill an editable title;
+missing or generic metadata is not presented as a detected movie. The viewer
+confirms context before it is sent. No video, audio, captions or screen content are
+captured. Answers can be wrong and spoiler avoidance cannot be guaranteed.
 
-1. Open **Ask → Continue with ChatGPT** in AttuneTV.
-2. AttuneTV starts a temporary loopback listener bound only to the TV's `127.0.0.1` interface, then opens the external browser (Silk on the inspected TV).
-3. The viewer signs in and reviews OpenAI's account/plan consent in that browser. This preview does not promise phone/QR authorization: phone loopback would point to the phone, not the TV. It does not reuse Codex's device flow or an unrelated application's client ID.
-4. OpenAI redirects the TV browser to the TV's callback. AttuneTV validates state, nonce, PKCE, the issued client registration, RS256 signature, issuer, audience, expiration, account identity and plan scopes before accepting tokens.
-5. Tokens are encrypted with AES-GCM using an Android Keystore key, in app-private `noBackupFilesDir` storage. Refreshes and vault writes are serialized. Credentials stay on this TV and are not copied from the Mac prototype.
-6. Model discovery and streaming Responses requests go directly from the TV to OpenAI. Requests use `store:false`, `stream:true`, bounded in-memory history, and require `response.completed`. Sign-out clears local credentials and attempts server revocation.
+Changing viewing context clears history. Revision checks protect edits, and a
+question drafted against older context requires explicit review before sending.
+Request IDs prevent a network retry charging twice. Stop cancels the shared
+answer; closing the TV window lets phone chat continue. Responses are polled over
+HTTPS; they appear as completed answers, not token-by-token streaming.
 
-Official scope: [OpenAI's overview](https://developers.openai.com/siwc/token-sharing-open-source) documents this for open-source and locally hosted apps. Paid or remotely hosted distribution has a separate interest/approval route. The native implementation is not proof that every account or Fire TV browser is eligible; end-to-end account consent still needs device validation.
+Phone dictation is feature-detected, user-initiated and uses the browser's speech
+service. It stops when the page is hidden; transcribed words are reviewed before
+Ask. Unsupported browsers can use keyboard dictation. The tested Insignia does
+not expose Android's standard speech recognition activity, so no nonworking TV
+voice button is shown.
 
-## Playback and input
+## Playback boundaries
 
-The native panel is a `TYPE_ACCESSIBILITY_OVERLAY` window, not a new fullscreen Activity. Remote navigation, the TV keyboard, Ask, Stop and Back operate locally. Back or Close dismisses it, as does leaving the streaming app or two minutes without remote activity. Model output does not reset the idle timeout. Pending generation is cancelled when the panel closes, and callbacks cannot resurrect an old panel.
+The Android panel uses TYPE_ACCESSIBILITY_OVERLAY. Back/Close, leaving the target
+app and two minutes idle dismiss it. Home redirection only observes Amazon Home
+unless the viewer enables the supported-app shortcut or a panel is open. Screen
+content retrieval and spoken feedback stay disabled.
 
-The **hold Menu** shortcut is opt-in and only registered when a verified streaming app exists in `StreamingSupport.verifiedPackages`. A short Menu press passes through unchanged; the complete long-press sequence also passes through before the panel opens. Provider reactions to long Menu and focus/keyboard changes must be tested. Some players may pause on losing focus even though AttuneTV does not pause them. This is an explicit acceptance test, not a promise of uninterrupted playback based on window type alone.
+Hold Menu observes and passes through the player's key sequence. Its interaction
+with playback controls, keyboards, Back, Home and app switching must be tested in
+each streaming app. A player can pause on focus loss. Candidate packages are not
+release support: normal builds retain an empty verified allowlist until actual
+provider playback and inference checks pass. Developers can build with
+`-PstreamingVerification=true`; this labels the version and setup screen as a test
+build, and Gradle rejects combining it with a public distribution build.
 
-Unknown or unverified packages do not get the shortcut or panel. The setup screen's explicit panel preview works only over AttuneTV itself, so the UI and account connection can be evaluated before enabling a provider.
+Samsung's packaged Tizen app cannot overlay built-in streaming apps. It provides
+full-screen conversation and the phone continues when the TV app is suspended.
 
-Automatic metadata is optional. Android [MediaSessionManager](https://developer.android.com/reference/android/media/session/MediaSessionManager#getActiveSessions(android.content.ComponentName)) requires an enabled notification listener or privileged media-control permission. The app offers the system permission screen only if it exists. No permission is silently granted. Metadata is matched to the foreground provider and generic provider names are rejected as movie titles. Viewer edits change the provenance label to manual. Position is sent only when fresh metadata still matches the displayed title.
+## Verification
 
-The assistant never receives video frames, protected screenshots, audio, subtitles, or arbitrary screen text. A title and timestamp do not establish scene knowledge. It asks for a description when needed. Answers can be wrong and spoiler avoidance is not guaranteed.
-
-## Current evidence and release gates
-
-Read-only checks on Tom's Fire OS 8.1.6.4 television found:
-
-- HTTPS browser intents resolve to Silk (`com.amazon.cloud9/...IntentDispatcher`). This verifies a browser is installed, not that the full OpenAI login succeeds in Silk.
-- `android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS` has no resolving Activity. Manual context must therefore work without a permission setup screen.
-- Prime Video's active MediaSession exposes `PrimeVideo` rather than a usable title in the observed playback. The native module rejects that generic value.
-
-**Device checkpoint — November 9, 2026:** native build 0.4.1 is installed. Installed version, Home launch and the existing Home accessibility entry were verified. Silk opened OpenAI's sign-in page; the viewer was asked to complete sign-in and consent with the TV remote.
-
-**Not yet verified on the TV:** loopback callback through Silk, actual account grant/model response, encrypted account persistence across reboot, remote keyboard/Back behavior, provider playback continuity, app-switch dismissal, and provider-specific metadata. Installation and opening the login page do not establish that chat works end to end.
-
-`StreamingSupport.verifiedPackages` is deliberately empty. Candidates are Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+. Enable a provider only after testing native focus/keyboard, answer rendering, cancellation, Back/Home/app-switch dismissal, idle timeout and actual playback. The discarded Mac prototype's tests do not satisfy these native release gates.
-
-## Acceptance test
-
-Install the native APK, complete account sign-in on the TV, then disconnect the development computer from the network. A real question and answer must work on the TV with remote input. Repeat while playing content in each target provider, and document metadata availability separately from overlay compatibility. Share TV screenshots and an honest per-provider report; protected-video capture may be unavailable.
+Automated coverage includes room isolation, billing consent, provider request
+contracts, encrypted storage, idempotency, stale-context protection, pairing,
+remote focus, browser dictation handoff and phone independence of TV lifetime.
+Fixture answers are not evidence of live AI. Actual sign-in/key entry belongs to
+the viewer, not an agent reading secrets. Hardware and provider checkpoints are
+recorded separately in the release verification report.

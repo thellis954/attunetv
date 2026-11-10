@@ -34,8 +34,8 @@
       <div id="transcript" tabindex="0" aria-label="Conversation history" aria-live="polite">
         <div class="empty" id="empty-state"><div class="orbit" aria-hidden="true">✦</div><h3>What caught your attention?</h3><p>Ask about a character, a confusing moment, or the story behind the story.</p></div>
       </div>
-      <form id="compose"><label for="question">Your question</label><textarea id="question" rows="2" maxlength="2000" placeholder="What would you like to know?" disabled></textarea><div class="compose-actions"><p id="usage" class="small">Pair a phone to connect your AI provider.</p><button id="ask" disabled>Ask</button><button type="button" id="stop" hidden>Stop</button></div></form>
-      <p class="fine">Answers may be wrong or contain spoilers. Add your episode and progress for better context.</p><p class="fine remote-hint">Remote: OK to edit a field. Back to finish editing. Arrows to move.</p>
+      <form id="compose"><label for="question">Your question</label><textarea id="question" rows="2" maxlength="2000" placeholder="What would you like to know?" disabled></textarea><div class="compose-actions"><p id="usage" class="small">Pair a phone to connect your AI provider.</p><button type="button" id="review-context" class="secondary" hidden>Use updated context</button><button type="button" id="dictate" class="secondary" hidden>Dictate</button><button id="ask" disabled>Ask</button><button type="button" id="stop" hidden>Stop</button></div></form>
+      <p class="fine" id="voice-note" hidden>Dictation uses your browser’s speech service. Only your spoken question is transcribed; review it before pressing Ask.</p><p class="fine">Answers may be wrong or contain spoilers. Add your episode and progress for better context.</p><p class="fine remote-hint">Remote: OK to edit a field. Back to finish editing. Arrows to move.</p>
       <div class="footer-actions"><button id="clear" class="text-button" hidden>Clear conversation</button><button id="disconnect" class="text-button" hidden>Disconnect &amp; erase</button></div>
     </section>
   </main>

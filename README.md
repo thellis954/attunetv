@@ -29,7 +29,7 @@ AttuneTV replaces the Fire TV home experience with a fast, remote-friendly launc
 | **Keep your favorites close** | A dock of real app artwork. Pin, reorder and hide apps with the remote. Press **Down** for all apps. |
 | **Make it personal** | Weather, your next calendar event, 12/24-hour time and a photo ambient mode. |
 | **Skip the remote typing** | Scan a QR code to customize your home screen from your phone on the same Wi-Fi. |
-| **Explore what's next** | **Ask with AttuneTV**, a native ChatGPT companion in early preview. [See its current status ↓](#meet-ask-with-attunetv) |
+| **Explore what's next** | **Ask with AttuneTV**, a TV-and-phone AI companion in early preview. [See its current status ↓](#meet-ask-with-attunetv) |
 
 <table>
 <tr>
@@ -58,11 +58,13 @@ The guide includes **Mac, Windows and Linux instructions**, expected results, up
 
 **The idea: a conversation beside what you're watching.** Ask about a character, untangle a plot point or explore the story behind a film, right on your TV.
 
-The native preview puts the chat panel, remote input and account connection on the television. Model requests go directly to OpenAI. There is no companion Mac, personal server or developer API key to set up. Chat is optional; the home screen works without a ChatGPT account.
+The Fire TV preview and Samsung companion now share **guided API-key setup and a conversation on your phone**. Choose OpenAI, Claude, Grok or Kimi. No always-on Mac is required. Chat is optional; the launcher works without it.
 
-**Try the preview:** open **Ask → Continue with ChatGPT** and sign in through the browser on the **TV**. An eligible account and OpenAI consent are required; plan limits apply. The setup screen also offers a panel preview.
+**Set up:** open **Ask → Pair phone**, scan the QR code, and approve the matching number with the TV remote. The phone guide explains creating an API key, provider billing, model selection and a daily question limit. Enter the key on your phone, never in a chat message. API usage is billed separately from consumer chat subscriptions.
 
-**Where it stands today:** the native build is installed on the test TV and the OpenAI sign-in page opens in Silk. Successful account connection, a real model response and playback compatibility are still awaiting end-to-end verification. Streaming-app chat is therefore **hidden in the current normal build**.
+**Keep talking:** set the movie/show, episode and progress on either screen. Questions and answers sync between the native Fire TV panel and phone. Phone dictation appears where the browser supports it; you review the words before sending. You can also use your phone keyboard's microphone. TV remote voice is not advertised where the device cannot supply it.
+
+**Where it stands today:** version 0.5.0 is a development preview. Pairing, context synchronization, draft protection and provider contracts have automated coverage. Real model responses and streaming playback compatibility still require device verification. Streaming-app chat stays **hidden in normal builds** until that verification passes; explicitly labeled playback-test builds can exercise candidate apps.
 
 Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ are **integration targets, not a confirmed support list**. Each must pass playback, remote-input and dismissal checks before its overlay is enabled.
 
@@ -105,9 +107,9 @@ The round shortcuts open **Inputs**, **Ambient mode** and **Settings**. In move 
 
 ## Built for people who like to build
 
-Native Kotlin. One Android app module. Real TV layouts you can render in tests. No backend to operate.
+Native Kotlin. One Android app module. Real TV layouts you can render in tests. Optional shared AI chat uses the Vercel/Neon companion in `samsung/`; launcher operation remains independent of it.
 
-The interesting work lives in small, focused pieces: remote navigation, CPU-blurred glass that works on Android 11, a narrowly scoped Home redirect, and native account-backed chat. Bring your device, your taste or your debugging skills.
+The interesting work lives in small, focused pieces: remote navigation, CPU-blurred glass that works on Android 11, a narrowly scoped Home redirect, and native TV-and-phone chat. Bring your device, your taste or your debugging skills.
 
 ```bash
 git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
@@ -132,7 +134,7 @@ No. An accessibility service notices Amazon's Home screen and brings AttuneTV fo
 <details>
 <summary><strong>Do I need an always-on computer, a phone or a ChatGPT account?</strong></summary>
 
-A computer is used for installation and updates, not everyday launcher operation. A phone is optional for personalization. ChatGPT is optional for the chat preview, which is implemented on the TV and still undergoing end-to-end validation. Internet access is needed for online features such as fresh photos, weather and chat.
+A computer is used for installation and updates, not everyday launcher operation. A phone is optional for personalization. AI chat is optional. It uses the hosted companion and a provider API key, and is still undergoing end-to-end validation. Internet access is needed for online features such as fresh photos, weather and chat.
 
 </details>
 
@@ -146,7 +148,7 @@ Installed-app search is local. Movie and show search opens Amazon's Fire TV cata
 <details>
 <summary><strong>What information does the app access?</strong></summary>
 
-Home redirection does not read screen content. Optional chat uses your question and supplied context; it does not capture video, audio or subtitles. Chat credentials are encrypted on the TV. Phone setup is a temporary, PIN-protected local HTTP page; use it on trusted Wi-Fi. Weather, photos and calendar feeds contact their respective providers. [More about chat and playback metadata](docs/standalone-chat.md).
+Home redirection does not read screen content. Optional chat uses your question and supplied context; it does not capture video, audio or subtitles. The chat pairing credential is encrypted on the TV; provider keys and shared conversations are encrypted on the hosted service. The separate launcher-personalization page is temporary, PIN-protected local HTTP; use it on trusted Wi-Fi. Weather, photos and calendar feeds contact their respective providers. [More about chat and playback metadata](docs/standalone-chat.md).
 
 </details>
 

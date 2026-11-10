@@ -18,8 +18,8 @@ android {
         applicationId = "com.attunetv.launcher"
         minSdk = 25          // Fire OS 6+
         targetSdk = 34
-        versionCode = 10
-        versionName = "0.4.2"
+        versionCode = 11
+        versionName = "0.5.0"
         buildConfigField("boolean", "STREAMING_VERIFICATION", verifying.toString())
         if (verifying) versionNameSuffix = "-verify"
         else if (!distribution) versionNameSuffix = "-dev"
@@ -46,4 +46,5 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.zxing:core:3.5.3")  // QR code for phone setup
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }

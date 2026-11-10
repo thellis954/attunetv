@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var config = window.ATTUNE_CONFIG || {}, api = config.api || '', phone = location.pathname.indexOf('/phone') === 0;
-  var state = null, credential = '', ticket = '', timer, polling = false, panel = '', previousFocus, providers = [], renderKey = '', modelKey = '', editRevision = 0, pairExpiry = 0, waiting = false, mutation = false, composeId = '', editing = false;
+  var state = null, credential = '', ticket = '', timer, polling = false, panel = '', previousFocus, providers = [], renderKey = '', modelKey = '', editRevision = 0, pairExpiry = 0, waiting = false, mutation = false, composeId = '', editing = false, draftRevision = null, recognition = null;
   function el(id) { return document.getElementById(id); }
   function show(id, visible) { el(id).hidden = !visible; }
   function setText(id, value) { el(id).textContent = value; }
@@ -54,8 +54,11 @@
     setText('show-title', context.title); setText('show-detail', [context.service, context.episode, context.progress].filter(Boolean).join(' · '));
     setText('edit-context', hasContext ? 'Change what’s playing' : 'Set what’s playing');
     setText('provider-label', state.account ? state.account.provider + ' / ' + state.account.model : 'Connect on your phone');
+    var staleDraft = !!el('question').value.trim() && draftRevision !== null && draftRevision !== state.revision;
+    show('review-context', staleDraft);
+    if (staleDraft) { setText('notice', 'Viewing context changed on the other screen. Review it, then choose Use updated context before sending your draft.'); show('notice', true); }
     var pending = state.messages.some(function (m) { return m.status === 'pending'; });
-    el('question').disabled = !state.account || !hasContext || mutation; el('ask').disabled = !state.account || !hasContext || pending || mutation;
+    el('question').disabled = !state.account || !hasContext || mutation; el('ask').disabled = !state.account || !hasContext || pending || mutation || staleDraft;
     show('stop', pending); show('ask', !pending);
     setText('usage', state.account ? state.used + ' of ' + state.dailyLimit + ' daily questions used' : phone ? 'Tap AI connection to get started.' : 'Pair a phone to connect your AI provider.');
     var key = JSON.stringify(state.messages);
@@ -123,7 +126,8 @@
       if (credential) refresh().then(function () { if (state) el('edit-context').focus(); });
       else request('/tv', {}).then(function (data) { credential = data.credential; try { localStorage.setItem('attuneTV', credential); } catch (e) { /* session only */ } return refresh(); }).then(function () { el('pair-phone').focus(); }).catch(message);
     }
-    timer = setInterval(function () { if (!document.hidden) { if (waiting) waitForApproval(); else if (!(ticket && !state)) refresh(); } }, 1800);
+    timer = setInterval(function () { if (document.hidden && recognition) recognition.abort();
+    if (!document.hidden) { if (waiting) waitForApproval(); else if (!(ticket && !state)) refresh(); } }, 1800);
   }
   el('close-modal').onclick = closePanel;
   el('brand').onclick = function (event) { event.preventDefault(); };
@@ -156,12 +160,14 @@
       .then(function () { closePanel(); return refresh(); }).then(function () { if (state && !state.context.title) editContext(); }).catch(message).then(function () { el('save-account').disabled = false; });
   };
   el('remove-account').onclick = function () { confirmAction('Remove this API key?', 'This clears the saved key and conversation on both screens. It does not revoke the key at your provider.', function () { return request('/account/remove', {}); }); };
-  el('question').oninput = function () { composeId = ''; };
+  el('question').oninput = function () { composeId = ''; if (!el('question').value.trim()) draftRevision = null; else if (draftRevision === null && state) draftRevision = state.revision; };
+  el('review-context').onclick = function () { if (!state) return; draftRevision = state.revision; composeId = ''; show('notice', false); render(); };
   el('compose').onsubmit = function (event) {
     event.preventDefault(); if (!state || mutation) return;
+    if (draftRevision !== null && draftRevision !== state.revision) return message(new Error('Review the updated viewing context before sending this draft.'));
     if (!composeId) { var bytes = new Uint8Array(16); window.crypto.getRandomValues(bytes); composeId = Array.prototype.map.call(bytes, function (n) { return ('0' + n.toString(16)).slice(-2); }).join(''); }
     mutation = true; el('ask').disabled = true; show('notice', false);
-    request('/messages', { id: composeId, question: el('question').value, revision: state.revision }).then(function () { el('question').value = ''; composeId = ''; return refresh(); })
+    request('/messages', { id: composeId, question: el('question').value, revision: state.revision }).then(function () { el('question').value = ''; composeId = ''; draftRevision = null; return refresh(); })
       .catch(message).then(function () { mutation = false; if (state) render(); });
   };
   el('stop').onclick = function () { request('/stop', {}).then(refresh).catch(message); };
@@ -171,6 +177,7 @@
   };
   el('leave-tv').onclick = function () { try { window.tizen.application.getCurrentApplication().hide(); } catch (e) { message(new Error('Press Home on your remote and open your streaming app.')); } };
   document.addEventListener('visibilitychange', function () {
+    if (document.hidden && recognition) recognition.abort();
     if (!document.hidden) { if (waiting) waitForApproval(); else refresh(); }
   });
   document.addEventListener('keydown', function (event) {
@@ -202,5 +209,25 @@
     if (best) { event.preventDefault(); best.focus(); }
   });
   window.addEventListener('pagehide', function () { el('api-key').value = ''; modelKey = ''; });
+  var Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (phone && Speech) {
+    show('dictate', true); show('voice-note', true);
+    el('dictate').onclick = function () {
+      if (recognition) { recognition.stop(); return; }
+      if (!state || !state.account || !state.context.title) return message(new Error('Connect AI and set what’s playing before dictating.'));
+      try {
+        recognition = new Speech(); recognition.lang = navigator.language || 'en-US'; recognition.interimResults = false; recognition.maxAlternatives = 1;
+        recognition.onresult = function (event) {
+          var heard = event.results[0][0].transcript;
+          el('question').value = (el('question').value + (el('question').value ? ' ' : '') + heard).slice(0, 2000);
+          el('question').oninput(); el('question').focus();
+        };
+        recognition.onerror = function () { message(new Error('Dictation is unavailable or microphone permission was declined. Type your question or use your phone keyboard’s microphone.')); };
+        recognition.onend = function () { recognition = null; setText('dictate', 'Dictate'); };
+        recognition.start(); setText('dictate', 'Stop dictation');
+      } catch (error) { recognition = null; setText('dictate', 'Dictate'); message(new Error('Dictation is unavailable. Use the microphone on your phone keyboard.')); }
+    };
+  }
+  window.addEventListener('pagehide', function () { if (recognition) recognition.abort(); });
   init();
 }());

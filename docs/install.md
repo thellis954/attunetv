@@ -163,7 +163,7 @@ On AttuneTV, open **Settings → Set up from your phone**. Scan the QR code usin
 - Pick your background, clock format and ambient-mode timeout.
 - Optionally add calendar feeds for the “Up next” widget.
 
-The setup page runs locally over HTTP and requires the random PIN shown on the TV. Use trusted home Wi-Fi. The page closes when you leave the TV's phone-setup screen. **This QR code is for launcher settings, not ChatGPT sign-in.**
+The setup page runs locally over HTTP and requires the random PIN shown on the TV. Use trusted home Wi-Fi. The page closes when you leave the TV's phone-setup screen. **This QR code is for launcher settings, separate from Ask → Pair phone for AI chat.**
 
 <details>
 <summary><strong>Adding a calendar</strong></summary>
@@ -172,7 +172,7 @@ Paste an iCal/ICS subscription link into phone setup, one per line. Use your cal
 
 </details>
 
-**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv); its account connection happens in the TV's browser.
+**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv); select Ask → Pair phone for the guided API-key connection.
 
 ## Updating
 
@@ -185,7 +185,7 @@ dumpsys package com.attunetv.launcher | grep versionName
 exit
 ```
 
-If the error says **`INSTALL_FAILED_UPDATE_INCOMPATIBLE`**, the signing key may differ. Stop: uninstalling would erase AttuneTV preferences and its saved ChatGPT connection. Official releases match the original maintainer-installed 0.4.1 signing identity, but not every early CI or locally built APK. Prefer a build signed with the same key. If you deliberately choose to start over, note your settings first, use the removal instructions below and install again. Do not uninstall Amazon apps to solve this.
+If the error says **`INSTALL_FAILED_UPDATE_INCOMPATIBLE`**, the signing key may differ. Stop: uninstalling would erase AttuneTV preferences and its saved chat pairing. Official releases match the original maintainer-installed 0.4.1 signing identity, but not every early CI or locally built APK. Prefer a build signed with the same key. If you deliberately choose to start over, note your settings first, use the removal instructions below and install again. Do not uninstall Amazon apps to solve this.
 
 ## Go back or uninstall
 

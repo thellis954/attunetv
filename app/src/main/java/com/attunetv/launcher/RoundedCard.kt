@@ -16,7 +16,7 @@ import android.widget.FrameLayout
 /**
  * App tile container. Clips its content to a rounded rect itself (outline clipping proved
  * unreliable for lifted/scaled tiles on Fire OS) and draws the focus / move ring on top,
- * inside its bounds so nothing can cut it off. The outline is still used for the colored glow.
+ * inside its bounds so nothing can cut it off. The outline is still used for the soft neutral shadow.
  */
 class RoundedCard @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
@@ -57,6 +57,12 @@ class RoundedCard @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         val moving = isActivated
         if (isFocused || moving || forceRing) {
+            // A dark inner keyline keeps the white focus ring visible on white app art.
+            ring.pathEffect = null
+            ring.color = 0xCC111923.toInt()
+            val edge = 4.5f * d
+            rect.set(edge, edge, width - edge, height - edge)
+            canvas.drawRoundRect(rect, radius - edge, radius - edge, ring)
             ring.color = if (moving) 0xFF7AA2FF.toInt() else 0xFFFFFFFF.toInt()
             ring.pathEffect = if (moving) dash else null
             val inset = ring.strokeWidth / 2

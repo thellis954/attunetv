@@ -118,3 +118,24 @@ test('disconnect erases the room, key and sessions; old cookies cannot regain ac
   assert.equal((await req('/state', undefined, p.phone)).status, 401);
   assert.equal(service.store.db.prepare('SELECT COUNT(*) AS n FROM accounts').get().n, 0);
 });
+
+test('native TV opaque-origin flow shares phone setup and never receives provider keys', async t => {
+  const { req } = await fixture(t);
+  const opaque = { Origin: 'null' };
+  const tv = (await req('/tv', {}, null, opaque)).body.credential;
+  const pair = (await req('/pair', {}, tv, opaque)).body;
+  const claim = await req('/pair/claim', { ticket: pair.link.split('pair=')[1] });
+  const phone = 'cookie:' + claim.cookie;
+  assert.equal((await req('/pair/approve', { code: claim.body.code }, tv, opaque)).status, 200);
+  assert.equal((await req('/account', { provider: 'openai', key, model: 'fixture-model', billingAccepted: true, dailyLimit: 20 }, phone)).status, 200);
+  const before = (await req('/state', undefined, tv, opaque)).body;
+  assert.equal((await req('/context', { revision: before.revision, title: 'A film', service: 'Prime Video' }, tv, opaque)).status, 200);
+  const state = (await req('/state', undefined, tv, opaque)).body;
+  assert.equal((await req('/messages', { id: 'native_request_12345', question: 'Who is the director?', revision: state.revision }, tv, opaque)).status, 202);
+  await new Promise(r => setTimeout(r, 30));
+  const synced = (await req('/state', undefined, phone)).body;
+  assert.equal(synced.messages[1].status, 'complete');
+  assert.equal(synced.context.service, 'Prime Video');
+  assert.ok(!JSON.stringify(state).includes(key));
+  assert.equal((await req('/account/check', { provider: 'openai', key }, tv, opaque)).status, 403);
+});

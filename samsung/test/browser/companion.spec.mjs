@@ -3,6 +3,13 @@ import { mkdir } from 'node:fs/promises';
 test('TV and phone pair, guide API setup, share context and sync after TV closes', async ({ browser }) => {
   const tvContext = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
   const phoneContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await phoneContext.addInitScript(() => {
+    window.SpeechRecognition = class {
+      start() { setTimeout(() => { this.onresult({ results: [[{ transcript: 'Explain the opening scene' }]] }); this.onend(); }, 20); }
+      stop() { this.onend(); }
+      abort() { this.onend(); }
+    };
+  });
   let tv = await tvContext.newPage(); const phone = await phoneContext.newPage();
   const errors = []; tv.on('pageerror', e => errors.push(e.message)); phone.on('pageerror', e => errors.push(e.message));
   await mkdir('test-results/screens', { recursive: true });
@@ -30,6 +37,9 @@ test('TV and phone pair, guide API setup, share context and sync after TV closes
   await phone.getByLabel(/Watching on/).selectOption('Apple TV');
   await phone.getByRole('button', { name: 'Save viewing context' }).click();
   await expect(tv.locator('#show-title')).toHaveText('Severance');
+  await phone.getByRole('button', { name: 'Dictate', exact: true }).click();
+  await expect(phone.getByLabel('Your question')).toHaveValue('Explain the opening scene');
+  await expect(phone.locator('#transcript')).not.toContainText('Test response:');
   // Closing the TV page is stronger than merely hiding it: the phone must not
   // depend on a running TV process for inference or shared persistence.
   await tv.close();
@@ -42,6 +52,15 @@ test('TV and phone pair, guide API setup, share context and sync after TV closes
   await tv.screenshot({ path: 'test-results/screens/tv-chat.png' });
   expect(await phone.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(await tv.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await tv.getByLabel('Your question').fill('Who is this character?');
+  await phone.getByRole('button', { name: 'Change what’s playing' }).click();
+  await phone.getByLabel(/Season and episode/).fill('Season 1, episode 3');
+  await phone.getByRole('button', { name: 'Save viewing context' }).click();
+  await expect(tv.getByRole('button', { name: 'Use updated context' })).toBeVisible();
+  await expect(tv.getByRole('button', { name: 'Ask', exact: true })).toBeDisabled();
+  await expect(tv.getByLabel('Your question')).toHaveValue('Who is this character?');
+  await tv.getByRole('button', { name: 'Use updated context' }).click();
+  await expect(tv.getByRole('button', { name: 'Ask', exact: true })).toBeEnabled();
   expect(errors).toEqual([]);
   await tvContext.close(); await phoneContext.close();
 });

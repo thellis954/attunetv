@@ -14,14 +14,14 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
 /** TV-owned tokens: authenticated encryption, non-exportable device key, excluded from backups. */
-class ChatVault(context: Context) {
-    private val file = AtomicFile(File(context.noBackupFilesDir, "chatgpt-accounts.enc"))
+class ChatVault(context: Context, filename: String = "chatgpt-accounts.enc", private val alias: String = "attunetv-chatgpt") {
+    private val file = AtomicFile(File(context.noBackupFilesDir, filename))
     private val key: SecretKey
         get() {
             val store = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-            (store.getKey("attunetv-chatgpt", null) as? SecretKey)?.let { return it }
+            (store.getKey(alias, null) as? SecretKey)?.let { return it }
             return KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore").run {
-                init(KeyGenParameterSpec.Builder("attunetv-chatgpt", KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                init(KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build())
                 generateKey()
             }

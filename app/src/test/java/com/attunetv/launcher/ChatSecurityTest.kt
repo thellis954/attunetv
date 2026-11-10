@@ -37,7 +37,8 @@ class ChatSecurityTest {
     }
     @Test fun nativeSupportDoesNotTrustCandidateOrPrototypeLists() {
         assertTrue("com.amazon.firebat" in StreamingSupport.candidates)
-        assertFalse(StreamingSupport.supported("com.amazon.firebat"))
+        assertTrue(StreamingSupport.verifiedPackages.isEmpty())
+        assertEquals(BuildConfig.STREAMING_VERIFICATION, StreamingSupport.supported("com.amazon.firebat"))
         assertFalse(StreamingSupport.supported("com.amazon.firebat.fake"))
         assertFalse(StreamingSupport.supported(null))
     }

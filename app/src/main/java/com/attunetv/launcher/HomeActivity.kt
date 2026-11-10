@@ -151,7 +151,7 @@ class HomeActivity : TvActivity() {
     }
 
     private fun glass(v: View, radius: Float): GlassDrawable =
-        GlassDrawable(v, radius).also { v.background = it; glassViews += v }
+        GlassDrawable(v, radius, tintAlpha = 0x60, tintColor = 0x0C1724).also { v.backgroundTintList = null; v.background = it; glassViews += v }
 
     override fun onResume() {
         super.onResume()
