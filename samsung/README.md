@@ -2,6 +2,13 @@
 
 A conversation on your TV and phone, about what you choose to watch.
 
+**[Open the hosted preview](https://attunetv-samsung.vercel.app/tv)** on a computer
+or TV browser, then choose **Pair phone**. The phone walks you through obtaining
+and connecting your own API key. The packaged Samsung app still requires signing
+and installation.
+
+![Hosted AttuneTV companion before pairing](../docs/samsung-companion.png)
+
 This is a separate **Tizen companion**, alongside the existing Fire TV launcher.
 Samsung does not support placing a normal third-party app over another app.
 Open AttuneTV for full-screen TV chat; use the paired phone while Netflix,
@@ -24,8 +31,8 @@ capture playback, or automatically identify a scene.
 **Verification boundary:** automated service tests and desktop-browser tests use
 fixture credentials and responses. These verify request contracts and UI behavior,
 not paid inference, every provider/model combination, or Samsung hardware behavior.
-The physical QN65Q65FN reports Tizen and Developer Mode off. No app has been
-installed on it yet. The package is unsigned and needs a real HTTPS service URL.
+The deployed Vercel/Neon service has also passed real HTTPS pairing, setup-link and cross-screen context checks without a live API key. The physical QN65Q65FN reports Tizen and Developer Mode off. No app has been
+installed on it yet. The review package is unsigned; rebuild with the hosted HTTPS origin before signing.
 
 ## For viewers: connecting AI
 
@@ -198,3 +205,13 @@ provider console to stop their use outside this service.
 Voice entry can use a phone keyboard’s own dictation where available. There is
 no in-app microphone capture, TV voice integration, or automatic scene recognition.
 Answers and spoiler avoidance are not guaranteed.
+
+### Hosted smoke check
+
+```sh
+ATTUNE_VERIFY_ORIGIN=https://attunetv-samsung.vercel.app node scripts/verify-hosted.mjs
+```
+
+This creates and erases a temporary test pairing, checks the provider setup links
+and cross-screen manual context, and saves hosted-browser screenshots. It never
+submits an API key or makes a paid inference request.

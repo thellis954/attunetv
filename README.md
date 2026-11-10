@@ -70,7 +70,7 @@ The assistant does not watch or listen to your video. You can supply a title, ep
 
 [Read the native architecture and verification checklist →](docs/standalone-chat.md)
 
-## Samsung TV companion — in development
+## Samsung TV companion — hosted preview
 
 **Keep watching on the TV. Keep the conversation on your phone.** A separate
 Tizen preview adds full-screen TV chat, QR-paired phone chat and a shared
@@ -83,9 +83,10 @@ consumer chat subscription. The companion uses a hosted service so the phone
 can keep chatting while Samsung suspends the TV app. Viewers do not need an
 always-on Mac.
 
-**Current status:** source and automated browser/service tests are available.
-Samsung hardware installation, public hosting and real provider calls are not
-verified yet. This is not the Fire TV APK, and it cannot overlay Samsung’s
+**[Try the hosted preview](https://attunetv-samsung.vercel.app/tv)** — pair your
+phone and follow the guided API-key setup. Hosting runs on Vercel with persistent
+Neon storage. Deployed pairing and cross-screen context sync are verified;
+Samsung hardware installation and real provider calls are still pending. This is not the Fire TV APK, and it cannot overlay Samsung’s
 built-in streaming apps. [Samsung preview, setup and deployment guide](samsung/README.md).
 
 ## Learn the remote in a minute
