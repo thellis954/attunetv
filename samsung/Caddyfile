@@ -1,0 +1,3 @@
+{$ATTUNE_DOMAIN} {
+    reverse_proxy companion:8787
+}

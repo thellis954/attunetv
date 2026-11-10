@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>AttuneTV · Your viewing companion</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="#" id="brand">attune<span>tv</span></a><span id="connection" role="status">Connecting…</span></header>
+  <main id="main">
+    <section class="intro" aria-labelledby="viewing-heading">
+      <p class="section-label">Your viewing companion</p>
+      <h1 id="viewing-heading">Stay in<br>the story.</h1>
+      <p class="lead" id="intro-copy">A question on your TV. A conversation on your phone. Pick up where you left off.</p>
+      <div id="context-summary" hidden>
+        <p class="section-label">You’re watching</p>
+        <h2 id="show-title"></h2><p id="show-detail"></p>
+        <p class="small">Set by you. AttuneTV cannot see or hear your screen.</p>
+      </div>
+      <div class="actions" id="room-actions" hidden>
+        <button id="edit-context">Set what’s playing</button><button id="pair-phone" class="secondary">Pair phone</button>
+        <button id="setup-ai" class="secondary" hidden>AI connection</button>
+      </div>
+      <p class="tv-note">On Samsung, chat appears here. Use your phone to keep chatting while Netflix, Prime Video or another TV app is open.</p>
+      <button class="text-button" id="leave-tv" hidden>Return to watching</button>
+      <button id="restart" class="secondary" hidden>Start a new pairing</button>
+    </section>
+    <section class="conversation" aria-label="Conversation">
+      <div class="conversation-heading"><h2>Let’s talk about it.</h2><span id="provider-label">Connect on your phone</span></div>
+      <div id="transcript" tabindex="0" aria-label="Conversation history" aria-live="polite">
+        <div class="empty" id="empty-state"><div class="orbit" aria-hidden="true">✦</div><h3>What caught your attention?</h3><p>Ask about a character, a confusing moment, or the story behind the story.</p></div>
+      </div>
+      <form id="compose"><label for="question">Your question</label><textarea id="question" rows="2" maxlength="2000" placeholder="What would you like to know?" disabled></textarea><div class="compose-actions"><p id="usage" class="small">Pair a phone to connect your AI provider.</p><button id="ask" disabled>Ask</button><button type="button" id="stop" hidden>Stop</button></div></form>
+      <p class="fine">Answers may be wrong or contain spoilers. Add your episode and progress for better context.</p><p class="fine remote-hint">Remote: OK to edit a field. Back to finish editing. Arrows to move.</p>
+      <div class="footer-actions"><button id="clear" class="text-button" hidden>Clear conversation</button><button id="disconnect" class="text-button" hidden>Disconnect &amp; erase</button></div>
+    </section>
+  </main>
+  <div id="notice" role="alert" hidden></div>
+  <div id="modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <section class="sheet"><div class="sheet-head"><h2 id="modal-title">Pair your phone</h2><button id="close-modal" class="secondary" aria-label="Close dialog">Close</button></div>
+      <div id="pair-panel" hidden>
+        <p>Scan with your phone’s camera. Pairing lasts five minutes. Approve the matching number here.</p>
+        <img id="qr" alt="Scan to pair your phone with this TV" width="320" height="320">
+        <p class="small">Keep this code private. Pairing a new phone removes the previous phone, API key and conversation.</p>
+        <p id="pair-status" role="status"></p><button id="approve-pair" hidden>Approve phone</button><button id="refresh-pair" class="secondary">Get a new code</button>
+      </div>
+      <form id="context-form" hidden>
+        <label for="title">Movie or show</label><input id="title" maxlength="240" required autocomplete="off" placeholder="For example, Severance">
+        <label for="episode">Season and episode <span>(optional)</span></label><input id="episode" maxlength="120" placeholder="Season 1, episode 2">
+        <label for="progress">Where are you in the story? <span>(optional)</span></label><input id="progress" maxlength="160" placeholder="About 20 minutes in. No later spoilers.">
+        <label for="service">Watching on <span>(optional)</span></label><select id="service"><option value="">Choose a service</option><option>Netflix</option><option>Prime Video</option><option>Apple TV</option><option>Disney+</option><option>Hulu</option><option>HBO Max</option><option>Peacock</option><option>Paramount+</option><option>Other</option></select>
+        <p class="small">Saving starts a fresh conversation on both screens.</p><button>Save viewing context</button>
+      </form>
+      <div id="phone-pair-panel" hidden><p id="phone-pair-copy">Connect this phone to your TV’s conversation.</p><p class="pair-number" id="phone-code"></p><button id="claim-phone">Pair this phone</button></div>
+      <form id="account-form" hidden autocomplete="off">
+        <p class="lead">Connect the AI you choose.</p><p>You’ll create an API key in your provider’s developer account. A normal chat subscription may not include API usage.</p>
+        <label for="provider">Choose your provider</label><select id="provider"><option value="openai">OpenAI</option><option value="claude">Claude</option><option value="grok">Grok</option><option value="kimi">Kimi</option></select>
+        <ol class="setup-steps"><li><strong>Create an account and set a budget.</strong><p>Open your provider’s billing page. Add API credit if required and set the available spending controls. AttuneTV never buys credits for you.</p><a id="billing-link" target="_blank" rel="noopener noreferrer">Open billing</a> <a id="pricing-link" target="_blank" rel="noopener noreferrer">See pricing</a></li>
+        <li><strong>Create a key named “AttuneTV”.</strong><p>Use the provider’s API keys page. Give it permission to list models and generate text. Copy the new key, then return here.</p><a id="key-link" target="_blank" rel="noopener noreferrer">Open API keys</a></li>
+        <li><strong>Connect it here.</strong><p>The key is sent securely to this AttuneTV service and stored encrypted. It is never shown on the TV. Only pair with a TV and service you trust.</p></li></ol>
+        <label for="api-key">API key</label><input id="api-key" type="password" autocomplete="new-password" spellcheck="false" autocapitalize="none" maxlength="512" required placeholder="Paste your new API key">
+        <button type="button" id="check-key" class="secondary">Check key &amp; load models</button><p id="key-status" role="status" class="small"></p>
+        <div id="model-step" hidden><label for="model">Choose a text model</label><select id="model" required><option value="">Choose a model</option></select><p class="small">Model prices differ. Checking the key lists models; it does not generate a paid answer.</p>
+        <label for="daily-limit">Daily question limit for this TV</label><input id="daily-limit" type="number" min="1" max="100" value="20" required><p class="small">Resets at midnight UTC. This is a request limit, not a dollar cap. Failed or stopped requests may still cost money.</p>
+        <label class="check-label"><input id="billing-consent" type="checkbox" required> I understand API usage is billed to my provider account, including questions asked from this paired TV.</label>
+        <button id="save-account">Connect provider</button></div>
+        <button type="button" id="remove-account" class="text-button" hidden>Remove saved API key</button>
+        <p class="small">Removing a key here deletes it from this service. Revoke it in your provider account to disable it everywhere.</p>
+      </form>
+      <div id="confirm-panel" hidden><p id="confirm-copy"></p><button id="confirm-action">Confirm</button></div>
+      <p id="dialog-error" class="error" role="alert" hidden></p>
+    </section>
+  </div>
+  <noscript>Enable JavaScript to use the AttuneTV companion.</noscript>
+</body>
+</html>

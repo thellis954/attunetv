@@ -70,6 +70,24 @@ The assistant does not watch or listen to your video. You can supply a title, ep
 
 [Read the native architecture and verification checklist →](docs/standalone-chat.md)
 
+## Samsung TV companion — in development
+
+**Keep watching on the TV. Keep the conversation on your phone.** A separate
+Tizen preview adds full-screen TV chat, QR-paired phone chat and a shared
+conversation with movie, episode and progress context you supply.
+
+Its phone setup walks you through getting your own **OpenAI, Claude, Grok or Kimi
+API key**, reviewing provider billing, checking access and choosing a model.
+API usage is billed by your provider; it is not automatically included in a
+consumer chat subscription. The companion uses a hosted service so the phone
+can keep chatting while Samsung suspends the TV app. Viewers do not need an
+always-on Mac.
+
+**Current status:** source and automated browser/service tests are available.
+Samsung hardware installation, public hosting and real provider calls are not
+verified yet. This is not the Fire TV APK, and it cannot overlay Samsung’s
+built-in streaming apps. [Samsung preview, setup and deployment guide](samsung/README.md).
+
 ## Learn the remote in a minute
 
 | On AttuneTV Home | Action |

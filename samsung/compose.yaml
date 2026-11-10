@@ -1,0 +1,26 @@
+services:
+  companion:
+    build: .
+    restart: unless-stopped
+    environment:
+      PUBLIC_ORIGIN: https://${ATTUNE_DOMAIN:?Set ATTUNE_DOMAIN to your service hostname}
+    volumes:
+      - companion-data:/app/data
+    expose:
+      - "8787"
+  https:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      ATTUNE_DOMAIN: ${ATTUNE_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  companion-data:
+  caddy-data:
+  caddy-config:
