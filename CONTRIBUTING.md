@@ -1,6 +1,6 @@
 # Build something better for the living room
 
-[← AttuneTV](README.md) · [Install a prebuilt app](docs/install.md) · [Native chat architecture](docs/standalone-chat.md)
+[← AttuneTV](README.md) · [Choose your installation guide](docs/setup.md) · [Native chat architecture](docs/standalone-chat.md)
 
 AttuneTV is a native Kotlin Android app. Contributions can be as small as a useful device report or as ambitious as a carefully tested streaming integration. A TV remote is the primary input device; make every change work from the couch.
 

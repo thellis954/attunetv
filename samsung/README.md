@@ -1,5 +1,7 @@
 # AttuneTV for Samsung — developer preview
 
+**[Install on your Samsung →](../docs/samsung-install.md)** · **[Pair your phone & connect AI →](../docs/ai-setup.md)** · [Choose another screen](../docs/setup.md)
+
 A conversation on your TV and phone, about what you choose to watch.
 
 **[Open the hosted preview](https://attunetv-samsung.vercel.app/tv)** on a computer
@@ -31,8 +33,7 @@ capture playback, or automatically identify a scene.
 **Verification boundary:** automated service tests and desktop-browser tests use
 fixture credentials and responses. These verify request contracts and UI behavior,
 not paid inference, every provider/model combination, or Samsung hardware behavior.
-The deployed Vercel/Neon service has also passed real HTTPS pairing, setup-link and cross-screen context checks without a live API key. The physical QN65Q65FN reports Tizen and Developer Mode off. No app has been
-installed on it yet. The review package is unsigned; rebuild with the hosted HTTPS origin before signing.
+The deployed Vercel/Neon service has also passed real HTTPS pairing, setup-link and cross-screen context checks without a live API key. On November 20, 2026, version 0.1.0 was signed with a Samsung TV certificate, installed and launched on QN65Q65FN / Tizen 4.0. The device authorization profile had to be transferred before installation; the standard SDK signer then worked without modification. Visual quality, physical phone pairing and live provider answers still need acceptance. Public build artifacts are unsigned and each installer must sign for their target TV. See the [complete install guide](../docs/samsung-install.md) and [physical installation evidence](../docs/device-checks/samsung-qn65q65fn.md).
 
 ## For viewers: connecting AI
 
@@ -145,34 +146,15 @@ backups, abuse testing, privacy/support policy and real device/provider checks.
 
 ## Build and install on a Samsung TV
 
-After deploying HTTPS:
+Follow the **[Samsung installation guide](../docs/samsung-install.md)** for prerequisites, the hidden Developer Mode sequence, IP entry, certificate creation, device authorization, signing, installation, updates and troubleshooting. It includes the exact route that worked on the 2018 test TV.
+
+For an already configured development environment:
 
 ```sh
-ATTUNE_SERVICE_ORIGIN=https://your-owned-hostname.example npm run build
+ATTUNE_SERVICE_ORIGIN=https://attunetv-samsung.vercel.app npm run build
 ```
 
-This produces `dist/tizen/`, `dist/AttuneTV-Samsung-0.1.0-UNSIGNED.wgt`, checksums and
-a build-status file. A build without `ATTUNE_SERVICE_ORIGIN` is an **offline shell
-for inspection**, not an installable connected product. It honestly displays
-“Service setup needed”.
-
-Use Samsung Tizen Studio with its TV and certificate extensions:
-
-1. On the TV’s Apps screen, enter **12345** using the remote’s number keypad.
-   Turn Developer Mode on, enter the installer computer’s LAN IP, then restart
-   when convenient. This is a user step; do not interrupt playback automatically.
-2. Connect the TV in Tizen Device Manager (`192.168.86.55` is Tom’s current test TV).
-3. Create a **Samsung TV** certificate profile using your Samsung account and the
-   connected device’s DUID. Keep keys/passwords outside Git. Permit installation
-   for that device. Do not share a distributor certificate between unrelated TVs.
-4. Build/sign the `dist/tizen` web project with that certificate profile and install
-   the resulting signed `.wgt` through Tizen Studio. A ZIP renamed `.wgt` is not a
-   signed Samsung installation package.
-5. Open AttuneTV, pair a phone, connect a real provider key, and verify the checklist
-   below before calling this TV supported.
-
-See Samsung’s [device setup](https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html)
-and [certificate guide](https://developer.samsung.com/smarttv/develop/tools/additional-tools/vscode/creating-certificates.html).
+Sign the resulting WGT with your own Samsung profile and target-device DUID. Use the same author certificate for future updates. The [workflow artifact](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) now includes this hosted origin, but remains unsigned. Never commit certificates, passwords or device authorization files.
 
 ## Acceptance checklist
 

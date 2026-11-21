@@ -1,6 +1,8 @@
-# Install AttuneTV
+# Install AttuneTV on Fire TV
 
-[← Back to AttuneTV](../README.md) · [Building from source instead?](../CONTRIBUTING.md)
+[← Choose your screen](setup.md) · [Building from source instead?](../CONTRIBUTING.md)
+
+**Samsung built-in apps?** Use the [Samsung guide](samsung-install.md). **Android TV / Google TV?** Use the [experimental testing guide](android-tv-install.md). This page is specifically for Android-based Fire TV.
 
 You do not need to write code or install Android Studio. This guide uses a small tool called **ADB** to send the app from your computer to your TV. Once setup is complete, you can disconnect the computer and use the remote normally.
 

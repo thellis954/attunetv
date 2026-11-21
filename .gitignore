@@ -11,6 +11,12 @@ node_modules/
 *.jks
 *.p12
 *.pfx
+*.pri
+*.wgt
+device-profile.xml
+certificate-registration.xml
+profiles.xml
+SamsungCertificate/
 release-output/
 release-input/
 __pycache__/

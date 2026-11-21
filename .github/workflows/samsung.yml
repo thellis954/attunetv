@@ -43,6 +43,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: npm run build:vercel && npm run build
+        env:
+          ATTUNE_SERVICE_ORIGIN: https://attunetv-samsung.vercel.app
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: AttuneTV-Samsung-UNSIGNED-preview

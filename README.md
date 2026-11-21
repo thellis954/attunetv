@@ -8,7 +8,7 @@ A cinematic, ad-free home screen for Fire TV.<br>An optional AI viewing companio
 
 [![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) [![Companion checks](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) [![Public APK](https://img.shields.io/github/v/release/thellis954/attunetv?label=public%20APK&color=246878)](https://github.com/thellis954/attunetv/releases/latest) ![Status: Early preview](https://img.shields.io/badge/status-early_preview-d8ad70)
 
-**[Install on Fire TV](docs/install.md)** · **[Try the AI companion](https://attunetv-samsung.vercel.app/tv)** · **[Build with us](CONTRIBUTING.md)**
+**[Choose your TV & install](docs/setup.md)** · **[Try the AI companion](https://attunetv-samsung.vercel.app/tv)** · **[Build with us](CONTRIBUTING.md)**
 
 ![AttuneTV Home on a real Insignia Fire TV: daily photograph, large clock, Search and Ask, and a glass favorites dock with a white focus ring.](docs/images/home-fire-tv.png)
 
@@ -20,7 +20,7 @@ A cinematic, ad-free home screen for Fire TV.<br>An optional AI viewing companio
 
 **Free to download. No always-on computer. Chat is optional; provider API usage is billed separately.**
 
-> **Choose the right preview:** the public Fire TV download is **0.4.2**. The shared API-key chat shown below is in **0.5.0 development source** and the **hosted companion preview**, not that older APK. Samsung installation and live AI/playback verification are still in progress. [What works today ↓](#what-works-today)
+> **Choose the right preview:** the public Fire TV download is **0.4.2**. The shared API-key chat shown below is in **0.5.0 development source** and the **hosted companion preview**, not that older APK. Samsung 0.1.0 installation and launch are verified on QN65Q65FN; visual, phone-pairing and live AI/playback verification are still in progress. [What works today ↓](#what-works-today)
 
 ## A home screen worth coming home to
 
@@ -92,11 +92,25 @@ Custom launchers such as [Projectivy](https://github.com/spocky/miproja1) and [C
 | **Fire TV launcher** | Tested on Insignia NS65-UQFL26 / Fire OS 8.1.6.4. Public APK: 0.4.2; current source: 0.5.0 preview. Other models need testing. **[Install guide](docs/install.md) · [Public APK](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk)** |
 | **Shared TV + phone chat** | Hosted pairing, setup links and context sync verified. Conversation flows have automated fixture coverage; real provider responses still need end-to-end validation. **[Hosted preview](https://attunetv-samsung.vercel.app/tv) · [Architecture](docs/standalone-chat.md)** |
 | **Chat over Fire TV streaming apps** | Under development. **Hidden in normal builds** until each integration passes real playback, focus and dismissal checks. **[Verification checklist](docs/standalone-chat.md#verification)** |
-| **Samsung Tizen companion** | Web preview built; Samsung signing, installation and hardware verification pending. Full-screen TV chat plus phone chat during playback; **no overlay over built-in streaming apps and no Smart Hub replacement**. **[Samsung setup](samsung/README.md)** |
+| **Samsung Tizen companion** | 0.1.0 signed, installed and launched on QN65Q65FN / Tizen 4.0. Visual, physical pairing and live-answer checks remain open. Full-screen TV chat plus phone chat during playback; **no overlay over built-in streaming apps and no Smart Hub replacement**. **[Samsung installation](docs/samsung-install.md)** |
+| **Android TV / Google TV** | Experimental installation path; no physical device acceptance yet. **[Testing guide](docs/android-tv-install.md)** |
 
 Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ are **Fire TV integration targets**, not a confirmed overlay support list. Launching an installed streaming app from Home is separate from supporting chat inside its player.
 
-## Get it on your Fire TV
+## Get it on your TV
+
+**[Start here: choose your screen →](docs/setup.md)**
+
+| You use | Installation and setup |
+| --- | --- |
+| **Fire TV built in or an Android-based Fire TV Stick** | [Download and install the APK](docs/install.md) · [Personalize from your phone](docs/install.md#5-make-it-yours) |
+| **Samsung built-in apps / Tizen** | [Samsung step-by-step guide](docs/samsung-install.md) · [Pair a phone and connect AI](docs/ai-setup.md) |
+| **Android TV / Google TV** | [Experimental installation guide](docs/android-tv-install.md) — help us verify your model |
+| **Try chat before installing** | [Open the hosted companion](https://attunetv-samsung.vercel.app/tv) · [AI setup walkthrough](docs/ai-setup.md) |
+
+Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not currently have native AttuneTV packages. A compatible external streaming device uses its own platform's guide. [Compatibility and release choices](docs/setup.md).
+
+### Quick start: Fire TV
 
 **No coding or Android Studio required.** Bring an Android-based Fire TV, its remote, and a Mac, Windows or Linux computer for installation.
 
@@ -104,7 +118,7 @@ Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ a
 2. **Connect on the same home network.** Enable ADB debugging and approve the connection with the TV remote.
 3. **Install, make it Home, personalize.** Follow the guide’s copy-and-paste commands, expected results and undo instructions. Keep other accessibility services intact.
 
-### [Follow the installation guide →](docs/install.md)
+**[Follow the Fire TV installation guide →](docs/install.md)**
 
 After setup, the launcher runs on the TV and the computer can shut down. Chat uses the hosted companion; viewers do not need to run a server. The Samsung preview has a separate installation process and cannot use the APK.
 
@@ -178,6 +192,6 @@ The code is public and contributions are welcome, but the repository currently h
 
 ---
 
-**Make yourself at home. Stay curious.** [Install AttuneTV](docs/install.md), [explore the companion](https://attunetv-samsung.vercel.app/tv), or [help build what comes next](CONTRIBUTING.md). Star the repo to help other TV tinkerers find it.
+**Make yourself at home. Stay curious.** [Install AttuneTV](docs/setup.md), [explore the companion](https://attunetv-samsung.vercel.app/tv), or [help build what comes next](CONTRIBUTING.md). Star the repo to help other TV tinkerers find it.
 
 Built by [Tom Ellis](https://github.com/thellis954). Independent project; not an official Amazon, Samsung, OpenAI or streaming-service app. Product names and logos belong to their respective owners.
