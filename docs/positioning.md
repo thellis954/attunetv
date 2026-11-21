@@ -37,7 +37,7 @@ These are differentiators of the combination. We have not established that every
 
 | Visitor | Primary invitation | What to explain before they start |
 | --- | --- | --- |
-| Wants a better Fire TV Home | Install the public APK using the beginner guide | Public release is 0.4.2; companion API-key changes are in 0.5.0 development source. ADB and a computer are needed for setup. |
+| Wants a better Fire TV Home | Install the public APK using the beginner guide | Public release 0.5.1 includes the shared companion; the setup ZIP includes guided installers. ADB and a computer are needed for setup. |
 | Wants to explore the companion | Open the hosted preview and pair a phone | API key and separate provider billing are required for real answers; live inference validation remains open. |
 | Owns a Samsung TV | Follow the Tizen developer-preview guide | Signing and Developer Mode are required. Installation, launch and on-TV pairing-link/QR generation are verified on QN65Q65FN; phone approval and live-answer acceptance remain open; it is full-screen chat plus a phone companion, not a replacement Smart Hub or cross-app overlay. |
 | Wants to contribute | Build, run fixture tests, submit a device report or focused change | No API credit purchase required for automated tests. Real playback evidence is needed before enabling an overlay integration. |
@@ -53,7 +53,7 @@ Screenshots should identify their version and origin. Browser fixtures demonstra
 1. Verify live answers and error recovery with user-controlled API credentials.
 2. Finish Samsung phone pairing, live-answer and return-to-app acceptance; capture shareable hardware evidence.
 3. Verify Fire TV playback, remote focus, Back/Home and idle dismissal per streaming app.
-4. Publish a signed release containing the shared companion flow, then align the download and README version claims.
+4. Verify every new public download against its release metadata and retain the guided setup path as releases evolve.
 5. Choose an explicit software license before promoting reuse or redistribution.
 
 These are release gates and proposed priorities, not completed features or dated commitments.

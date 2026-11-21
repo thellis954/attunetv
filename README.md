@@ -100,13 +100,13 @@ The Fire TV launcher also includes **app search and a shortcut to Amazon’s mov
 | Your screen | Your experience | Get started |
 | --- | --- | --- |
 | **Samsung Tizen** | Full-screen viewing companion + paired phone chat during playback. Does not replace Smart Hub. | **[Samsung setup](docs/samsung-install.md)** |
-| **Fire TV / Android-based Fire TV Stick** | Cinematic Home, app organization and search. Shared AI companion in the 0.5.0 development build. | **[Fire TV setup](docs/install.md)** |
+| **Fire TV / Android-based Fire TV Stick** | Cinematic Home, app organization and search. Includes the shared AI companion and guided phone pairing. | **[Fire TV setup](docs/install.md)** |
 | **Web + phone** | Explore the shared companion before installing a TV app. Open the TV page on a computer, then pair your phone. | **[Open preview](https://attunetv-samsung.vercel.app/tv) · [Connect AI](docs/ai-setup.md)** |
 | **Android TV / Google TV** | Experimental APK path; physical-device compatibility still needs testing. | **[Testing guide](docs/android-tv-install.md)** |
 
 After native installation, you can shut down the setup computer. The launcher runs on the TV; the companion uses the hosted service.
 
-**Which download?** The [public Fire TV APK is 0.4.2](https://github.com/thellis954/attunetv/releases/latest), which predates shared API-key chat. That flow is available in **0.5.0 development source**, the **Samsung 0.1.0 preview** and the **hosted companion**. Follow [release and compatibility guidance](docs/setup.md) to pick the right path.
+**Download the current preview:** [Android APK 0.5.1](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk) · [Samsung 0.1.1 unsigned WGT](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) · [Guided setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). All include the shared companion flow and use the hosted service. No GitHub login or source build is needed. Samsung requires your own TV signing certificate; [choose your installation path](docs/setup.md).
 
 Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not yet have native packages. You can explore the separate browser/phone companion regardless of what you watch, with context entered manually; this does not add a launcher or overlay to those TVs.
 

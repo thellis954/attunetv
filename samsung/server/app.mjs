@@ -1,4 +1,6 @@
 import express from 'express';
+import { readFileSync } from 'node:fs';
+const serviceVersion = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
 import { randomInt } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
@@ -88,7 +90,7 @@ export function createApp({ dbPath, encryptionKey, origin, provider = new Provid
       });
     } catch { /* A failed invocation remains pending until its durable deadline, never retried automatically. */ }
   }
-  app.get('/health', async (req, res) => { await store.one('SELECT 1 AS ok'); res.json({ ok: true, version: '0.1.0' }); });
+  app.get('/health', async (req, res) => { await store.one('SELECT 1 AS ok'); res.json({ ok: true, version: serviceVersion }); });
   app.get('/api/maintenance', async (req, res) => {
     if (!cronSecret || hash(req.headers.authorization || '') !== hash('Bearer ' + cronSecret)) fail('Unauthorized.', 401);
     await store.transaction(() => store.cleanup()); res.json({ ok: true });

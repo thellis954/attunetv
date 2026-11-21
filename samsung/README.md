@@ -154,7 +154,7 @@ For an already configured development environment:
 ATTUNE_SERVICE_ORIGIN=https://attunetv-samsung.vercel.app npm run build
 ```
 
-Sign the resulting WGT with your own Samsung profile and target-device DUID. Use the same author certificate for future updates. The [workflow artifact](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) now includes this hosted origin, but remains unsigned. Never commit certificates, passwords or device authorization files.
+Sign the resulting WGT with your own Samsung profile and target-device DUID. Use the same author certificate for future updates. The [public Samsung download](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) includes this hosted origin and requires no GitHub sign-in or source build, but remains unsigned. Never commit certificates, passwords or device authorization files.
 
 ## Acceptance checklist
 
@@ -200,9 +200,9 @@ This creates and erases a temporary test pairing, checks the provider setup link
 and cross-screen manual context, and saves hosted-browser screenshots. It never
 submits an API key or makes a paid inference request.
 
-## Shared Fire TV connection (0.5.0 development)
+## Shared Fire TV connection (0.5.1 public preview)
 
-The native Fire TV client now uses this same service and phone guide. Each TV has
+The public Fire TV 0.5.1 APK uses this same service and phone guide. Each TV has
 its own isolated room. Phone dictation is available in browsers exposing speech
 recognition and always requires review before sending. The browser's speech
 service handles dictation; the companion does not listen to the TV. Context edits

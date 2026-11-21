@@ -8,7 +8,9 @@ You do not need to write code or install Android Studio. This guide uses a small
 
 ## Before you start
 
-**Release choice:** the current public APK is **0.4.2**. The shared TV/phone API-key companion is in **0.5.0 development source** and the [hosted preview](https://attunetv-samsung.vercel.app/tv); downloading 0.4.2 does not include that newer flow. For companion testing, use the hosted preview or follow the [developer guide](../CONTRIBUTING.md).
+**Current public preview: 0.5.1.** It includes **Ask → Pair phone**, the shared TV/phone conversation and guided API-key setup. You do not need a development build. Streaming overlays remain disabled pending per-app verification.
+
+**Easier install/update:** [download the complete setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip), extract it, and open **START-HERE.txt**. Mac/Linux and Windows helpers check the APK checksum, wait for TV debugging approval, install without erasing data, verify the installed version and open AttuneTV. They do not change TV settings; optional Home redirection is still Step 4 below. You only need Google Platform-Tools, not Android Studio. The manual path follows.
 
 Have these ready:
 
@@ -176,11 +178,11 @@ Paste an iCal/ICS subscription link into phone setup, one per line. Use your cal
 
 </details>
 
-**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv). The guided **Ask → Pair phone** API-key flow requires the 0.5.0 development build; the public 0.4.2 APK predates it.
+**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv). The public 0.5.1 APK includes **Ask → Pair phone**. Follow [AI setup](ai-setup.md) to connect from your phone.
 
 ## Updating
 
-Download a newer APK, put it in `platform-tools`, reconnect using Step 3 and run the same **`install -r`** command. Official release updates share the pinned signing key and preserve app data. Open AttuneTV again and press Home.
+Download a newer APK, put it in `platform-tools`, reconnect using Step 3 and run the same **`install -r`** command. Official release updates share the pinned signing key and preserve app data. Open AttuneTV again and press Home. The setup ZIP also supports updates; download a fresh ZIP for each release rather than reusing an old bundled APK.
 
 To confirm what is actually installed, use the same shell command as Step 4, then run:
 
