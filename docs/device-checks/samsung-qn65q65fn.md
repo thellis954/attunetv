@@ -26,3 +26,7 @@ Hosted-origin package build and ES5 syntax check passed. Companion tests: **21 p
 - Verify phone chat during streaming, return-to-TV sync, restart persistence and dismissal/navigation.
 
 Installation and visible/running status are confirmed; these remaining checks are not claimed complete. See [the installation guide](../samsung-install.md) and [acceptance checklist](../../samsung/README.md#acceptance-checklist).
+
+## Pairing origin regression
+
+After installation, the user confirmed the actual companion screen and reported an origin error when starting pairing. On-device network inspection reproduced `POST /api/tv` with `Origin: file://` and HTTP 403; the server previously accepted only `null` for packaged clients. The fix allows exactly `file://` and `null` for TV bootstrap/bearer requests, with no credentialed CORS. Phone cookies and provider-key setup remain restricted. Regression tests cover both native origins, rejected cookie/key access and untrusted origins. Physical pairing still needs confirmation after deployment.

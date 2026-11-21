@@ -15,7 +15,7 @@ async function fixture(t, provider) {
     if (body !== undefined) headers['Content-Type'] = 'application/json';
     if (credential) { if (credential.startsWith('cookie:')) headers.Cookie = credential.slice(7); else headers.Authorization = 'Bearer ' + credential; }
     const response = await fetch(`http://127.0.0.1:${server.address().port}/api${path}`, { method: body === undefined ? 'GET' : 'POST', headers, body: body === undefined ? undefined : JSON.stringify(body) });
-    return { status: response.status, body: await response.json(), cookie: response.headers.get('set-cookie')?.split(';')[0] };
+    return { status: response.status, body: await response.json(), cookie: response.headers.get('set-cookie')?.split(';')[0], cors: response.headers.get('access-control-allow-origin'), allowCredentials: response.headers.get('access-control-allow-credentials') };
   }
   async function paired() {
     const tv = (await req('/tv', {})).body.credential;
@@ -119,10 +119,14 @@ test('disconnect erases the room, key and sessions; old cookies cannot regain ac
   assert.equal(service.store.db.prepare('SELECT COUNT(*) AS n FROM accounts').get().n, 0);
 });
 
-test('native TV opaque-origin flow shares phone setup and never receives provider keys', async t => {
+for (const packagedOrigin of ['null', 'file://']) test(`native TV ${packagedOrigin} flow shares phone setup and never receives provider keys`, async t => {
   const { req } = await fixture(t);
-  const opaque = { Origin: 'null' };
-  const tv = (await req('/tv', {}, null, opaque)).body.credential;
+  const opaque = { Origin: packagedOrigin };
+  const bootstrap = await req('/tv', {}, null, opaque);
+  assert.equal(bootstrap.status, 201);
+  assert.equal(bootstrap.cors, packagedOrigin);
+  assert.equal(bootstrap.allowCredentials, null);
+  const tv = bootstrap.body.credential;
   const pair = (await req('/pair', {}, tv, opaque)).body;
   const claim = await req('/pair/claim', { ticket: pair.link.split('pair=')[1] });
   const phone = 'cookie:' + claim.cookie;
@@ -138,4 +142,18 @@ test('native TV opaque-origin flow shares phone setup and never receives provide
   assert.equal(synced.context.service, 'Prime Video');
   assert.ok(!JSON.stringify(state).includes(key));
   assert.equal((await req('/account/check', { provider: 'openai', key }, tv, opaque)).status, 403);
+  assert.equal((await req('/account/check', { provider: 'openai', key }, phone, opaque)).status, 403);
+  assert.equal((await req('/state', undefined, phone, opaque)).status, 403);
+  assert.equal((await req('/pair', {}, null, opaque)).status, 403);
+  assert.equal((await req('/pair', {}, 'invalid-tv-token', opaque)).status, 401);
+});
+
+test('packaged-TV origin allowance does not admit arbitrary file or web origins', async t => {
+  const { req, paired } = await fixture(t); const p = await paired();
+  for (const candidate of ['file://evil.example', 'file:///index.html', 'https://evil.example', 'http://localhost', '']) {
+    const rejected = await req('/tv', {}, null, { Origin: candidate });
+    assert.equal(rejected.status, 403);
+    assert.equal(rejected.cors, null);
+    assert.equal((await req('/clear', {}, p.tv, { Origin: candidate })).status, 403);
+  }
 });

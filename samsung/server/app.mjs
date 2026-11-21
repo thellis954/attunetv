@@ -8,6 +8,9 @@ import { providers, ProviderClient, PublicError } from './providers.mjs';
 
 const text = (value, max) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const cookieValue = req => (req.headers.cookie || '').split(';').map(v => v.trim()).find(v => v.startsWith('attune_phone='))?.slice(13);
+// Tizen 4 serializes packaged-app origins as file://; newer runtimes use null.
+// Neither origin is trusted for phone cookies or provider-key management.
+const isPackagedTVOrigin = value => value === 'null' || value === 'file://';
 export function createApp({ dbPath, encryptionKey, origin, provider = new ProviderClient(), allowLocal = false, database, background = promise => { promise.catch(() => {}); }, clientAddress = req => req.socket.remoteAddress, cronSecret }) {
   const url = new URL(origin);
   if (url.origin !== origin || (url.protocol !== 'https:' && !(allowLocal && ['localhost', '127.0.0.1'].includes(url.hostname)))) throw new Error('PUBLIC_ORIGIN must be an HTTPS origin (or explicit loopback development).');
@@ -19,9 +22,9 @@ export function createApp({ dbPath, encryptionKey, origin, provider = new Provid
   app.use((req, res, next) => {
     res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'DENY', 'Permissions-Policy': 'camera=(), microphone=(self), geolocation=()', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
     if (url.protocol === 'https:') res.set('Strict-Transport-Security', 'max-age=31536000');
-    // Packaged Tizen documents have an opaque origin. Only TV bearer credentials
-    // work cross-origin. Phone cookies and API-key setup never do.
-    if (req.headers.origin === 'null') res.set({ 'Access-Control-Allow-Origin': 'null', 'Vary': 'Origin', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization, Content-Type' });
+    // Only these exact packaged origins can use TV bearer credentials cross-origin.
+    // Do not allow credentials: phone cookies and API-key setup stay same-origin.
+    if (isPackagedTVOrigin(req.headers.origin)) res.set({ 'Access-Control-Allow-Origin': req.headers.origin, 'Vary': 'Origin', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization, Content-Type' });
     if (req.method === 'OPTIONS') return res.sendStatus(204);
     next();
   });
@@ -29,8 +32,8 @@ export function createApp({ dbPath, encryptionKey, origin, provider = new Provid
   app.use('/api', (req, res, next) => {
     if (req.method === 'POST') {
       if (!req.is('application/json')) return next(new PublicError('JSON is required.', 415));
-      const opaqueTV = req.headers.origin === 'null' && (req.path === '/tv' || req.headers.authorization?.startsWith('Bearer '));
-      if (req.headers.origin !== origin && !opaqueTV) return next(new PublicError('Open AttuneTV from its original address and try again.', 403));
+      const packagedTV = isPackagedTVOrigin(req.headers.origin) && (req.path === '/tv' || req.headers.authorization?.startsWith('Bearer '));
+      if (req.headers.origin !== origin && !packagedTV) return next(new PublicError('Open AttuneTV from its original address and try again.', 403));
     }
     next();
   });
@@ -115,7 +118,7 @@ export function createApp({ dbPath, encryptionKey, origin, provider = new Provid
     const bearer = req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.slice(7) : null;
     const session = await store.authenticate(bearer || cookieValue(req));
     if (!session || (bearer && session.role !== 'tv') || (!bearer && session.role !== 'phone')) fail('Pair your phone with the TV to continue.', 401);
-    if (session.role === 'phone' && req.headers.origin === 'null') fail('Phone setup requires the secure phone page.', 403);
+    if (session.role === 'phone' && isPackagedTVOrigin(req.headers.origin)) fail('Phone setup requires the secure phone page.', 403);
     req.session = session; req.room = await store.room(session.room);
     if (!req.room) fail('This conversation expired. Start a new one on the TV.', 401);
     let changed = false;

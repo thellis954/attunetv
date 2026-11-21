@@ -145,6 +145,7 @@ Use the same author certificate and application ID for updates. Sign a newer WGT
 | `118012` / certificate rejection | Correct Samsung profile and DUID, **Permit to install applications**, certificate validity, and matching author identity for updates. Do not remove another app or weaken TV protections. |
 | CLI reports Java/JAXB errors | Check your SDK's Java requirements. Our macOS CLI worked with Java 8; this is separate from Android's JDK 17 requirement. |
 | `build-web` class-loading failure | Use `npm run build`, then sign the existing WGT with `tizen package` as above. |
+| “Open AttuneTV from its original address” during pairing | The packaged Tizen 4 app uses `Origin: file://`. The hosted service must include the November 20 origin-compatibility fix. After it is deployed, choose **Start a new pairing**; the TV package does not need reinstalling for this server fix. |
 | “Service setup needed” | Rebuild with the HTTPS service origin before signing. |
 | Installed but blank/error screen | Report model, firmware, app version and a photo. Installation success alone does not prove UI or HTTPS compatibility. |
 
