@@ -93,7 +93,7 @@ Use the exact certificate folder shown by your wizard. Do not share its contents
 **Build option:** clone the public source (no GitHub account required), then:
 
 ```sh
-git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
+git clone --branch main https://github.com/thellis954/attunetv.git
 cd attunetv/samsung
 npm ci
 npm run check

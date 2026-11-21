@@ -20,12 +20,12 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Require a version tag on the project branch
+      - name: Require a version tag merged into main
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          git merge-base --is-ancestor HEAD origin/claude/blissful-hypatia-4dfwls
+          git merge-base --is-ancestor HEAD origin/main
           test -f "docs/releases/$RELEASE_TAG.md"
       - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:

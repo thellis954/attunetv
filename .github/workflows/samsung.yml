@@ -1,9 +1,7 @@
 name: Samsung companion preview
 on:
   push:
-    paths: ['samsung/**', '.github/workflows/samsung.yml']
   pull_request:
-    paths: ['samsung/**', '.github/workflows/samsung.yml']
   workflow_dispatch:
 permissions:
   contents: read

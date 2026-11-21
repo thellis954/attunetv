@@ -12,7 +12,7 @@ Scan a QR code, connect your choice of AI, and ask from your phone while you wat
 
 Samsung Tizen · Fire TV · Web + phone · Android TV / Google TV experimental
 
-[![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) [![Companion checks](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) [![Public APK](https://img.shields.io/github/v/release/thellis954/attunetv?label=public%20APK&color=246878)](https://github.com/thellis954/attunetv/releases/latest) ![Status: Early preview](https://img.shields.io/badge/status-early_preview-d8ad70)
+[![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) [![Companion checks](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml/badge.svg?branch=main)](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) [![Public APK](https://img.shields.io/github/v/release/thellis954/attunetv?label=public%20APK&color=246878)](https://github.com/thellis954/attunetv/releases/latest) ![Status: Early preview](https://img.shields.io/badge/status-early_preview-d8ad70)
 
 <table>
 <tr>
@@ -136,7 +136,7 @@ There is room here for people who care about **AI, thoughtful interfaces and mak
 | **Compatibility and design feedback** | [Report your model or an issue](https://github.com/thellis954/attunetv/issues/new) · Include version and screenshots, without keys or pairing codes |
 
 ```bash
-git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
+git clone --branch main https://github.com/thellis954/attunetv.git
 cd attunetv
 ```
 

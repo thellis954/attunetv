@@ -20,7 +20,7 @@ You need **Git**, **JDK 17**, and an **Android SDK** with **platform 35**, **bui
 ### Command line
 
 ```bash
-git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
+git clone --branch main https://github.com/thellis954/attunetv.git
 cd attunetv
 ```
 
@@ -90,6 +90,12 @@ For each provider, verify a real answer, remote keyboard/focus, continued playba
 ### Preserve the TV
 
 Keep other accessibility entries intact. Do not disable or uninstall Amazon packages, change display density to compensate for layout bugs, or hijack Amazon search/settings/profile screens. Do not interrupt someone else's playback to run tests. Never commit account tokens, calendar URLs, signing keys or private debug dumps.
+
+## Branch and pull request workflow
+
+`main` is the default integration and production branch. Create a feature branch from current `origin/main`; push that branch and open a pull request targeting `main`. Do not push changes directly to `main`.
+
+Both **Build APK / build** and **Samsung companion preview / verify** run on pull requests. Wait for the required checks on the current commit and resolve review feedback before merging. Use a merge commit to retain the existing history. Production follows `main`; public release tags must reference commits merged into `main`.
 
 ## Before opening a pull request
 
