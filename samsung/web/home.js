@@ -16,7 +16,7 @@
     text('greeting', hour < 12 ? 'Good morning.' : hour < 18 ? 'Good afternoon.' : 'Good evening.');
     text('date', now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }));
   }
-  function choose(app) { selected = app; text('selected-name', app.name); text('selected-kind', favorites.indexOf(app.id) >= 0 ? 'Ready when you are' : 'On your TV'); el('options-button').disabled = false; }
+  function choose(app) { selected = app; text('selected-name', app.name); text('selected-kind', favorites.indexOf(app.id) >= 0 ? 'Ready when you are' : 'On your TV'); el('options-button').disabled = false; el('grid-options').disabled = false; }
   function tile(app, inGrid) {
     var button = document.createElement('button'); button.className = 'tile'; button.setAttribute('data-app-id', app.id); button.setAttribute('aria-label', app.name);
     var label = document.createElement('span'); label.className = 'fallback'; label.textContent = app.name; button.appendChild(label);
@@ -89,7 +89,7 @@
   function updateFavorites() { stored = favorites.slice(); save(); renderDock(); renderGrid(); closeMenu(); }
   function move(delta) { var index = favorites.indexOf(selected.id), next = index + delta; if (index < 0 || next < 0 || next >= favorites.length) return; var swap = favorites[next]; favorites[next] = selected.id; favorites[index] = swap; updateFavorites(); }
   el('search-button').onclick = function () { allApps(true); }; el('apps-button').onclick = function () { allApps(false); }; el('close-apps').onclick = closeApps;
-  el('app-search').oninput = renderGrid; el('options-button').onclick = menu; el('menu-close').onclick = closeMenu;
+  el('app-search').oninput = renderGrid; el('options-button').onclick = menu; el('grid-options').onclick = menu; el('menu-close').onclick = closeMenu;
   el('menu-open').onclick = function () { closeMenu(); launch(selected); };
   el('menu-pin').onclick = function () { var index = favorites.indexOf(selected.id); if (index < 0) favorites.push(selected.id); else favorites.splice(index, 1); updateFavorites(); };
   el('menu-left').onclick = function () { move(-1); }; el('menu-right').onclick = function () { move(1); }; el('retry').onclick = loadApps;

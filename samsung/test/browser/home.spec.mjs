@@ -22,7 +22,7 @@ test('Samsung Home discovers real inventory, filters services, pins, orders and 
   await expect(page.locator('#grid .tile')).toHaveCount(30);
   await page.getByLabel('Search installed apps').fill('Channel 24');
   const tile=page.locator('#grid .tile');await expect(tile).toHaveCount(1);await tile.focus();
-  await page.evaluate(()=>document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{keyCode:10133,bubbles:true})));
+  await page.locator('#grid-options').click();
   await page.getByRole('button',{name:'Pin to Home',exact:true}).click();
   await page.keyboard.press('Escape'); await expect(page.locator('#dock .tile')).toHaveCount(7);
   await page.reload();await expect(page.locator('#dock .tile')).toHaveCount(7);
@@ -51,4 +51,11 @@ test('missing APIs, inventory failure, launch failure and no favorites remain us
 });
 test('inventory API error gives a retry instead of an empty or fabricated dock',async({page})=>{
   await fixture(page,'inventory-error');await expect(page.getByText(/Samsung could not share the app list/)).toBeVisible();await expect(page.getByRole('button',{name:'Try again'})).toBeVisible();await expect(page.locator('#dock .tile')).toHaveCount(0);
+});
+
+test('packaged companion keeps a visible return path to Samsung Home',async({page})=>{
+  await page.route('**/config.js',route=>route.fulfill({contentType:'application/javascript',body:'window.ATTUNE_CONFIG={packaged:true,api:location.origin};'}));
+  await page.goto('/tv');await expect(page.locator('#back-home')).toBeVisible();
+  await page.locator('#back-home').click();await expect(page).toHaveURL(/home.html$/);
+  await expect(page.locator('#clock')).not.toBeEmpty();
 });
