@@ -2,29 +2,49 @@
 
 # AttuneTV
 
-### Stay in the story. Talk about what you’re watching.
+### Turn your phone into an AI companion for what you’re watching.
 
-**An AI viewing companion for your TV and phone.<br>A beautifully quiet interface for movie nights, deep dives and every “wait, who’s that?”**
+**The show on your TV. The conversation in your hand.**
 
-Ask about the characters. Explore the real history. Go deeper into the filmmaking.<br>Bring your choice of AI into a conversation that moves between screens.
+Scan a QR code, connect your choice of AI, and ask from your phone while you watch.<br>Characters, plot twists, real history, filmmaking—follow your curiosity without covering the big screen.
 
-**[Try the AI companion](https://attunetv-samsung.vercel.app/tv)** · **[Set up your TV](docs/setup.md)** · **[Build with us](CONTRIBUTING.md)**
+**[Start with your phone](docs/ai-setup.md)** · **[Set up your TV](docs/setup.md)** · **[Build with us](CONTRIBUTING.md)**
 
 Samsung Tizen · Fire TV · Web + phone · Android TV / Google TV experimental
 
 [![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) [![Companion checks](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) [![Public APK](https://img.shields.io/github/v/release/thellis954/attunetv?label=public%20APK&color=246878)](https://github.com/thellis954/attunetv/releases/latest) ![Status: Early preview](https://img.shields.io/badge/status-early_preview-d8ad70)
 
-![AttuneTV companion: a spacious dark interface with viewing context on the left and a shared AI conversation on the right.](docs/images/companion-tv.png)
+<table>
+<tr>
+<td width="30%" align="center" valign="top"><a href="docs/images/companion-phone.png"><img src="docs/images/companion-phone.png" width="260" alt="Your phone becomes the viewing companion: show and episode context, AI conversation, typing and optional dictation"></a><br><strong>Your companion, in your hand.</strong></td>
+<td width="70%" align="center" valign="top"><a href="docs/images/companion-tv.png"><img src="docs/images/companion-tv.png" width="100%" alt="The paired AttuneTV screen showing the same viewing context and conversation"></a><br><strong>One conversation, shared with your TV.</strong><br>Pair here. Return to your show. Keep asking on your phone.</td>
+</tr>
+</table>
 
-*Actual companion UI in a browser test. The visible “Test response” is a fixture, not a live AI answer or a Samsung capture. [Screenshot details](docs/images/README.md).*
+*Actual phone and TV companion interfaces from browser tests. Answers and dictation use fixtures; these are not live AI answers or Samsung-device captures. [Screenshot details](docs/images/README.md).*
 
 </div>
 
-**The questions are part of the fun.** A character makes a strange choice. A scene reminds you of something. A true story leaves you wanting to know more. AttuneTV gives those moments a place to go: a viewing conversation with the title, episode and progress you supply, shared between your TV and phone.
+**Give the phone beside you a part in movie night.** When a character makes a strange choice or a true story leaves you wanting to know more, pick up your phone and ask. AttuneTV keeps the title, episode, progress and conversation together, using the context you supply. Your TV keeps playing; your phone becomes the place to explore.
 
 **Free to download. Your choice of AI. No always-on computer.** Bring a provider API key for answers; API usage is billed separately. AttuneTV is an early preview, with [different experiences on each platform](#get-it-on-your-screen).
 
 ## Meet Ask with AttuneTV
+
+### Scan. Pair. Make it your companion.
+
+Open AttuneTV on your TV—or open the [hosted preview](https://attunetv-samsung.vercel.app/tv) on a computer to try it. Your phone connects in its browser; there is no separate phone app to install.
+
+1. **Pair.** Open **Pair phone**, scan the QR code and approve the matching number on the TV companion.
+2. **Connect.** Follow the phone’s guided provider setup and enter your API key privately.
+3. **Watch and ask.** Add the title, episode and progress, return to your streaming app, and ask from your phone. Type or use phone dictation where supported. Follow-up questions stay in the same conversation.
+
+**The phone is part of the experience from the first question.** It gives you a comfortable keyboard, a place for longer answers and room to explore without putting chat over the movie. Reopen AttuneTV on the TV when you want to bring that conversation back to the big screen.
+
+On Samsung, the companion is a full-screen app; the phone is where you chat while Netflix, Prime Video or another built-in app plays. Fire TV streaming overlays are still in development and hidden in normal builds.
+
+**[Try it in your browser →](https://attunetv-samsung.vercel.app/tv)** · **[Pairing and AI setup →](docs/ai-setup.md)**
+
 
 ### From “what just happened?” to “tell me more.”
 
@@ -40,22 +60,6 @@ Ask a question, then follow it wherever your curiosity leads. The conversation k
 Choose **OpenAI, Claude, Grok or Kimi** in guided phone setup. Follow the account and API-key links, check your key, choose a model, and set a daily question limit. Your provider and model stay your choice.
 
 **Tell it where you are in the story.** Enter the title, episode, progress and any detail the question needs. AttuneTV does not watch the video, listen to its audio or read its subtitles. Context helps guide answers; it does not guarantee accuracy or prevent every spoiler.
-
-### One conversation. Two screens.
-
-<p align="center"><a href="docs/images/companion-phone.png"><img src="docs/images/companion-phone.png" width="260" alt="AttuneTV on a phone: viewing context, shared conversation, question input and optional Dictate control"></a></p>
-
-*Actual phone UI from a browser test; answers and dictation use fixtures.*
-
-Start on the TV. Scan a QR code. Keep talking on your phone while the movie plays, with the same context and conversation waiting when you return to AttuneTV.
-
-1. **Pair.** Open **Pair phone**, scan the QR code and approve the matching number on the TV companion.
-2. **Connect.** Follow the phone’s guided provider setup and enter your API key privately.
-3. **Ask.** Add what’s playing and send your first question. Type on either screen, or use phone dictation where supported.
-
-On Samsung, the companion is a full-screen app; the phone is where you chat while Netflix, Prime Video or another built-in app plays. Fire TV streaming overlays are still in development and hidden in normal builds.
-
-**[Try it in your browser →](https://attunetv-samsung.vercel.app/tv)** · **[Pairing and AI setup →](docs/ai-setup.md)**
 
 ## Less clutter. More cinema.
 
@@ -80,11 +84,11 @@ The Fire TV launcher also includes **app search and a shortcut to Amazon’s mov
 
 ## Why AttuneTV?
 
-**A viewing companion designed around the whole evening.** A calm interface before you press Play. A place for questions when something catches your attention. A conversation you can carry onto your phone.
+**Your phone becomes part of watching.** AttuneTV brings pairing, viewing context, AI choice and conversation continuity into one companion. The show stays on the TV; the questions, discoveries and follow-ups stay close at hand.
 
-- **Choose your AI.** Pick a provider and model through guided setup.
-- **Carry the context with you.** Your supplied title, episode, progress and conversation belong together across screens.
-- **Keep the big screen for the story.** Paired phone chat gives you a way to ask while your streaming app is open.
+- **Watch on TV. Explore on your phone.** Keep chatting while your streaming app is open, without an overlay covering the show.
+- **Keep the thread.** Your supplied title, episode, progress and earlier questions stay together in a shared conversation.
+- **Choose your AI.** Pick a provider and model through guided phone setup.
 - **Make the interface yours.** A spacious companion across TV and phone, plus a personal cinematic Home on Fire TV.
 
 [The product direction and competitive landscape →](docs/positioning.md)
@@ -175,6 +179,6 @@ The code is public and contributions are welcome, but the repository currently h
 
 ---
 
-**Stay in the story. Follow your curiosity.** [Try AttuneTV](https://attunetv-samsung.vercel.app/tv), [set up your screen](docs/setup.md), or [help build it](CONTRIBUTING.md). Star the repo to help more people discover it.
+**Your show. Your questions. Your companion.** [Pair your phone](docs/ai-setup.md), [set up your screen](docs/setup.md), or [help build it](CONTRIBUTING.md). Star the repo to help more people discover it.
 
 Built by [Tom Ellis](https://github.com/thellis954). Independent project; not an official Amazon, Samsung, OpenAI or streaming-service app. Product names and logos belong to their respective owners.

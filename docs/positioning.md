@@ -4,11 +4,11 @@
 
 ## The promise
 
-**Stay in the story. Talk about what you’re watching.**
+**Turn your phone into an AI companion for what you’re watching.**
 
-Lead with the AI viewing companion and its clean TV-and-phone interface. Provider choice, shared viewing context and conversation continuity are the central promise. Samsung, Fire TV and the browser are entry points into that experience; the cinematic Fire TV launcher is an additional platform-specific benefit and works independently of AI.
+Lead with the phone becoming the viewer’s AI companion while the show stays on the TV. QR pairing, supplied viewing context, provider choice and conversation continuity are the defining combination. The phone is a primary place to use the product, not just a setup tool or a fallback for missing overlays. Samsung, Fire TV and the browser are entry points into that experience; the cinematic Fire TV launcher is an additional platform-specific benefit and works independently of AI.
 
-Show the companion first, then demonstrate the visual design with both companion and launcher screenshots. Describe concrete design choices—space, readable type, clear focus, photography and glass—instead of claiming to be the best-looking UI. Give each platform an equal route to setup, with verification and release details beside the relevant download. Do not imply that every platform receives the launcher or an overlay.
+Show the phone companion first alongside the paired TV conversation, then demonstrate the visual design with launcher screenshots. Describe concrete design choices—space, readable type, clear focus, photography and glass—instead of claiming to be the best-looking UI. Give each platform an equal route to setup, with verification and release details beside the relevant download. Do not imply that every platform receives the launcher or an overlay.
 
 The first audience is people who want their existing TV to feel more personal and enjoy talking about what they watch. The developer audience is people interested in remote-first interfaces, older TV hardware and accountable AI integrations.
 
@@ -25,7 +25,7 @@ These are different categories of alternatives, not a claim that every product c
 
 ## What we can own
 
-- **A coherent living-room experience.** Personal Home gets viewers to their apps; the companion gives them a place to explore questions afterward.
+- **A phone companion for the show in front of you.** Pair by QR, supply what is playing, and ask from the phone while the TV keeps playing. Typing, optional dictation and shared conversation make the phone useful throughout viewing. Personal Home on Fire TV complements that experience.
 - **Choice of AI provider.** Guided API-key setup offers OpenAI, Claude, Grok and Kimi. The promise is a clear connection flow, not free API access or universal model compatibility.
 - **Continuity between screens.** QR pairing, TV approval, shared context and history. Phone chat continues after the TV companion closes. This matters on Samsung, where a normal third-party app cannot overlay another streaming app.
 - **Viewer-supplied context.** Explicit title, episode and progress make the basis of the conversation visible. We do not imply that the app watches or hears protected playback.
