@@ -2,7 +2,9 @@
 
 [← AttuneTV](README.md) · [Choose your installation guide](docs/setup.md) · [Native chat architecture](docs/standalone-chat.md)
 
-AttuneTV is a native Kotlin Android app. Contributions can be as small as a useful device report or as ambitious as a carefully tested streaming integration. A TV remote is the primary input device; make every change work from the couch.
+AttuneTV spans an AI viewing companion for TV and phone, a Samsung Tizen client, and a native Kotlin Fire TV launcher. Contributions can be as small as a useful device report or as ambitious as a carefully tested streaming integration. TV interfaces must work from the couch; phone interfaces make pairing, provider setup and conversation easy to reach.
+
+For the companion, phone UI or AI service, start with the [web/service contributor guide](samsung/README.md). The Android build instructions follow below.
 
 ## Build locally
 

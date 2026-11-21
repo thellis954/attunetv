@@ -2,161 +2,143 @@
 
 # AttuneTV
 
-### A calmer home. A conversation about what’s on.
+### Stay in the story. Talk about what you’re watching.
 
-A cinematic, ad-free home screen for Fire TV.<br>An optional AI viewing companion that brings your TV and phone into the same conversation.
+**An AI viewing companion for your TV and phone.<br>A beautifully quiet interface for movie nights, deep dives and every “wait, who’s that?”**
+
+Ask about the characters. Explore the real history. Go deeper into the filmmaking.<br>Bring your choice of AI into a conversation that moves between screens.
+
+**[Try the AI companion](https://attunetv-samsung.vercel.app/tv)** · **[Set up your TV](docs/setup.md)** · **[Build with us](CONTRIBUTING.md)**
+
+Samsung Tizen · Fire TV · Web + phone · Android TV / Google TV experimental
 
 [![Build APK](https://github.com/thellis954/attunetv/actions/workflows/build.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/build.yml) [![Companion checks](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml/badge.svg?branch=claude%2Fblissful-hypatia-4dfwls)](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml) [![Public APK](https://img.shields.io/github/v/release/thellis954/attunetv?label=public%20APK&color=246878)](https://github.com/thellis954/attunetv/releases/latest) ![Status: Early preview](https://img.shields.io/badge/status-early_preview-d8ad70)
 
-**[Choose your TV & install](docs/setup.md)** · **[Try the AI companion](https://attunetv-samsung.vercel.app/tv)** · **[Build with us](CONTRIBUTING.md)**
+![AttuneTV companion: a spacious dark interface with viewing context on the left and a shared AI conversation on the right.](docs/images/companion-tv.png)
 
-![AttuneTV Home on a real Insignia Fire TV: daily photograph, large clock, Search and Ask, and a glass favorites dock with a white focus ring.](docs/images/home-fire-tv.png)
-
-*Real Insignia capture · 0.5.0 development build · Streaming apps are installed separately.*
+*Actual companion UI in a browser test. The visible “Test response” is a fixture, not a live AI answer or a Samsung capture. [Screenshot details](docs/images/README.md).*
 
 </div>
 
-**Settle in. Find your show. Follow your curiosity.** AttuneTV starts with a home screen you control: your apps, your order, a daily photograph and room to breathe. Its companion preview adds a place to ask about the story—with shared viewing context and conversation history on TV and phone.
+**The questions are part of the fun.** A character makes a strange choice. A scene reminds you of something. A true story leaves you wanting to know more. AttuneTV gives those moments a place to go: a viewing conversation with the title, episode and progress you supply, shared between your TV and phone.
 
-**Free to download. No always-on computer. Chat is optional; provider API usage is billed separately.**
-
-> **Choose the right preview:** the public Fire TV download is **0.4.2**. The shared API-key chat shown below is in **0.5.0 development source** and the **hosted companion preview**, not that older APK. Samsung 0.1.0 installation and launch are verified on QN65Q65FN; visual, phone-pairing and live AI/playback verification are still in progress. [What works today ↓](#what-works-today)
-
-## A home screen worth coming home to
-
-Daily photography, frosted glass and clear remote focus give your apps a home of their own. Pin the ones you love. Hide the ones you never open. Press Down to see everything.
-
-<table>
-<tr>
-<td width="50%"><a href="docs/images/apps-fire-tv.png"><img src="docs/images/apps-fire-tv.png" alt="All-apps grid on an Insignia Fire TV, with the AirPlay tile focused" width="100%"></a><br><strong>Your apps, within reach.</strong><br>One press down from the dock.</td>
-<td width="50%"><a href="docs/images/menu-fire-tv.png"><img src="docs/images/menu-fire-tv.png" alt="Remote-controlled app menu offering Open, Pin to Favorites, Move, Hide and App info" width="100%"></a><br><strong>Make it yours from the couch.</strong><br>Pin, move and hide with the remote.</td>
-</tr>
-</table>
-
-*Actual Insignia screenshots from 0.3.3. Earlier artwork and styling are visible. [Screenshot versions and provenance](docs/images/README.md).*
-
-| Make the TV yours | How AttuneTV helps |
-| --- | --- |
-| **Find an app or a film** | Search installed apps locally, or jump to Amazon’s movie and show search. |
-| **Set the mood** | Daily photo backgrounds, dark themes, an ambient photo mode and a personal greeting. |
-| **See the useful things** | A large clock, optional weather and your next calendar event. |
-| **Skip remote typing** | Scan a QR code to personalize the launcher from your phone on the same Wi-Fi. |
-| **Keep your existing setup** | No root or Amazon-package removal. Your streaming subscriptions and apps stay in place. |
+**Free to download. Your choice of AI. No always-on computer.** Bring a provider API key for answers; API usage is billed separately. AttuneTV is an early preview, with [different experiences on each platform](#get-it-on-your-screen).
 
 ## Meet Ask with AttuneTV
 
-**Keep the story on the big screen. Take the conversation with you.**
+### From “what just happened?” to “tell me more.”
 
-The companion preview gives TV and phone one shared conversation. Supply the show, episode and where you are; describe the moment you want to explore. Choose **OpenAI, Claude, Grok or Kimi** through guided API-key setup.
+Ask a question, then follow it wherever your curiosity leads. The conversation keeps your supplied viewing context and earlier messages together, so the next question can build on the last.
 
-Questions to try once connected:
-
-- “We’re halfway through episode two. Can you explain the relationship between these characters?”
-- “I’m watching a film set in 1920s Chicago. What historical context would help?”
-- “What should I pay attention to in this director’s use of color?”
-
-![AttuneTV companion browser preview with viewer-entered show and episode context beside a shared conversation. The answer is explicitly labeled Test response.](docs/images/companion-tv.png)
-
-*Browser test capture of the actual companion UI. The displayed answer is a test fixture, not a live model response or a Samsung-device capture.*
-
-### Pair once. Keep talking.
-
-<p align="center"><a href="docs/images/companion-phone.png"><img src="docs/images/companion-phone.png" width="260" alt="Phone companion with shared viewing context, conversation, question field and optional Dictate button"></a></p>
-
-1. **Scan and approve.** Open **Pair phone**, scan the QR code and approve the matching number on the TV. To explore today, open the hosted preview on a computer and pair your phone.
-2. **Connect the AI you choose.** The phone guide links to your provider’s billing and API-key pages, checks access, and lets you select a model and daily question limit. Enter your key privately on the phone.
-3. **Set what’s playing.** Add a title, episode and progress. Ask on either screen. The phone conversation can continue after the TV companion closes, so you can return to your streaming app.
-4. **Type—or dictate where supported.** Compatible phone browsers offer Dictate; review the words before sending. Your phone keyboard’s microphone is another option. TV remote voice support varies.
-
-
-*Phone browser test capture; its answer and speech recognition use test fixtures. No real API key appears in these screenshots.*
-
-**Your context, your choice.** AttuneTV does not capture the movie, listen to its soundtrack or read its subtitles. It uses the question and viewing context you provide; any automatic playback metadata depends on the app and device. Episode/progress instructions help limit spoilers, but accuracy and spoiler avoidance are not guaranteed.
-
-**[Open the hosted companion preview →](https://attunetv-samsung.vercel.app/tv)**
-
-## Why this combination?
-
-A quiet launcher makes choosing something easier. A viewing companion gives curiosity somewhere to go after you press Play. AttuneTV brings them together around three choices:
-
-- **Your screen:** personal Home, visible search and remote-first navigation.
-- **Your AI:** a choice of provider and model, with setup guidance and explicit API costs.
-- **Your place to chat:** a shared TV-and-phone conversation, including a phone path when the TV platform cannot show an overlay.
-
-Custom launchers such as [Projectivy](https://github.com/spocky/miproja1) and [Clean Your TV](https://github.com/Gathin23/cleanyourtv) already make a strong case for a better home screen. [Gemini on Google TV](https://support.google.com/googletv/answer/16522213?hl=en) and [Prime Video’s X-Ray](https://www.aboutamazon.com/news/entertainment/what-is-x-ray-on-prime-video) show the value of questions and context around entertainment. AttuneTV’s direction is **personal Home + provider choice + a shared viewing conversation**. [Read the positioning and tradeoffs](docs/positioning.md).
-
-## What works today
-
-| Experience | Status and next step |
+| Your curiosity | Start a conversation |
 | --- | --- |
-| **Fire TV launcher** | Tested on Insignia NS65-UQFL26 / Fire OS 8.1.6.4. Public APK: 0.4.2; current source: 0.5.0 preview. Other models need testing. **[Install guide](docs/install.md) · [Public APK](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk)** |
-| **Shared TV + phone chat** | Hosted pairing, setup links and context sync verified. Conversation flows have automated fixture coverage; real provider responses still need end-to-end validation. **[Hosted preview](https://attunetv-samsung.vercel.app/tv) · [Architecture](docs/standalone-chat.md)** |
-| **Chat over Fire TV streaming apps** | Under development. **Hidden in normal builds** until each integration passes real playback, focus and dismissal checks. **[Verification checklist](docs/standalone-chat.md#verification)** |
-| **Samsung Tizen companion** | 0.1.0 signed, installed and launched on QN65Q65FN / Tizen 4.0. Visual, physical pairing and live-answer checks remain open. Full-screen TV chat plus phone chat during playback; **no overlay over built-in streaming apps and no Smart Hub replacement**. **[Samsung installation](docs/samsung-install.md)** |
-| **Android TV / Google TV** | Experimental installation path; no physical device acceptance yet. **[Testing guide](docs/android-tv-install.md)** |
+| **Characters and connections** | “How are these two characters connected? I’m halfway through episode two.” |
+| **History behind the story** | “Which parts of this historical setting are based on real events?” |
+| **The craft of filmmaking** | “Why might the director keep using mirrors in this scene?” |
+| **More to explore** | “What other films explore this theme? Tell me what makes them similar.” |
 
-Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ are **Fire TV integration targets**, not a confirmed overlay support list. Launching an installed streaming app from Home is separate from supporting chat inside its player.
+Choose **OpenAI, Claude, Grok or Kimi** in guided phone setup. Follow the account and API-key links, check your key, choose a model, and set a daily question limit. Your provider and model stay your choice.
 
-## Get it on your TV
+**Tell it where you are in the story.** Enter the title, episode, progress and any detail the question needs. AttuneTV does not watch the video, listen to its audio or read its subtitles. Context helps guide answers; it does not guarantee accuracy or prevent every spoiler.
 
-**[Start here: choose your screen →](docs/setup.md)**
+### One conversation. Two screens.
 
-| You use | Installation and setup |
-| --- | --- |
-| **Fire TV built in or an Android-based Fire TV Stick** | [Download and install the APK](docs/install.md) · [Personalize from your phone](docs/install.md#5-make-it-yours) |
-| **Samsung built-in apps / Tizen** | [Samsung step-by-step guide](docs/samsung-install.md) · [Pair a phone and connect AI](docs/ai-setup.md) |
-| **Android TV / Google TV** | [Experimental installation guide](docs/android-tv-install.md) — help us verify your model |
-| **Try chat before installing** | [Open the hosted companion](https://attunetv-samsung.vercel.app/tv) · [AI setup walkthrough](docs/ai-setup.md) |
+<p align="center"><a href="docs/images/companion-phone.png"><img src="docs/images/companion-phone.png" width="260" alt="AttuneTV on a phone: viewing context, shared conversation, question input and optional Dictate control"></a></p>
 
-Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not currently have native AttuneTV packages. A compatible external streaming device uses its own platform's guide. [Compatibility and release choices](docs/setup.md).
+*Actual phone UI from a browser test; answers and dictation use fixtures.*
 
-### Quick start: Fire TV
+Start on the TV. Scan a QR code. Keep talking on your phone while the movie plays, with the same context and conversation waiting when you return to AttuneTV.
 
-**No coding or Android Studio required.** Bring an Android-based Fire TV, its remote, and a Mac, Windows or Linux computer for installation.
+1. **Pair.** Open **Pair phone**, scan the QR code and approve the matching number on the TV companion.
+2. **Connect.** Follow the phone’s guided provider setup and enter your API key privately.
+3. **Ask.** Add what’s playing and send your first question. Type on either screen, or use phone dictation where supported.
 
-1. **[Download the public APK](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk).** No GitHub account required. [Release notes and checksums](https://github.com/thellis954/attunetv/releases/latest).
-2. **Connect on the same home network.** Enable ADB debugging and approve the connection with the TV remote.
-3. **Install, make it Home, personalize.** Follow the guide’s copy-and-paste commands, expected results and undo instructions. Keep other accessibility services intact.
+On Samsung, the companion is a full-screen app; the phone is where you chat while Netflix, Prime Video or another built-in app plays. Fire TV streaming overlays are still in development and hidden in normal builds.
 
-**[Follow the Fire TV installation guide →](docs/install.md)**
+**[Try it in your browser →](https://attunetv-samsung.vercel.app/tv)** · **[Pairing and AI setup →](docs/ai-setup.md)**
 
-After setup, the launcher runs on the TV and the computer can shut down. Chat uses the hosted companion; viewers do not need to run a server. The Samsung preview has a separate installation process and cannot use the APK.
+## Less clutter. More cinema.
 
-## Learn the remote in a minute
+**Room to breathe is part of the experience.** Deep colors, generous spacing, readable type and clear focus states keep the companion easy to follow from the couch. On the phone, a familiar conversation layout puts your question within reach.
 
-| On Home | Action |
-| --- | --- |
-| **Left / Right** | Browse favorites. |
-| **Down** | Open all apps. |
-| **Up** from the dock | Reach Search, Ask and shortcuts. |
-| **OK** | Open the focused app or action. |
-| **Menu ☰ / hold OK** on an app | Open, pin, move, hide or view app info. |
-| **Back** | Close a menu or return from the grid. |
-| **Home** | Return to AttuneTV with Home redirection enabled. |
+On Fire TV, that design extends all the way to Home: edge-to-edge photography, a thin oversized clock, translucent glass panels and a favorites dock built around your apps. No promotional feed on the AttuneTV home screen. Just a place that feels like yours.
 
-Round shortcuts open **Inputs**, **Ambient mode** and **Settings**. Launcher personalization uses **Settings → Set up from your phone**; AI pairing uses **Ask → Pair phone** in 0.5.0. They are separate QR flows.
+![AttuneTV Home on a real Insignia Fire TV: cinematic photography, a large thin clock, Search and Ask shortcuts, and a glass favorites dock.](docs/images/home-fire-tv.png)
+
+*Real Insignia capture · 0.5.0 development build, before later glass/font refinements. The launcher is the Fire TV experience; Samsung uses the companion UI above. Streaming apps are installed separately.*
+
+<table>
+<tr>
+<td width="50%"><a href="docs/images/apps-fire-tv.png"><img src="docs/images/apps-fire-tv.png" alt="AttuneTV all-apps grid with a bright focus outline on the selected AirPlay tile" width="100%"></a><br><strong>Your apps, beautifully organized.</strong><br>Open the grid with one press. Pin, move or hide.</td>
+<td width="50%"><a href="docs/images/menu-fire-tv.png"><img src="docs/images/menu-fire-tv.png" alt="AttuneTV app menu controlled with the TV remote" width="100%"></a><br><strong>Made for the remote.</strong><br>Clear selection, readable labels and simple actions.</td>
+</tr>
+</table>
+
+*Real Insignia grid and menu captures from 0.3.3; earlier artwork and styling. [All screenshot versions](docs/images/README.md).*
+
+The Fire TV launcher also includes **app search and a shortcut to Amazon’s movie/show search**, daily photography, ambient mode, a personal greeting, optional weather and calendar information. Scan a separate setup QR code to personalize Home from your phone. It works independently of AI.
+
+## Why AttuneTV?
+
+**A viewing companion designed around the whole evening.** A calm interface before you press Play. A place for questions when something catches your attention. A conversation you can carry onto your phone.
+
+- **Choose your AI.** Pick a provider and model through guided setup.
+- **Carry the context with you.** Your supplied title, episode, progress and conversation belong together across screens.
+- **Keep the big screen for the story.** Paired phone chat gives you a way to ask while your streaming app is open.
+- **Make the interface yours.** A spacious companion across TV and phone, plus a personal cinematic Home on Fire TV.
+
+[The product direction and competitive landscape →](docs/positioning.md)
+
+## Get it on your screen
+
+**Start with your TV’s platform. Each path has its own step-by-step guide.** No coding is needed to try the hosted companion or follow the Fire TV APK guide. Samsung currently needs a computer, Developer Mode and a signed developer package.
+
+| Your screen | Your experience | Get started |
+| --- | --- | --- |
+| **Samsung Tizen** | Full-screen viewing companion + paired phone chat during playback. Does not replace Smart Hub. | **[Samsung setup](docs/samsung-install.md)** |
+| **Fire TV / Android-based Fire TV Stick** | Cinematic Home, app organization and search. Shared AI companion in the 0.5.0 development build. | **[Fire TV setup](docs/install.md)** |
+| **Web + phone** | Explore the shared companion before installing a TV app. Open the TV page on a computer, then pair your phone. | **[Open preview](https://attunetv-samsung.vercel.app/tv) · [Connect AI](docs/ai-setup.md)** |
+| **Android TV / Google TV** | Experimental APK path; physical-device compatibility still needs testing. | **[Testing guide](docs/android-tv-install.md)** |
+
+After native installation, you can shut down the setup computer. The launcher runs on the TV; the companion uses the hosted service.
+
+**Which download?** The [public Fire TV APK is 0.4.2](https://github.com/thellis954/attunetv/releases/latest), which predates shared API-key chat. That flow is available in **0.5.0 development source**, the **Samsung 0.1.0 preview** and the **hosted companion**. Follow [release and compatibility guidance](docs/setup.md) to pick the right path.
+
+Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not yet have native packages. You can explore the separate browser/phone companion regardless of what you watch, with context entered manually; this does not add a launcher or overlay to those TVs.
+
+<details>
+<summary><strong>What works today—and what is still being verified?</strong></summary>
+
+<a id="what-works-today"></a>
+
+- **Fire TV Home:** tested on Insignia NS65-UQFL26 / Fire OS 8.1.6.4. Other devices need individual checks.
+- **Samsung:** 0.1.0 installed and running on QN65Q65FN / Tizen 4.0. Actual-TV pairing-link and QR generation verified after the origin fix. Real phone approval, live answers and return-to-app behavior still need acceptance. [Device evidence](docs/device-checks/samsung-qn65q65fn.md).
+- **Shared chat:** pairing, context, session isolation and conversation flows have automated coverage. Test responses establish behavior, not live model quality; real provider/device acceptance remains open.
+- **Streaming overlays:** hidden in normal Fire TV builds until per-app playback, focus and dismissal checks pass. Samsung has no overlay over built-in streaming apps.
+
+Prime Video, Netflix, Apple TV, Disney+, Hulu, HBO Max, Peacock and Paramount+ are Fire TV integration targets, not a verified overlay support list. Opening an installed app is separate from integrating with its player.
+
+</details>
 
 ## Build the next version with us
 
-The work spans **native Kotlin for Fire TV**, an **ES5-compatible Tizen web client**, and a **Node service on Vercel with Neon Postgres**. The launcher runs independently of the chat service. Tests cover remote focus, pairing, shared context, provider request formats and session isolation.
+There is room here for people who care about **AI, thoughtful interfaces and making existing TVs more useful**. Improve a pairing flow, refine remote focus, test your TV, or help validate an integration.
+
+| Work on | Start here |
+| --- | --- |
+| **Companion, phone UI and AI providers** | [Web/service development](samsung/README.md) · Node 24, Python 3, ES5-compatible TV client |
+| **Native Home and Fire TV chat** | [Android contributor guide](CONTRIBUTING.md) · Kotlin, JDK 17, Android SDK 35 |
+| **Architecture and playback integration** | [Shared chat architecture](docs/standalone-chat.md) · [Device verification](docs/standalone-chat.md#verification) |
+| **Compatibility and design feedback** | [Report your model or an issue](https://github.com/thellis954/attunetv/issues/new) · Include version and screenshots, without keys or pairing codes |
 
 ```bash
 git clone --branch claude/blissful-hypatia-4dfwls https://github.com/thellis954/attunetv.git
 cd attunetv
-# First configure JDK 17 + Android SDK 35; see CONTRIBUTING.md.
-./gradlew assembleRelease testDebugUnitTest
 ```
 
-For the companion, start in [`samsung/`](samsung/README.md) with **Node 24 and Python 3**. Automated tests use a fixture provider; you do not need to buy API credits to contribute.
+The hosted service runs on **Vercel with Neon Postgres**. Automated companion tests use fixture responses, so contributing does not require buying AI credits. The source is public; a redistribution license has not yet been declared.
 
-| Want to help? | A useful first contribution |
-| --- | --- |
-| **Own a TV** | Share its model, OS, app version and screenshots in a [device report](https://github.com/thellis954/attunetv/issues/new). |
-| **Care about design** | Improve remote focus, long labels, contrast and app-artwork fallbacks. |
-| **Build Android apps** | Test a streaming integration for continued playback and reliable dismissal. |
-| **Build for the web** | Improve phone onboarding, accessibility or Tizen compatibility. |
-
-**[Contributor guide](CONTRIBUTING.md)** · **[Chat architecture](docs/standalone-chat.md)** · **[Samsung / service development](samsung/README.md)** · **[Release process](docs/releasing.md)**
+**[Contributor guide](CONTRIBUTING.md)** · **[Service development](samsung/README.md)** · **[Release process](docs/releasing.md)**
 
 ## Before you settle in
 
@@ -190,8 +172,9 @@ The code is public and contributions are welcome, but the repository currently h
 
 </details>
 
+
 ---
 
-**Make yourself at home. Stay curious.** [Install AttuneTV](docs/setup.md), [explore the companion](https://attunetv-samsung.vercel.app/tv), or [help build what comes next](CONTRIBUTING.md). Star the repo to help other TV tinkerers find it.
+**Stay in the story. Follow your curiosity.** [Try AttuneTV](https://attunetv-samsung.vercel.app/tv), [set up your screen](docs/setup.md), or [help build it](CONTRIBUTING.md). Star the repo to help more people discover it.
 
 Built by [Tom Ellis](https://github.com/thellis954). Independent project; not an official Amazon, Samsung, OpenAI or streaming-service app. Product names and logos belong to their respective owners.

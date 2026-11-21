@@ -18,7 +18,7 @@
 
 - **“I want a better Home screen.”** Start with the [Fire TV APK](install.md). The current public release is **0.4.2**; no AI account is needed.
 - **“I want to ask about what I'm watching.”** Try the [hosted companion](https://attunetv-samsung.vercel.app/tv), choose Pair phone, and follow [AI setup](ai-setup.md). Enter the title, episode and progress yourself. This is not automatic scene recognition.
-- **“I want it installed on my Samsung.”** Follow the [Samsung guide](samsung-install.md). Version **0.1.0** installed and launched on our test TV; visual, phone-pairing and real-provider acceptance are still being checked. It is not a Samsung Store download.
+- **“I want it installed on my Samsung.”** Follow the [Samsung guide](samsung-install.md). Version **0.1.0** installed and launched on our test TV; the UI is visible and on-TV pairing-link/QR generation is verified; phone approval and real-provider acceptance are still being checked. It is not a Samsung Store download.
 - **“I want the latest Fire TV chat build.”** The shared API-key companion is in **0.5.0 development source**, not the public 0.4.2 APK. Follow [the build guide](../CONTRIBUTING.md), or use the hosted preview without replacing your launcher.
 
 ## What you need—and what you don't
