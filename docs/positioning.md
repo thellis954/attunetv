@@ -37,7 +37,7 @@ These are differentiators of the combination. We have not established that every
 
 | Visitor | Primary invitation | What to explain before they start |
 | --- | --- | --- |
-| Wants a better Fire TV Home | Install the public APK using the beginner guide | Public release 0.5.1 includes the shared companion; the setup ZIP includes guided installers. ADB and a computer are needed for setup. |
+| Wants a better Fire TV Home | Install the public APK using the beginner guide | Public release 0.5.2 includes the shared companion; the setup ZIP includes guided installers. ADB and a computer are needed for setup. |
 | Wants to explore the companion | Open the hosted preview and pair a phone | API key and separate provider billing are required for real answers; live inference validation remains open. |
 | Owns a Samsung TV | Follow the Tizen developer-preview guide | Signing and Developer Mode are required. Installation, launch and on-TV pairing-link/QR generation are verified on QN65Q65FN; phone approval and live-answer acceptance remain open; it is full-screen chat plus a phone companion, not a replacement Smart Hub or cross-app overlay. |
 | Wants to contribute | Build, run fixture tests, submit a device report or focused change | No API credit purchase required for automated tests. Real playback evidence is needed before enabling an overlay integration. |

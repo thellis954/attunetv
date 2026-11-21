@@ -36,7 +36,7 @@ def package(output, samsung_dist):
     samsung = {'version': version, 'applicationId': 'AttuneTV01.Companion', 'package': target.name,
                'sha256': digest(target), 'commit': info['commit'], 'serviceOrigin': ORIGIN,
                'signed': False, 'requires': 'Samsung TV certificate with your device DUID and installation permission',
-               'deviceAcceptance': '0.1.0 installation and QR generation verified; this package and live AI require device acceptance'}
+               'deviceAcceptance': 'Samsung Home 0.2.0 installation, local app inventory, photo/icon loading and grid geometry checked on QN65Q65FN; visual and per-app launch acceptance remain separately documented'}
     (output / 'samsung-release-info.json').write_text(json.dumps(samsung, indent=2) + '\n')
     # Inside the setup ZIP, the manifest covers bundled payloads, not the ZIP itself.
     files = ['AttuneTV.apk', target.name, 'release-info.json', 'samsung-release-info.json']

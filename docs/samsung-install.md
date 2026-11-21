@@ -2,9 +2,9 @@
 
 [← Choose your screen](setup.md) · [AI setup](ai-setup.md) · [Developer/service guide](../samsung/README.md)
 
-**What you get:** full-screen TV chat and a paired phone conversation that stays available while you watch through Samsung's built-in streaming apps. It does not replace Smart Hub or overlay Netflix, Prime Video or other players.
+**What you get:** a cinematic Home inside AttuneTV with a photo, clock, installed apps, favorites, app search and an **Ask** shortcut to TV/phone chat. The phone conversation stays available while you watch through Samsung's built-in streaming apps. It does not replace Smart Hub or overlay Netflix, Prime Video or other players.
 
-**Current download: 0.1.1**, configured for the hosted companion. It is unsigned until you apply your own certificate. **Hardware checkpoint:** 0.1.0 was signed, installed and launched on a **Samsung QN65Q65FN / Tizen 4.0** on November 20, 2026. Visual quality, physical phone pairing and real AI answers are separate acceptance checks still in progress. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
+**Current download: 0.2.0**, configured for the hosted companion. It is unsigned until you apply your own certificate. **Hardware checkpoint:** 0.1.0 was signed, installed and launched on a **Samsung QN65Q65FN / Tizen 4.0** on November 20, 2026. Visual quality, physical phone pairing and real AI answers are separate acceptance checks still in progress. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
 
 **Want to try chat first?** Open the [hosted preview](https://attunetv-samsung.vercel.app/tv) on your computer and [pair your phone](ai-setup.md). Native Samsung installation below is more involved, but you only need the computer for setup and updates—not normal viewing.
 
@@ -115,15 +115,15 @@ $env:ATTUNE_SERVICE_ORIGIN = "https://attunetv-samsung.vercel.app"
 npm run build
 ```
 
-The output is `dist/AttuneTV-Samsung-0.1.1-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
+The output is `dist/AttuneTV-Samsung-0.2.0-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
 
 ## 7. Sign, install and open
 
-Copy `AttuneTV-Samsung-UNSIGNED.wgt` (or the versioned file from a source build) to a new file named **AttuneTV-Samsung-0.1.1.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
+Copy `AttuneTV-Samsung-UNSIGNED.wgt` (or the versioned file from a source build) to a new file named **AttuneTV-Samsung-0.2.0.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
 
 ```sh
-tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.1.1.wgt
-tizen install -n AttuneTV-Samsung-0.1.1.wgt -t YOUR_DEVICE_NAME -- dist
+tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.2.0.wgt
+tizen install -n AttuneTV-Samsung-0.2.0.wgt -t YOUR_DEVICE_NAME -- dist
 tizen run -p AttuneTV01.Companion -t YOUR_DEVICE_NAME
 ```
 
@@ -152,3 +152,11 @@ Use the same author certificate and application ID for updates. Sign a newer WGT
 | Installed but blank/error screen | Report model, firmware, app version and a photo. Installation success alone does not prove UI or HTTPS compatibility. |
 
 [Report an installation issue](https://github.com/thellis954/attunetv/issues/new) · [Full verification checklist](../samsung/README.md#acceptance-checklist)
+
+## Use Samsung Home
+
+Opening AttuneTV starts at its Home screen. Left/right selects a favorite; OK opens it. Down opens All apps. The top shortcuts are Search, Apps and Ask. Search finds installed apps; it does not search streaming catalogs. Use Menu (where supported) or the visible App options button to pin/unpin or reorder favorites. Back closes menus and the grid, then offers exit. Ask opens the existing companion; Back to Home returns without unpairing your phone.
+
+Samsung's remote Home button still opens Smart Hub. Pin AttuneTV there through Home → Apps → Settings → AttuneTV → Add to Home, then move it near the start. There is no supported Home-button replacement or automatic startup change in this package.
+
+The photo is bundled for offline use. App names/icons come from the TV; system workers are filtered and missing images use readable names. Favorites stay on this TV and never go to the AI service. Apps unavailable through Samsung's launch API must be opened from Smart Hub. This app does not install streaming services or bypass their subscriptions.
