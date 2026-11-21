@@ -31,11 +31,11 @@ Configure that environment to allow release **tags matching `v*` only**. Never p
 2. Write `docs/releases/v<VERSION>.md` with changes, compatibility, validation and any known limits. Keep the README's feature status accurate.
 3. Run `./gradlew clean assembleRelease testDebugUnitTest lintRelease -Pdistribution=true`. A public build cannot enable `streamingVerification`.
 4. Open a pull request from a feature branch into `main`. Wait for the required checks to pass, then merge. Fetch `origin` and check out the exact merged commit on `main`.
-5. Tag that merged commit and push the tag. For example, **for the 0.5.1 release**:
+5. Tag that merged commit and push the tag. For example, **for the 0.5.2 release**:
 
 ```bash
-git tag -a v0.5.1 -m "AttuneTV 0.5.1"
-git push origin v0.5.1
+git tag -a v0.5.2 -m "AttuneTV 0.5.2"
+git push origin v0.5.2
 ```
 
 6. Watch **Actions → Publish downloads**. The tag must point to a commit included in `main`.

@@ -23,3 +23,5 @@ npm run test:browser
 Review `test-results/screens/tv-chat.png` and `phone-chat.png`, then copy those two files here as `companion-tv.png` and `companion-phone.png`. Keep the visible **Test response** / **fixture-model** labels and the README captions. Do not publish pairing links, QR credentials, API keys or private conversations.
 
 For physical captures, record app version, source commit, TV model and OS. Capture only when the viewer is available; never interrupt playback for marketing screenshots. Keep older images labeled until replaced with verified captures of the new build.
+
+- `home-samsung-browser.png`: Samsung Home 0.2.0 rendered at 1920×1080 in Chromium with a fixture app inventory. Demonstrates layout, not physical Samsung pixels or verified streaming-app launches. Background: Jordan Arnold/Unsplash, credited in `samsung/web/assets/CREDITS.md`.

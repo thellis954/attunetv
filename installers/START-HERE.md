@@ -17,7 +17,7 @@ For optional Home-button redirection, follow `docs/install.md` section 4. It pre
 
 ## Samsung built-in apps / Tizen
 
-Use `AttuneTV-Samsung-UNSIGNED.wgt` and `docs/samsung-install.md`. The service is already configured. You do **not** need Node, Git or a source build. You **do** need Tizen Studio and a Samsung certificate for your own TV, then Permit to install, sign and install. The Android installers above are not for Tizen. Never use someone else's device-bound certificate.
+Use `AttuneTV-Samsung-UNSIGNED.wgt` and `docs/samsung-install.md`. The service is already configured. You do **not** need Node, Git or a source build. You **do** need Tizen Studio and a Samsung certificate for your own TV, then Permit to install, sign and install. AttuneTV opens to its own Home; Ask opens the paired companion. Samsung’s remote Home button still opens Smart Hub. The Android installers above are not for Tizen. Never use someone else's device-bound certificate.
 
 ## Android TV / Google TV
 

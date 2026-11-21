@@ -116,6 +116,7 @@
   }
   function init() {
     document.body.className = phone ? 'phone' : 'tv';
+    show('back-home', !!config.packaged && !phone);
     try { credential = !phone ? localStorage.getItem('attuneTV') || '' : ''; } catch (e) { message(new Error('Storage is unavailable. Pairing will last only until this page closes.')); }
     if (phone) {
       var match = /(?:^#|&)pair=([a-zA-Z0-9_-]{43})/.exec(location.hash);
@@ -185,7 +186,7 @@
     if (key === 27 || key === 10009) {
       event.preventDefault();
       if (editing) { editing = false; active.blur(); active.focus(); return; }
-      if (panel) closePanel(); else if (window.tizen) { try { window.tizen.application.getCurrentApplication().hide(); } catch (e) {} }
+      if (panel) closePanel(); else if (config.packaged && !phone) { location.href = 'home.html'; } else if (window.tizen) { try { window.tizen.application.getCurrentApplication().hide(); } catch (e) {} }
       return;
     }
     var items = focusables(panel ? el('modal') : document.body);

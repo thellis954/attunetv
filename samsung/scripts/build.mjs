@@ -14,12 +14,15 @@ const xmlEndpoint = endpoint.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 writeFileSync(resolve(bundle, 'config.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://attunetv.app/samsung" version="${version}" viewmodes="maximized">
   <tizen:application id="AttuneTV01.Companion" package="AttuneTV01" required_version="4.0"/>
-  <name>AttuneTV</name><content src="index.html"/><icon src="icon.png"/>
+  <name>AttuneTV</name><content src="home.html"/><icon src="icon.png"/>
   <tizen:profile name="tv-samsung"/>
   <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <tizen:privilege name="http://tizen.org/privilege/application.info"/>
+  <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
   <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
   ${endpoint ? '<access origin="' + xmlEndpoint + '" subdomains="false"/>' : ''}
-  <tizen:content-security-policy>default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' ${xmlEndpoint}; object-src 'none'; base-uri 'none'</tizen:content-security-policy>
+  <tizen:content-security-policy>default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: file:; connect-src 'self' ${xmlEndpoint}; object-src 'none'; base-uri 'none'</tizen:content-security-policy>
   <tizen:metadata key="http://samsung.com/tv/metadata/multitasking.support" value="true"/>
 </widget>\n`);
 // Small original geometric icon, generated from raw RGBA by Python stdlib.

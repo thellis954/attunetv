@@ -41,7 +41,7 @@ Open AttuneTV on your TV—or open the [hosted preview](https://attunetv-samsung
 
 **The phone is part of the experience from the first question.** It gives you a comfortable keyboard, a place for longer answers and room to explore without putting chat over the movie. Reopen AttuneTV on the TV when you want to bring that conversation back to the big screen.
 
-On Samsung, the companion is a full-screen app; the phone is where you chat while Netflix, Prime Video or another built-in app plays. Fire TV streaming overlays are still in development and hidden in normal builds.
+On Samsung, AttuneTV opens to a cinematic Home with installed apps, favorites and app search. Open **Ask** for the full-screen companion; the phone is where you chat while Netflix, Prime Video or another built-in app plays. Fire TV streaming overlays are still in development and hidden in normal builds.
 
 **[Try it in your browser →](https://attunetv-samsung.vercel.app/tv)** · **[Pairing and AI setup →](docs/ai-setup.md)**
 
@@ -69,7 +69,7 @@ On Fire TV, that design extends all the way to Home: edge-to-edge photography, a
 
 ![AttuneTV Home on a real Insignia Fire TV: cinematic photography, a large thin clock, Search and Ask shortcuts, and a glass favorites dock.](docs/images/home-fire-tv.png)
 
-*Real Insignia capture · 0.5.0 development build, before later glass/font refinements. The launcher is the Fire TV experience; Samsung uses the companion UI above. Streaming apps are installed separately.*
+*Real Insignia capture · 0.5.0 development build, before later glass/font refinements. The launcher is the Fire TV experience; Samsung now has its own in-app Home; this image is the Fire TV version. Streaming apps are installed separately.*
 
 <table>
 <tr>
@@ -81,6 +81,14 @@ On Fire TV, that design extends all the way to Home: edge-to-edge photography, a
 *Real Insignia grid and menu captures from 0.3.3; earlier artwork and styling. [All screenshot versions](docs/images/README.md).*
 
 The Fire TV launcher also includes **app search and a shortcut to Amazon’s movie/show search**, daily photography, ambient mode, a personal greeting, optional weather and calendar information. Scan a separate setup QR code to personalize Home from your phone. It works independently of AI.
+
+### A Home inside Samsung, too
+
+Open AttuneTV to a photo, clock and your installed apps. Keep favorites in the dock, search your apps, and open **Ask** for the shared phone conversation. Everything on Home works without an AI account. Samsung's remote Home button still opens Smart Hub; pin AttuneTV there for quick access.
+
+![Samsung Home layout with landscape, clock, round shortcuts and favorites dock](docs/images/home-samsung-browser.png)
+
+*Browser capture with fixture app names; actual TV icon loading and layout geometry were checked separately. Samsung 0.2.0 is an in-app Home, not a system Home-button replacement. [Device checks](docs/device-checks/samsung-qn65q65fn.md).*
 
 ## Why AttuneTV?
 
@@ -99,14 +107,14 @@ The Fire TV launcher also includes **app search and a shortcut to Amazon’s mov
 
 | Your screen | Your experience | Get started |
 | --- | --- | --- |
-| **Samsung Tizen** | Full-screen viewing companion + paired phone chat during playback. Does not replace Smart Hub. | **[Samsung setup](docs/samsung-install.md)** |
+| **Samsung Tizen** | Cinematic in-app Home, favorites, app search + TV/phone companion. Remote Home still opens Smart Hub. | **[Samsung setup](docs/samsung-install.md)** |
 | **Fire TV / Android-based Fire TV Stick** | Cinematic Home, app organization and search. Includes the shared AI companion and guided phone pairing. | **[Fire TV setup](docs/install.md)** |
 | **Web + phone** | Explore the shared companion before installing a TV app. Open the TV page on a computer, then pair your phone. | **[Open preview](https://attunetv-samsung.vercel.app/tv) · [Connect AI](docs/ai-setup.md)** |
 | **Android TV / Google TV** | Experimental APK path; physical-device compatibility still needs testing. | **[Testing guide](docs/android-tv-install.md)** |
 
 After native installation, you can shut down the setup computer. The launcher runs on the TV; the companion uses the hosted service.
 
-**Download the current preview:** [Android APK 0.5.1](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk) · [Samsung 0.1.1 unsigned WGT](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) · [Guided setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). All include the shared companion flow and use the hosted service. No GitHub login or source build is needed. Samsung requires your own TV signing certificate; [choose your installation path](docs/setup.md).
+**Download the current preview:** [Android APK 0.5.2](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk) · [Samsung 0.2.0 unsigned WGT](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) · [Guided setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). All include the shared companion flow and use the hosted service. No GitHub login or source build is needed. Samsung requires your own TV signing certificate; [choose your installation path](docs/setup.md).
 
 Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not yet have native packages. You can explore the separate browser/phone companion regardless of what you watch, with context entered manually; this does not add a launcher or overlay to those TVs.
 

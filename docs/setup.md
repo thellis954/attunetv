@@ -22,10 +22,10 @@ The Android installer verifies the bundled checksum and installed version, prese
 
 ## Pick the experience
 
-- **“I want a better Home screen.”** Start with the [Fire TV APK](install.md). The current public release is **0.5.1**; no AI account is needed.
+- **“I want a better Home screen.”** Start with the [Fire TV APK](install.md). The current public release is **0.5.2**; no AI account is needed.
 - **“I want to ask about what I'm watching.”** Try the [hosted companion](https://attunetv-samsung.vercel.app/tv), choose Pair phone, and follow [AI setup](ai-setup.md). Enter the title, episode and progress yourself. This is not automatic scene recognition.
-- **“I want it installed on my Samsung.”** Follow the [Samsung guide](samsung-install.md). Version **0.1.0** installed and launched on our test TV; the UI is visible and on-TV pairing-link/QR generation is verified; phone approval and real-provider acceptance are still being checked. It is not a Samsung Store download.
-- **“I want to install or update the phone companion.”** [Download the setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip) and open START-HERE.txt. It includes the signed Android **0.5.1 APK**, configured Samsung **0.1.1 WGT** (unsigned), guided Android installers and all setup guides. No GitHub sign-in or source build is required. Samsung still requires your own certificate.
+- **“I want it installed on my Samsung.”** Follow the [Samsung guide](samsung-install.md). Version **0.1.0** installed and launched on our test TV; the UI is visible and on-TV pairing-link/QR generation is verified; phone approval and real-provider acceptance are still being checked. The current package opens to an in-app Home with favorites, installed apps, app search and Ask. The remote Home button still opens Samsung Smart Hub. It is not a Samsung Store download.
+- **“I want to install or update the phone companion.”** [Download the setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip) and open START-HERE.txt. It includes the signed Android **0.5.2 APK**, configured Samsung **0.2.0 WGT** (unsigned), guided Android installers and all setup guides. No GitHub sign-in or source build is required. Samsung still requires your own certificate.
 
 ## What you need—and what you don't
 

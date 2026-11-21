@@ -4,7 +4,7 @@
 
 **Watch on TV. Ask on your phone.** Pair once to give your phone a shared conversation about the show, episode and progress you enter. Keep asking while your streaming app plays, then return to the same conversation on the TV. The phone companion runs in your browser—no separate phone app to install.
 
-You can try this before installing a TV app: open **[AttuneTV's hosted preview](https://attunetv-samsung.vercel.app/tv)** on a computer, keep that page open and use your phone for setup. The same pairing flow is available in the Samsung companion and the public Fire TV **0.5.1 APK**. [Download the latest setup bundle](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip) if an older installation does not have it.
+You can try this before installing a TV app: open **[AttuneTV's hosted preview](https://attunetv-samsung.vercel.app/tv)** on a computer, keep that page open and use your phone for setup. The same pairing flow is available in the Samsung companion and the public Fire TV **0.5.2 APK**. [Download the latest setup bundle](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip) if an older installation does not have it.
 
 ## 1. Pair your phone
 
