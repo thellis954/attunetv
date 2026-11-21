@@ -6,6 +6,8 @@ You do not need to write code or install Android Studio. This guide uses a small
 
 ## Before you start
 
+**Release choice:** the current public APK is **0.4.2**. The shared TV/phone API-key companion is in **0.5.0 development source** and the [hosted preview](https://attunetv-samsung.vercel.app/tv); downloading 0.4.2 does not include that newer flow. For companion testing, use the hosted preview or follow the [developer guide](../CONTRIBUTING.md).
+
 Have these ready:
 
 - An **Android-based Fire TV**, its remote and a Mac, Windows or Linux computer on the **same home network**.
@@ -172,7 +174,7 @@ Paste an iCal/ICS subscription link into phone setup, one per line. Use your cal
 
 </details>
 
-**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv); select Ask → Pair phone for the guided API-key connection.
+**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv). The guided **Ask → Pair phone** API-key flow requires the 0.5.0 development build; the public 0.4.2 APK predates it.
 
 ## Updating
 

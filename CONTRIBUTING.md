@@ -83,7 +83,7 @@ Paparazzi downloads its rendering dependencies on first use. If a download fails
 
 `StreamingSupport.verifiedPackages` is the release allowlist. The candidate map is a test queue, not a support claim. Keep unknown and unverified apps hidden.
 
-For each provider, verify a real answer, remote keyboard/focus, continued playback, cancellation, Back/Home/app-switch dismissal and idle timeout. Document metadata availability separately. Never bypass protected-video capture or infer scene awareness from a title and timestamp. See the [acceptance checklist](docs/standalone-chat.md#acceptance-test).
+For each provider, verify a real answer, remote keyboard/focus, continued playback, cancellation, Back/Home/app-switch dismissal and idle timeout. Document metadata availability separately. Never bypass protected-video capture or infer scene awareness from a title and timestamp. See the [acceptance checklist](docs/standalone-chat.md#verification).
 
 ### Preserve the TV
 

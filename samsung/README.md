@@ -202,8 +202,10 @@ TV bearer credentials are stored on the TV. Disconnect deletes active records;
 operators must separately manage backup retention. Keys must be revoked in the
 provider console to stop their use outside this service.
 
-Voice entry can use a phone keyboard’s own dictation where available. There is
-no in-app microphone capture, TV voice integration, or automatic scene recognition.
+Phone dictation is available where the browser exposes speech recognition and
+starts only when the viewer selects Dictate.
+Viewers review the transcript before sending; phone keyboard dictation is an alternative.
+There is no guaranteed TV remote voice support or automatic scene recognition.
 Answers and spoiler avoidance are not guaranteed.
 
 ### Hosted smoke check
