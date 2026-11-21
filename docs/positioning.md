@@ -4,9 +4,11 @@
 
 ## The promise
 
-**A calmer home. A conversation about what’s on.**
+**Turn your phone into an AI companion for what you’re watching.**
 
-AttuneTV combines a personal Fire TV home screen with an optional viewing companion whose conversation carries between TV and phone. Provider choice, shared context and a phone path during playback are the product direction. The launcher is usable independently while companion integrations mature.
+Lead with the phone becoming the viewer’s AI companion while the show stays on the TV. QR pairing, supplied viewing context, provider choice and conversation continuity are the defining combination. The phone is a primary place to use the product, not just a setup tool or a fallback for missing overlays. Samsung, Fire TV and the browser are entry points into that experience; the cinematic Fire TV launcher is an additional platform-specific benefit and works independently of AI.
+
+Show the phone companion first alongside the paired TV conversation, then demonstrate the visual design with launcher screenshots. Describe concrete design choices—space, readable type, clear focus, photography and glass—instead of claiming to be the best-looking UI. Give each platform an equal route to setup, with verification and release details beside the relevant download. Do not imply that every platform receives the launcher or an overlay.
 
 The first audience is people who want their existing TV to feel more personal and enjoy talking about what they watch. The developer audience is people interested in remote-first interfaces, older TV hardware and accountable AI integrations.
 
@@ -23,7 +25,7 @@ These are different categories of alternatives, not a claim that every product c
 
 ## What we can own
 
-- **A coherent living-room experience.** Personal Home gets viewers to their apps; the companion gives them a place to explore questions afterward.
+- **A phone companion for the show in front of you.** Pair by QR, supply what is playing, and ask from the phone while the TV keeps playing. Typing, optional dictation and shared conversation make the phone useful throughout viewing. Personal Home on Fire TV complements that experience.
 - **Choice of AI provider.** Guided API-key setup offers OpenAI, Claude, Grok and Kimi. The promise is a clear connection flow, not free API access or universal model compatibility.
 - **Continuity between screens.** QR pairing, TV approval, shared context and history. Phone chat continues after the TV companion closes. This matters on Samsung, where a normal third-party app cannot overlay another streaming app.
 - **Viewer-supplied context.** Explicit title, episode and progress make the basis of the conversation visible. We do not imply that the app watches or hears protected playback.
@@ -37,7 +39,7 @@ These are differentiators of the combination. We have not established that every
 | --- | --- | --- |
 | Wants a better Fire TV Home | Install the public APK using the beginner guide | Public release is 0.4.2; companion API-key changes are in 0.5.0 development source. ADB and a computer are needed for setup. |
 | Wants to explore the companion | Open the hosted preview and pair a phone | API key and separate provider billing are required for real answers; live inference validation remains open. |
-| Owns a Samsung TV | Follow the Tizen developer-preview guide | Signing and Developer Mode are required. Device installation is pending; it is full-screen chat plus a phone companion, not a replacement Smart Hub or cross-app overlay. |
+| Owns a Samsung TV | Follow the Tizen developer-preview guide | Signing and Developer Mode are required. Installation, launch and on-TV pairing-link/QR generation are verified on QN65Q65FN; phone approval and live-answer acceptance remain open; it is full-screen chat plus a phone companion, not a replacement Smart Hub or cross-app overlay. |
 | Wants to contribute | Build, run fixture tests, submit a device report or focused change | No API credit purchase required for automated tests. Real playback evidence is needed before enabling an overlay integration. |
 
 ## Claims to hold until verified
@@ -49,7 +51,7 @@ Screenshots should identify their version and origin. Browser fixtures demonstra
 ## What would strengthen the next launch
 
 1. Verify live answers and error recovery with user-controlled API credentials.
-2. Finish Samsung signing/install and capture real hardware evidence.
+2. Finish Samsung phone pairing, live-answer and return-to-app acceptance; capture shareable hardware evidence.
 3. Verify Fire TV playback, remote focus, Back/Home and idle dismissal per streaming app.
 4. Publish a signed release containing the shared companion flow, then align the download and README version claims.
 5. Choose an explicit software license before promoting reuse or redistribution.

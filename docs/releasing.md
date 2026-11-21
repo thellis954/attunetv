@@ -30,15 +30,15 @@ Configure that environment to allow release **tags matching `v*` only**. Never p
 1. Increase **both** `versionCode` and `versionName` in `app/build.gradle.kts`. Keep versionName in `MAJOR.MINOR.PATCH` form.
 2. Write `docs/releases/v<VERSION>.md` with changes, compatibility, validation and any known limits. Keep the README's feature status accurate.
 3. Run `./gradlew clean assembleRelease testDebugUnitTest lintRelease -Pdistribution=true`. A public build cannot enable `streamingVerification`.
-4. Commit and push to `claude/blissful-hypatia-4dfwls`. Confirm the intended commit and passing branch checks.
-5. Tag that commit and push the tag. For example, **for a future 0.4.3 release**:
+4. Open a pull request from a feature branch into `main`. Wait for the required checks to pass, then merge. Fetch `origin` and check out the exact merged commit on `main`.
+5. Tag that merged commit and push the tag. For example, **for a future 0.4.3 release**:
 
 ```bash
 git tag -a v0.4.3 -m "AttuneTV 0.4.3"
 git push origin v0.4.3
 ```
 
-6. Watch **Actions → Publish APK**. The tag must point to a commit included in the project branch.
+6. Watch **Actions → Publish APK**. The tag must point to a commit included in `main`.
 7. Download the public APK anonymously and check its version, checksum and signing certificate. Test the release on a real TV and record any runtime verification separately.
 
 The workflow builds from the tag, runs unit tests and lint, then transfers the unsigned APK and test results to a separate signing job. Release secrets exist only in that job's signing step. The packaging script checks the package, exact tag/version match, non-debuggable flag, passing tests and pinned certificate. The publication script requires a higher versionCode and unchanged certificate compared with the previous public release.
