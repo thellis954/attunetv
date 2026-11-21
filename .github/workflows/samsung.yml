@@ -3,6 +3,7 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
 jobs:
@@ -42,6 +43,7 @@ jobs:
       - run: npm run test:browser
       - run: npm run build:vercel && npm run build
         env:
+          ATTUNE_PUBLIC_BUILD: "1"
           ATTUNE_SERVICE_ORIGIN: https://attunetv-samsung.vercel.app
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

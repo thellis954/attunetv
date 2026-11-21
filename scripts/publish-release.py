@@ -38,7 +38,9 @@ def main():
             raise ValueError("versionCode must increase for an in-place Android update")
         if info["signingCertificateSha256"] != previous_info["signingCertificateSha256"]:
             raise ValueError("Release signer changed; an explicit migration is required")
-    assets = ["release-output/AttuneTV.apk", "release-output/SHA256SUMS.txt", "release-output/release-info.json"]
+    assets = [str(Path("release-output") / name) for name in ("AttuneTV.apk", "AttuneTV-Samsung-UNSIGNED.wgt", "AttuneTV-Setup.zip", "SHA256SUMS.txt", "release-info.json", "samsung-release-info.json")]
+    if any(not Path(asset).is_file() for asset in assets):
+        raise ValueError("All platform packages and setup assets are required before publication")
     gh("release", "create", tag, *assets, "--draft", "--verify-tag",
        "--title", f"AttuneTV {info['versionName']} — public preview",
        "--notes-file", f"docs/releases/{tag}.md")

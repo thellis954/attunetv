@@ -4,7 +4,7 @@
 
 **What you get:** full-screen TV chat and a paired phone conversation that stays available while you watch through Samsung's built-in streaming apps. It does not replace Smart Hub or overlay Netflix, Prime Video or other players.
 
-**Current status:** AttuneTV **0.1.0** was signed, installed and launched on a **Samsung QN65Q65FN / Tizen 4.0** on November 20, 2026. Visual quality, physical phone pairing and real AI answers are separate acceptance checks still in progress. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
+**Current download: 0.1.1**, configured for the hosted companion. It is unsigned until you apply your own certificate. **Hardware checkpoint:** 0.1.0 was signed, installed and launched on a **Samsung QN65Q65FN / Tizen 4.0** on November 20, 2026. Visual quality, physical phone pairing and real AI answers are separate acceptance checks still in progress. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
 
 **Want to try chat first?** Open the [hosted preview](https://attunetv-samsung.vercel.app/tv) on your computer and [pair your phone](ai-setup.md). Native Samsung installation below is more involved, but you only need the computer for setup and updates—not normal viewing.
 
@@ -88,7 +88,9 @@ Use the exact certificate folder shown by your wizard. Do not share its contents
 
 ## 6. Get the unsigned package
 
-**Prebuilt option:** open the [Samsung companion workflow](https://github.com/thellis954/attunetv/actions/workflows/samsung.yml), select a successful run of the latest branch, and download **AttuneTV-Samsung-UNSIGNED-preview**. GitHub requires sign-in for workflow artifacts. Extract it and read `BUILD-STATUS.txt`: it must say **Service configured: true**. Older artifacts may be an offline shell; build from source below if so. Signing is still required.
+**Recommended:** [download AttuneTV-Samsung-UNSIGNED.wgt](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt), or get it with all instructions in the [setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). No GitHub account, Node, Python or source build is required for this download. The hosted origin is already configured. Download checksums and `samsung-release-info.json` from [the same release](https://github.com/thellis954/attunetv/releases/latest). Signing for your own TV is still required.
+
+Put the downloaded WGT in a folder named `dist`, then continue to Step 7. The source-build option below is for developers.
 
 **Build option:** clone the public source (no GitHub account required), then:
 
@@ -113,15 +115,15 @@ $env:ATTUNE_SERVICE_ORIGIN = "https://attunetv-samsung.vercel.app"
 npm run build
 ```
 
-The output is `dist/AttuneTV-Samsung-0.1.0-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
+The output is `dist/AttuneTV-Samsung-0.1.1-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
 
 ## 7. Sign, install and open
 
-Make a copy of the unsigned file named **AttuneTV-Samsung-0.1.0.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
+Copy `AttuneTV-Samsung-UNSIGNED.wgt` (or the versioned file from a source build) to a new file named **AttuneTV-Samsung-0.1.1.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
 
 ```sh
-tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.1.0.wgt
-tizen install -n AttuneTV-Samsung-0.1.0.wgt -t YOUR_DEVICE_NAME -- dist
+tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.1.1.wgt
+tizen install -n AttuneTV-Samsung-0.1.1.wgt -t YOUR_DEVICE_NAME -- dist
 tizen run -p AttuneTV01.Companion -t YOUR_DEVICE_NAME
 ```
 

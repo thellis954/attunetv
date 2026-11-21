@@ -2,7 +2,7 @@
 
 [← Contributor guide](../CONTRIBUTING.md)
 
-Users download **AttuneTV.apk** from [GitHub Releases](https://github.com/thellis954/attunetv/releases). The permanent entry point is:
+Users download **AttuneTV.apk**, **AttuneTV-Samsung-UNSIGNED.wgt** and **AttuneTV-Setup.zip** from [GitHub Releases](https://github.com/thellis954/attunetv/releases). The permanent entry point is:
 
 ```text
 https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk
@@ -31,19 +31,21 @@ Configure that environment to allow release **tags matching `v*` only**. Never p
 2. Write `docs/releases/v<VERSION>.md` with changes, compatibility, validation and any known limits. Keep the README's feature status accurate.
 3. Run `./gradlew clean assembleRelease testDebugUnitTest lintRelease -Pdistribution=true`. A public build cannot enable `streamingVerification`.
 4. Open a pull request from a feature branch into `main`. Wait for the required checks to pass, then merge. Fetch `origin` and check out the exact merged commit on `main`.
-5. Tag that merged commit and push the tag. For example, **for a future 0.4.3 release**:
+5. Tag that merged commit and push the tag. For example, **for the 0.5.1 release**:
 
 ```bash
-git tag -a v0.4.3 -m "AttuneTV 0.4.3"
-git push origin v0.4.3
+git tag -a v0.5.1 -m "AttuneTV 0.5.1"
+git push origin v0.5.1
 ```
 
-6. Watch **Actions → Publish APK**. The tag must point to a commit included in `main`.
+6. Watch **Actions → Publish downloads**. The tag must point to a commit included in `main`.
 7. Download the public APK anonymously and check its version, checksum and signing certificate. Test the release on a real TV and record any runtime verification separately.
 
 The workflow builds from the tag, runs unit tests and lint, then transfers the unsigned APK and test results to a separate signing job. Release secrets exist only in that job's signing step. The packaging script checks the package, exact tag/version match, non-debuggable flag, passing tests and pinned certificate. The publication script requires a higher versionCode and unchanged certificate compared with the previous public release.
 
-Assets are uploaded to a **draft**, downloaded again and compared byte-for-byte before publication. Only then does the workflow publish and update the `latest` link. Assets include the APK, `SHA256SUMS.txt` and `release-info.json` with source commit and test totals.
+Assets are uploaded to a **draft**, downloaded again and compared byte-for-byte before publication. Only then does the workflow publish and update the `latest` link. The release also invokes the companion CI workflow (including PostgreSQL and browser tests) and builds a configured, unsigned Samsung WGT. Publication waits for both platform jobs. Assets include the APK, WGT, guided setup ZIP, `SHA256SUMS.txt`, `release-info.json` with Android source/test totals and `samsung-release-info.json` with Samsung version/origin/signing requirements. `scripts/package-downloads.py` rejects an unconfigured, mismatched or already-signed Samsung artifact and an altered APK. The outer checksum file includes the ZIP; the ZIP has checksums for its bundled payloads.
+
+Update `samsung/package.json` and its lockfile version when publishing a new Samsung client; its WGT and service version derive from that value. Keep device-bound certificates out of public downloads. Update all active setup guides in the release PR, preserving version labels on historical screenshots and device reports. Verify the three anonymous `/latest/download/` URLs after publishing; never declare onboarding complete based only on a source commit.
 
 ## Failed or interrupted publication
 
