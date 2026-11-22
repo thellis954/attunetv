@@ -4,7 +4,7 @@
 
 **What you get:** a cinematic Home inside AttuneTV with a photo, clock, installed apps, favorites, app search and an **Ask** shortcut to TV/phone chat. The phone conversation stays available while you watch through Samsung's built-in streaming apps. It does not replace Smart Hub or overlay Netflix, Prime Video or other players.
 
-**Current download: 0.2.0**, configured for the hosted companion. It is unsigned until you apply your own certificate. **Hardware checkpoint:** 0.1.0 was signed, installed and launched on a **Samsung QN65Q65FN / Tizen 4.0** on November 20, 2026. Visual quality, physical phone pairing and real AI answers are separate acceptance checks still in progress. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
+**Current download: 0.2.1**, configured for the hosted companion. It is unsigned until you apply your own certificate. **Hardware checkpoint:** Home 0.2.1 is signed and installed on **Samsung QN65Q65FN / Tizen 4.0**. Phone pairing/provider setup is user-confirmed. Device visual acceptance, per-app foreground launch and real AI answers remain separate checks. Other Tizen models are unverified. There is no Samsung Store listing or universal one-click installer yet.
 
 **Want to try chat first?** Open the [hosted preview](https://attunetv-samsung.vercel.app/tv) on your computer and [pair your phone](ai-setup.md). Native Samsung installation below is more involved, but you only need the computer for setup and updates—not normal viewing.
 
@@ -115,15 +115,15 @@ $env:ATTUNE_SERVICE_ORIGIN = "https://attunetv-samsung.vercel.app"
 npm run build
 ```
 
-The output is `dist/AttuneTV-Samsung-0.2.0-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
+The output is `dist/AttuneTV-Samsung-0.2.1-UNSIGNED.wgt`. Building without the service origin produces a shell that cannot connect. You do not need to host a server to use the existing preview service.
 
 ## 7. Sign, install and open
 
-Copy `AttuneTV-Samsung-UNSIGNED.wgt` (or the versioned file from a source build) to a new file named **AttuneTV-Samsung-0.2.0.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
+Copy `AttuneTV-Samsung-UNSIGNED.wgt` (or the versioned file from a source build) to a new file named **AttuneTV-Samsung-0.2.1.wgt** in the same folder. This copy remains unsigned until the next command succeeds. From `samsung/` after a source build (or adjust `dist` to your extracted artifact folder):
 
 ```sh
-tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.2.0.wgt
-tizen install -n AttuneTV-Samsung-0.2.0.wgt -t YOUR_DEVICE_NAME -- dist
+tizen package -t wgt -s AttuneTV-Samsung -- dist/AttuneTV-Samsung-0.2.1.wgt
+tizen install -n AttuneTV-Samsung-0.2.1.wgt -t YOUR_DEVICE_NAME -- dist
 tizen run -p AttuneTV01.Companion -t YOUR_DEVICE_NAME
 ```
 

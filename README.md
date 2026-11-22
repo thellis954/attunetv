@@ -88,7 +88,7 @@ Open AttuneTV to a photo, clock and your installed apps. Keep favorites in the d
 
 ![Samsung Home layout with landscape, clock, round shortcuts and favorites dock](docs/images/home-samsung-browser.png)
 
-*Browser capture with fixture app names; actual TV icon loading and layout geometry were checked separately. Samsung 0.2.0 is an in-app Home, not a system Home-button replacement. [Device checks](docs/device-checks/samsung-qn65q65fn.md).*
+*Browser capture with fixture app names; actual TV icon loading and layout geometry were checked separately. Samsung 0.2.1 is an in-app Home, not a system Home-button replacement. [Device checks](docs/device-checks/samsung-qn65q65fn.md).*
 
 ## Why AttuneTV?
 
@@ -114,7 +114,7 @@ Open AttuneTV to a photo, clock and your installed apps. Keep favorites in the d
 
 After native installation, you can shut down the setup computer. The launcher runs on the TV; the companion uses the hosted service.
 
-**Download the current preview:** [Android APK 0.5.2](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk) · [Samsung 0.2.0 unsigned WGT](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) · [Guided setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). All include the shared companion flow and use the hosted service. No GitHub login or source build is needed. Samsung requires your own TV signing certificate; [choose your installation path](docs/setup.md).
+**Download the current preview:** [Android APK 0.5.3](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV.apk) · [Samsung 0.2.1 unsigned WGT](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Samsung-UNSIGNED.wgt) · [Guided setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip). All include the shared companion flow and use the hosted service. No GitHub login or source build is needed. Samsung requires your own TV signing certificate; [choose your installation path](docs/setup.md).
 
 Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not yet have native packages. You can explore the separate browser/phone companion regardless of what you watch, with context entered manually; this does not add a launcher or overlay to those TVs.
 
@@ -124,7 +124,7 @@ Roku, Apple TV hardware, LG webOS and non-Android Fire TV do not yet have native
 <a id="what-works-today"></a>
 
 - **Fire TV Home:** tested on Insignia NS65-UQFL26 / Fire OS 8.1.6.4. Other devices need individual checks.
-- **Samsung:** 0.1.0 installed and running on QN65Q65FN / Tizen 4.0. Actual-TV pairing-link and QR generation verified after the origin fix. Real phone approval, live answers and return-to-app behavior still need acceptance. [Device evidence](docs/device-checks/samsung-qn65q65fn.md).
+- **Samsung:** Home 0.2.1 installed on QN65Q65FN / Tizen 4.0, with bundled dock logos and a labeled app grid. Phone pairing/provider setup is user-confirmed; live AI answers and per-app launch behavior remain separate acceptance checks. [Device evidence](docs/device-checks/samsung-qn65q65fn.md).
 - **Shared chat:** pairing, context, session isolation and conversation flows have automated coverage. Test responses establish behavior, not live model quality; real provider/device acceptance remains open.
 - **Streaming overlays:** hidden in normal Fire TV builds until per-app playback, focus and dismissal checks pass. Samsung has no overlay over built-in streaming apps.
 

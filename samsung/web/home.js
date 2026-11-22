@@ -17,14 +17,56 @@
     text('date', now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }));
   }
   function choose(app) { selected = app; text('selected-name', app.name); text('selected-kind', favorites.indexOf(app.id) >= 0 ? 'Ready when you are' : 'On your TV'); el('options-button').disabled = false; el('grid-options').disabled = false; }
+  // Exact aliases only: artwork never changes the OS app ID used to launch.
+  var brands = {
+    'netflix': ['netflix', '#101010'],
+    'prime video': ['prime-video', '#f4f7f9'],
+    'amazon prime video': ['prime-video', '#f4f7f9'],
+    'apple tv': ['apple-tv', '#101010'],
+    'disney+': ['disney-plus', '#f4f7f9'],
+    'hulu': ['hulu', '#071d17'],
+    'youtube': ['youtube', '#101010']
+  };
+  var artworkColors = {};
+  function tint(art, icon, path) {
+    // Match a solid icon's edge instead of putting every square on a blue mat.
+    // Some Tizen firmware taints local canvases; neutral charcoal is the fallback.
+    try {
+      var color = artworkColors[path];
+      if (!color) {
+        var canvas = document.createElement('canvas'); canvas.width = canvas.height = 8;
+        var ctx = canvas.getContext('2d'); ctx.drawImage(icon, 0, 0, 8, 8);
+        var data = ctx.getImageData(0, 0, 8, 8).data, colors = [];
+        [0, 7, 56, 63].forEach(function (n) { if (data[n * 4 + 3] > 240) colors.push([data[n * 4], data[n * 4 + 1], data[n * 4 + 2]]); });
+        if (colors.length === 4 && colors.every(function (c) { return Math.abs(c[0] - colors[0][0]) + Math.abs(c[1] - colors[0][1]) + Math.abs(c[2] - colors[0][2]) < 70; })) color = 'rgb(' + colors[0].join(',') + ')';
+        else color = '#202124';
+        artworkColors[path] = color;
+      }
+      art.style.backgroundColor = color;
+    } catch (e) { /* OS icon remains visible even without color sampling. */ }
+  }
   function tile(app, inGrid) {
     var button = document.createElement('button'); button.className = 'tile'; button.setAttribute('data-app-id', app.id); button.setAttribute('aria-label', app.name);
-    var label = document.createElement('span'); label.className = 'fallback'; label.textContent = app.name; button.appendChild(label);
-    // Only local artwork from the OS inventory; no arbitrary network image requests.
-    if (app.iconPath && /^(file:\/\/|\/|wgt-private\/)/.test(app.iconPath) && app.iconPath.indexOf('//') !== 0) {
-      var icon = document.createElement('img'); icon.alt = ''; icon.onload = function () { label.hidden = true; }; icon.onerror = function () { icon.hidden = true; label.hidden = false; }; icon.src = app.iconPath; button.insertBefore(icon, label);
+    var art = document.createElement('span'); art.className = 'tile-art'; button.appendChild(art);
+    var label = document.createElement('span'); label.className = 'fallback'; label.textContent = app.name; art.appendChild(label);
+    var caption = document.createElement('span'); caption.className = 'tile-caption'; caption.textContent = app.name; caption.setAttribute('aria-hidden', 'true'); button.appendChild(caption);
+    var brand = brands[app.name.toLocaleLowerCase().trim()];
+    var nativePath = app.iconPath && /^(file:\/\/|\/|wgt-private\/)/.test(app.iconPath) && app.iconPath.indexOf('//') !== 0 ? app.iconPath : '';
+    if (brand || nativePath) {
+      var icon = document.createElement('img'); icon.alt = '';
+      icon.onload = function () {
+        label.hidden = true;
+        if (!brand) {
+          art.className = 'tile-art ' + (icon.naturalWidth / icon.naturalHeight > 1.45 ? 'native-banner' : 'native-icon');
+          tint(art, icon, nativePath);
+        }
+      };
+      icon.onerror = function () { icon.hidden = true; label.hidden = false; };
+      if (brand) { art.className = 'tile-art brand-art'; art.style.backgroundColor = brand[1]; icon.src = 'assets/logos/' + brand[0] + '.svg'; }
+      else icon.src = nativePath;
+      art.insertBefore(icon, label);
     }
-    if (inGrid && favorites.indexOf(app.id) >= 0) { var pin = document.createElement('span'); pin.className = 'pin'; pin.textContent = '★'; pin.setAttribute('aria-hidden', 'true'); button.appendChild(pin); }
+    if (inGrid && favorites.indexOf(app.id) >= 0) { var pin = document.createElement('span'); pin.className = 'pin'; pin.textContent = '★'; pin.setAttribute('aria-hidden', 'true'); art.appendChild(pin); }
     button.onfocus = function () { choose(app); if (inGrid) button.scrollIntoView({ block: 'nearest', inline: 'nearest' }); else { var dock = el('dock'); if (button.offsetLeft < dock.scrollLeft) dock.scrollLeft = button.offsetLeft; if (button.offsetLeft + button.offsetWidth > dock.scrollLeft + dock.clientWidth) dock.scrollLeft = button.offsetLeft + button.offsetWidth - dock.clientWidth + 18; } };
     button.onclick = function () { choose(app); launch(app); }; button.oncontextmenu = function (event) { event.preventDefault(); choose(app); menu(); }; return button;
   }
