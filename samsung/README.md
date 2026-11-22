@@ -200,9 +200,9 @@ This creates and erases a temporary test pairing, checks the provider setup link
 and cross-screen manual context, and saves hosted-browser screenshots. It never
 submits an API key or makes a paid inference request.
 
-## Shared Fire TV connection (0.5.2 public preview)
+## Shared Fire TV connection (0.5.3 public preview)
 
-The public Fire TV 0.5.2 APK uses this same service and phone guide. Each TV has
+The public Fire TV 0.5.3 APK uses this same service and phone guide. Each TV has
 its own isolated room. Phone dictation is available in browsers exposing speech
 recognition and always requires review before sending. The browser's speech
 service handles dictation; the companion does not listen to the TV. Context edits

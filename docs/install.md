@@ -8,7 +8,7 @@ You do not need to write code or install Android Studio. This guide uses a small
 
 ## Before you start
 
-**Current public preview: 0.5.2.** It includes **Ask → Pair phone**, the shared TV/phone conversation and guided API-key setup. You do not need a development build. Streaming overlays remain disabled pending per-app verification.
+**Current public preview: 0.5.3.** It includes **Ask → Pair phone**, the shared TV/phone conversation and guided API-key setup. You do not need a development build. Streaming overlays remain disabled pending per-app verification.
 
 **Easier install/update:** [download the complete setup ZIP](https://github.com/thellis954/attunetv/releases/latest/download/AttuneTV-Setup.zip), extract it, and open **START-HERE.txt**. Mac/Linux and Windows helpers check the APK checksum, wait for TV debugging approval, install without erasing data, verify the installed version and open AttuneTV. They do not change TV settings; optional Home redirection is still Step 4 below. You only need Google Platform-Tools, not Android Studio. The manual path follows.
 
@@ -178,7 +178,7 @@ Paste an iCal/ICS subscription link into phone setup, one per line. Use your cal
 
 </details>
 
-**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv). The public 0.5.2 APK includes **Ask → Pair phone**. Follow [AI setup](ai-setup.md) to connect from your phone.
+**Done.** Close the terminal and shut down the computer if you like. The home screen runs on the TV. For optional chat, see [Ask with AttuneTV](../README.md#meet-ask-with-attunetv). The public 0.5.3 APK includes **Ask → Pair phone**. Follow [AI setup](ai-setup.md) to connect from your phone.
 
 ## Updating
 

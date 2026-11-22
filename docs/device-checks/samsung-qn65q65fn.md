@@ -36,3 +36,11 @@ After installation, the user confirmed the actual companion screen and reported 
 Installed a device-signed update with the same author profile and no uninstall. Public app status reports 0.2.0 running/visible. Remote inspection of the actual Tizen4 runtime confirmed Home at 1920×1080, 48 filtered installed apps, six loaded dock icons, and a loaded 1920×1080 bundled photo. The final grid row scrolls fully into view. Refined six-tile dock ends within the 5% side margins, with no document overflow. The existing pairing credential remains present. Tom separately confirmed pairing and provider setup were already working; this is user-reported, not an agent-run paid inference check.
 
 Seven browser tests pass, including existing companion pairing/context flows, remote grid navigation, persistent pin/reorder, service filtering and unavailable/failed API behavior. Browser screenshot uses fixture app names, not an actual-TV screenshot. CDP screenshot capture timed out on this TV; full visual acceptance remains open. A Prime Video launch request was sent; Samsung's status endpoint did not confirm the target foreground state, so per-service launch success is not claimed yet. Samsung remote Home remains Smart Hub. No system settings were changed.
+
+## November 21, 2026 — 0.2.1 artwork correction
+
+User photos of 0.2.0 showed square app icons with excessive mats, generic Samsung placeholder symbols for Prime Video/YouTube, and a strongly blue grid. These supersede the earlier icon-loaded check as visual acceptance evidence: a loaded image was not necessarily the correct service artwork.
+
+0.2.1 was signed with the existing certificate and installed without uninstalling. It bundles six service marks, adds grid captions, fits native icons without cropping, and replaces blue mats with neutral/color-matched surfaces. Actual Tizen 4 rendering exposed shrink-to-content flex children inside buttons that desktop Chromium did not reproduce. Explicitly anchored artwork fixes the tile width issue.
+
+ES5 parsing, 23 local service tests (one PostgreSQL test deferred to CI), and eight browser tests passed. Browser screenshots remain fixture captures. Actual TV reported version0.2.1, all six bundled marks loaded, and preserved pairing/favorites storage. No paid inference, streaming playback, or Home-key remapping was tested. No TV settings were changed.

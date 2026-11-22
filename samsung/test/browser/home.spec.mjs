@@ -59,3 +59,24 @@ test('packaged companion keeps a visible return path to Samsung Home',async({pag
   await page.locator('#back-home').click();await expect(page).toHaveURL(/home.html$/);
   await expect(page.locator('#clock')).not.toBeEmpty();
 });
+
+test('bundled marks replace Samsung placeholders while launch IDs and readable fallbacks stay intact',async({page})=>{
+  await fixture(page);
+  for(const name of ['Netflix','Prime Video','Apple TV','Disney+','Hulu','YouTube']){
+    const tile=page.locator('#dock .tile').filter({has:page.locator('.tile-caption',{hasText:name})});
+    await expect(tile.locator('img')).toHaveAttribute('src',/assets\/logos\/.+\.svg/);
+    await expect.poll(()=>tile.locator('img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+  }
+  await page.locator('#dock .tile[aria-label="Prime Video"]').click();
+  expect(await page.evaluate(()=>window.ATTUNE_LAUNCHES)).toEqual(['PrimeVid01.App']);
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('#grid .tile-caption').first()).toBeVisible();
+  const unknown=page.locator('#grid .tile[aria-label="Channel 01"]');
+  await expect(unknown.locator('.fallback')).toBeVisible();
+  await unknown.focus();
+  const style=await unknown.locator('.tile-art').evaluate(n=>({radius:getComputedStyle(n).borderRadius,shadow:getComputedStyle(n).boxShadow}));
+  expect(style.radius).toBe('14px');expect(style.shadow).toContain('rgb(255, 255, 255)');
+  await page.screenshot({path:'test-results/apps-artwork-browser.png'});
+  await page.keyboard.press('Escape');await page.locator('#dock .tile').first().focus();
+  await page.screenshot({path:'test-results/home-artwork-browser.png'});
+});

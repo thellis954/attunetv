@@ -18,8 +18,8 @@ android {
         applicationId = "com.attunetv.launcher"
         minSdk = 25          // Fire OS 6+
         targetSdk = 34
-        versionCode = 13
-        versionName = "0.5.2"
+        versionCode = 14
+        versionName = "0.5.3"
         buildConfigField("boolean", "STREAMING_VERIFICATION", verifying.toString())
         if (verifying) versionNameSuffix = "-verify"
         else if (!distribution) versionNameSuffix = "-dev"
